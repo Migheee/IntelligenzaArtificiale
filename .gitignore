@@ -1,0 +1,7 @@
+*
+!*/
+book/
+slides/
+!*.pdf
+!*.tex
+!.gitignore

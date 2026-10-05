@@ -1,0 +1,1100 @@
+\documentclass[a4paper, 11pt, oneside]{book}
+
+\usepackage{fontspec}
+\usepackage[italian]{babel}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{XCharter}
+\usepackage[xcharter]{newtxmath}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{plain}
+\usepackage[most]{tcolorbox}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{needspace}
+
+\tcbuselibrary{skins, breakable, listings}
+\setcounter{tocdepth}{1}
+\setlength{\skip\footins}{25pt}
+\usetikzlibrary{positioning, fit, arrows.meta, backgrounds}
+\defaultfontfeatures{} % XCharter imposta Extension=.otf: va resettato
+\setmonofont{JetBrainsMono Nerd Font}[
+Scale=MatchLowercase
+]
+
+\definecolor{defborder}{HTML}{1F3FA8}
+\definecolor{defback}{HTML}{F4F6FB}
+
+\definecolor{notaborder}{HTML}{D97706}
+\definecolor{notaback}{HTML}{FFFBEB}
+
+\definecolor{codeborder}{HTML}{707070}
+\definecolor{codeback}{HTML}{F0F0F0}
+
+\newtcolorbox{definizione}[1][Definizione]{ breakable, enhanced, sharp corners, boxrule=0.6pt, colframe=defborder, colback=defback, title=#1, fonttitle=\bfseries, coltitle=defborder, attach title to upper={\par\smallskip}, before skip=12pt, after skip=12pt, boxsep=6pt }
+
+\newtcolorbox{nota}[2]{ enhanced, sharp corners, boxrule=0.6pt, colframe=notaborder, colback=notaback, title={#1 -- #2}, fonttitle=\bfseries, coltitle=notaborder, attach title to upper={\par\smallskip}, before skip=12pt, after skip=12pt, boxsep=6pt }
+
+\definecolor{codekeyword}{HTML}{1F3FA8}
+\definecolor{codecomment}{HTML}{6A737D}
+\definecolor{codestring}{HTML}{A31515}
+
+\lstdefinelanguage{pseudo}{ morekeywords={function, end, returns, return, if, then, else, while, do, for, each, in, loop, repeat, until, persistent, static, local, and, or, not, true, false, null, failure}, sensitive=true, alsoletter={-}, morecomment=[l]{//}, morestring=[b]" }
+
+\newtcblisting{codice}[1][Codice]{ breakable, enhanced, sharp corners, boxrule=0.6pt, colframe=codeborder, colback=codeback, title=#1, fonttitle=\bfseries, coltitle=codeborder, attach title to upper={\par\smallskip}, before skip=12pt, after skip=12pt, boxsep=4pt, left=4pt, right=4pt, grow to left by=1cm, grow to right by=1cm, listing only, listing options={ language=pseudo, basicstyle=\ttfamily\footnotesize, keywordstyle=\color{codekeyword}\bfseries, commentstyle=\color{codecomment}\itshape, stringstyle=\color{codestring}, breaklines=true, breakatwhitespace=true, breakautoindent=true, breakindent=2em, postbreak=\mbox{\textcolor{codecomment}{$\hookrightarrow$}\space}, tabsize=4, columns=fullflexible, keepspaces=true } }
+
+\title{Intelligenza Artificiale}
+\author{Michele Castenedoli}
+\date{1 ottobre 2026}
+
+\begin{document}
+	\maketitle
+
+	\tableofcontents
+
+	\chapter{Introduzione all'Intelligenza Artificiale}
+	\section{Definizione e Storia}
+	Nel 1950 Alan Turing pubblica un articolo intitolato ``Computing Machinery and
+	Intelligence'' in cui viene proposto un esperimento per determinare se una
+	macchina pu\`o essere considerata dotata di intelligenza. Tale esperimento,
+	noto come \emph{Test di Turing}, coinvolge un interrogatore umano che comunica
+	con due entit\`a nascoste: una \textbf{macchina} e un \textbf{essere umano}. L'interrogatore
+	sottopone domande ad entrambe le entit\`a e, basandosi sulle risposte fornite,
+	deve determinare quale delle due \`e la macchina. Se l'interrogatore non \`e in
+	grado di distinguere le due parti, la macchina \`e considerata intelligente.
+
+	In seguito l'attenzione si \`e spostata sulla ricerca di metodi utili per
+	risolvere problemi che richiedono l'intelligenza umana mediante l'utilizzo di
+	algoritmi e modelli matematici fino ad arrivare all'introduzione di reti
+	neurali e deep learning.
+
+	\begin{definizione}
+		[Intelligenza Artificiale] L'\textbf{Intelligenza Artificiale} \`e la disciplina
+		che si occupa di studiare come \textbf{simulare} l'intelligenza umana in
+		scenari complessi.
+	\end{definizione}
+
+	\section{Tipi di Intelligenza Artificiale}
+	\subsection{Autonomous Agents}
+	Gli \textbf{Autonomous Agents} sono sistemi che percepiscono l'ambiente e
+	agiscono autonomamente per raggiungere determinati obiettivi.
+
+	\subsection{Data Analysis}
+	Consiste nell'utilizzo di algoritmi per analizzare grandi quantit\`a di dati
+	ed estrarre informazioni utili e possibili correlazioni complesse.
+
+	\subsection{Machine Learning}
+	\`E lo sviluppo di algoritmi che permettono a modelli di apprendere da \emph{dati
+	di esempio} e migliorare le loro prestazioni nel tempo senza essere
+	esplicitamente programmati: a differenza della programmazione manuale e tradizionale,
+	dove lo sviluppatore scrive una serie di istruzioni codificate in un
+	linguaggio di programmazione, si fornisce soltanto un algoritmo di base e una grande
+	quantit\`a di dati da cui apprendere. Il sistema analizza tali dati per
+	trovare possibili pattern, correlazioni e regole statistiche necessarie per svolgere
+	il compito.
+
+	L'apprendimento automatico \`e suddiviso in tre categorie principali:
+	\begin{itemize}
+		\item \textbf{Unsupervised Learning}: il modello viene addestrato nel corso del
+			tempo su un insieme di dati non etichettati (senza alcun ``tag'', categoria,
+			o classificazione assegnati a priori da un essere umano). Il target \`e scoprire
+			diverse strutture nascoste o pattern nei dati senza l'utilizzo di risposte
+			corrette predefinite.
+
+		\item \textbf{Supervised Learning}: il modello viene addestrato su un insieme
+			di dati etichettati, dove ogni esempio di input \`e associato ad una risposta
+			corretta. L'obiettivo \`e che il modello impari a mappare gli input alle risposte
+			corrette.
+
+		\item \textbf{Reinforcement Learning}: il modello impara attraverso continue
+			interazioni con l'ambiente, ricevendo ricompense o penalit\`a a seconda
+			delle azioni intraprese. L'obiettivo \`e massimizzare la ricompensa totale
+			nel tempo. Pertanto il sistema valuta le conseguenze delle scelte a lungo termine
+			anzich\'e cercare un vantaggio immediato.
+
+			\emph{Esempio}: il sistema che simula un giocatore di scacchi potrebbe sacrificare
+			la regina se prevede che in due mosse sar\`a in grado di dare scacco matto,
+			raggiungendo cos\`i la massima ricompensa disponibile.
+	\end{itemize}
+
+	\subsection{Time Series Analysis}
+	L'analisi delle serie temporali \`e un'area dell'apprendimento automatico che si
+	concentra sull'analisi di dati collezionati nel tempo. Le serie temporali sono
+	sequenze di dati misurati ad intervalli regolari (temperatura giornaliera,
+	prezzi delle azioni o dati di vendita mensili). In questo caso, l'obiettivo \`e
+	identificare pattern, tendenze, stagionalit\`a\footnote{Stagionalit\`a: la presenza
+	di fluttuazioni, variazioni o pattern regolari prevedibili che si ripetono a
+	intervalli regolari di tempo.} per fare previsioni future.
+
+	Gli approcci comuni per l'analisi delle serie temporali sono:
+	\begin{itemize}
+		\item \textbf{Riconoscimento di anomalie e cause}: processo di identificazione
+			di dati o eventi che si discostano significativamente dal comportamento normale
+			o atteso. Queste anomalie possono fornire indicatori di problemi, errori o
+			situazioni non previste che richiedono attenzione.
+
+		\item \textbf{Generative Transformers}: sono una classe di modelli che permettono
+			di predire il prossimo elemento di una sequenza di dati partendo dagli elementi
+			precedenti (token di un testo, pixel di un'immagine). Si introduce il concetto
+			di \textbf{attenzione}: meccanismo usato per pesare l'importanza delle diverse
+			parti della sequenza in input durante la generazione di output.
+
+			\emph{Esempio}: Se il modello di apprendimento sta elaborando la sequenza di
+			token relativa alla frase ``ho mangiato una pesca'', il meccanismo alla
+			base di attenzione assegner\`a un peso (punteggio) molto elevato alle
+			parole ``mangiato'' e ``una'' per aiutare il sistema a capire che ci si
+			sta riferendo al frutto e non all'hobby di pescare.
+	\end{itemize}
+
+	\subsection{Intelligent Agents}
+	Un agente intelligente \`e un sistema che percepisce l'ambiente circostante
+	attraverso sensori e agisce sull'ambiente per raggiungere un obiettivo
+	specifico e svolgere un determinato compito. Gli elementi cardine di un agente
+	intelligente includono:
+	\begin{itemize}
+		\item \textbf{Performance Measure}: misurazione del successo (efficacia) dell'agente
+			nel raggiungere i suoi obiettivi.
+
+		\item \textbf{Rationality}: l'agente deve agire in modo da massimizzare la sua
+			performance measure attesa, dati la sequenza percettiva e la conoscenza a
+			priori di cui dispone.
+	\end{itemize}
+
+	\begin{nota}
+		{Differenza}{Intelligent Agents vs Autonomous Agents} I due concetti si
+		sovrappongono in gran parte, ma pongono l'accento su aspetti diversi. L'\textbf{intelligenza}
+		riguarda la \emph{qualit\`a delle decisioni}: un agente \`e intelligente (razionale)
+		se sceglie le azioni che massimizzano la performance measure attesa. L'\textbf{autonomia}
+		riguarda invece \emph{quanto l'agente dipende dal progettista}: un agente \`e
+		autonomo nella misura in cui il suo comportamento si basa sulla propria esperienza
+		(percezioni e apprendimento) anzich\'e solo sulla conoscenza inserita a priori,
+		e opera senza un intervento umano continuo. Le due propriet\`a sono quindi indipendenti:
+		un termostato con regole fisse \`e un agente ma non \`e autonomo, mentre un'auto
+		a guida autonoma che impara e si adatta a situazioni nuove \`e sia
+		intelligente sia autonoma.
+	\end{nota}
+
+	\subsection{Markov Decision Process (MDP)}
+	Un MDP \`e un modello matematico utilizzato per rappresentare problemi di decisione
+	sequenziali in ambienti stocastici. Gli elementi principali sono:
+
+	\begin{itemize}
+		\item \textbf{States}: insieme $S$ degli stati; uno stato $s \in S$
+			rappresenta l'ambiente in un dato momento
+
+		\item \textbf{Actions}: insieme $A$ delle azioni che l'agente pu\`o intraprendere
+
+		\item \textbf{Transition model}: effetto che le azioni hanno sull'ambiente.
+			Poich\'e gli effetti potrebbero essere incerti, il modello assegna una probabilit\`a
+			a ogni possibile stato successivo
+			\begin{displaymath}
+				\text{T}(s, a, s') = P(s' \mid s, a)
+			\end{displaymath}
+			Dove $T$ \`e la funzione di transizione e esprime la probabilit\`a di
+			capitare nello stato $s'$ sapendo che si \`e nello stato s e che l'azione $a$
+			viene eseguita.
+
+			\begin{nota}
+				{Approfondimento}{Transition Model} Da notare che $T$ \`e solo un altro modo
+				per descrivere la probabilit\`a condizionata di capitare in $s'$ sapendo
+				che si parte dallo stato $s$ e si esegue l'azione $a$.
+			\end{nota}
+
+		\item \textbf{Reward}: valore \textbf{immediato} dell'esecuzione di un'azione
+			\begin{displaymath}
+				R: S \times A \times S \rightarrow \mathbb{R}
+			\end{displaymath}
+			Si definisce la ricompensa che l'agente guadagna raggiungendo quel passo:
+			\begin{itemize}
+				\item Il primo $S$ indica lo stato di partenza
+
+				\item $A$ \`e l'azione che \`e stata eseguita
+
+				\item Il secondo $S$ indica lo stato in cui si \`e giunti
+			\end{itemize}
+
+		\item \textbf{Policy}: strategia che l'agente utilizza per decidere quale azione
+			intraprendere in ogni stato con l'obiettivo di massimizzare la ricompensa totale
+			attesa nel tempo
+			\begin{displaymath}
+				\pi : S \rightarrow A
+			\end{displaymath}
+	\end{itemize}
+
+	Alla base del modello c'\`e la \textbf{propriet\`a di Markov}, da cui prende
+	il nome: la probabilit\`a di raggiungere lo stato successivo dipende \emph{soltanto}
+	dallo stato corrente e dall'azione scelta, e non dalla storia degli stati e delle
+	azioni precedenti:
+	\begin{displaymath}
+		P(s_{t+1}\mid s_{t}, a_{t}, s_{t-1}, a_{t-1}, \dots, s_{0}) = P(s_{t+1}\mid s
+		_{t}, a_{t})
+	\end{displaymath}
+	In altre parole, lo stato corrente riassume tutta l'informazione rilevante per
+	decidere come agire.
+
+	\chapter{Agenti Intelligenti}
+	\section{Definizione}
+	\begin{definizione}
+		[Agente Intelligente] Un \textbf{agente} \`e qualsiasi cosa possa essere vista
+		come un sistema che percepisce il suo ambiente attraverso dei \textbf{sensori}
+		e agisce su di esso tramite \textbf{attuatori}.
+	\end{definizione}
+
+	\emph{Esempio}: L'agente umano possiede sensori come occhi e orecchie, mentre
+	pu\`o usare come attuatori mani, gambe, tratto vocale. Un agente robotico potrebbe
+	invece avere telecamere e telemetri a infrarossi per sensori e diversi motori come
+	attuatori.
+
+	\vspace{2em}
+% \begin{noindent}
+	\begin{figure}[H]
+		\centering
+		\resizebox{0.67\textwidth}{!}{
+		\begin{tikzpicture}[
+			>=Stealth,
+			font=\sffamily,
+			thick,
+			box/.style={draw, rounded corners=15pt, minimum height=7.5cm, fill=gray!10},
+			blackbox/.style={draw, fill=black, text=white, minimum size=2.2cm, font=\Huge\bfseries}
+		]
+			% 1. Nodi centrali
+			\node[blackbox] (brain) {?};
+			\node[above=1.2cm of brain, font=\large] (sensori) {sensori};
+			\node[below=1.2cm of brain, font=\large] (attuatori) {attuatori};
+
+			% Frecce interne
+			\draw[->] (sensori.south) -- (brain.north);
+			\draw[->] (brain.south) -- (attuatori.north);
+
+			% 2. Box dell'Agente
+			\begin{scope}[on background layer]
+				\node[box, fit=(brain) (sensori) (attuatori), minimum width=6cm,
+					inner sep=1cm] (agente) {};
+			\end{scope}
+
+			% Etichetta "Agente" centrata in alto con padding verticale (yshift)
+			\node[below, font=\Large, yshift=-0.4cm] at (agente.north) {Agente};
+
+			% 3. Box dell'Ambiente
+			\node[box, right=3.5cm of agente, minimum width=2cm] (ambiente) {};
+			\node[rotate=-90, font=\Large] at (ambiente.center) {Ambiente};
+
+			% 4. Frecce esterne con etichette spostate a destra (pos=0.65)
+			\draw[<-] (sensori.east) -- node[below, pos=0.65] {percezioni}
+				(sensori.east -| ambiente.west);
+			\draw[->] (attuatori.east) -- node[above, pos=0.65] {azioni}
+				(attuatori.east -| ambiente.west);
+		\end{tikzpicture}
+		}
+	\end{figure}
+% \end{noindent}
+
+	\vspace{1em}
+	Si usa il termine \textbf{percezione} per indicare i dati che i sensori raccolgono.
+	La \textbf{Sequenza Percettiva} di un agente \`e la storia di tutto ci\`o che
+	l'agente ha raccolto in tutta la sua esistenza. In generale, la scelta dell'azione
+	di un agente in un qualsiasi istante pu\`o dipendere dalla conoscenza
+	integrata in esso e dall'intera sequenza percettiva osservata fino a quel
+	momento, ma non da qualcosa che l'agente non abbia percepito.
+
+	Specificando l'azione che un agente pu\`o scegliere in qualunque istante, si
+	definisce l'agente in modo completo. In termini matematici, il comportamento
+	di un agente \`e descritto dalla funzione agente, che descrive la
+	corrispondenza tra una qualsiasi sequenza percettiva e una specifica azione.
+
+	La funzione agente assume la seguente forma:
+	\begin{displaymath}
+		f: \mathcal{P}^{*}\rightarrow \mathcal{A}
+	\end{displaymath}
+
+	In particolare:
+	\begin{itemize}
+		\item $\mathcal{P}$ indica l'insieme delle singole percezioni
+
+		\item $^{*}$ (\emph{chiusura di Kleene}) \`e l'operatore che, applicato a un
+			insieme, restituisce l'insieme di \emph{tutte} le sequenze finite (compresa
+			quella vuota) formate dai suoi elementi
+
+		\item $\mathcal{P}^{*}$ \`e quindi l'insieme di tutte le possibili sequenze
+			percettive: ogni suo elemento rappresenta una possibile cronologia delle percezioni
+			registrate fino a un certo momento
+
+		\item $\mathcal{A}$ indica l'insieme delle possibili azioni
+	\end{itemize}
+
+	Internamente, la funzione agente \`e implementata da un \textbf{programma
+	agente}.
+	\begin{nota}
+		{Differenza}{Programma Agente vs Funzione Agente} Mentre la funzione agente
+		\`e una descrizione matematica astratta, il programma agente \`e una sua implementazione
+		fisica concreta, in esecuzione all'interno del sistema fisico.
+	\end{nota}
+	\emph{Esempio}: Un mondo dell'aspirapolvere con due sole posizioni. Ogni posizione
+	pu\`o essere pulita o sporca, l'agente pu\`o andare a sinistra o a destra e pu\`o
+	pulire il riquadro in cui si trova.
+	\begin{center}
+		\begin{tabular}{ |c|c| }
+			\hline
+			Sequenza Percettiva                      & Azione   \\
+			\hline
+			{}[\emph{A, Pulito}]                     & Destra   \\
+			{}[\emph{A, Sporco}]                     & Aspira   \\
+			{}[\emph{B, Pulito}]                     & Sinistra \\
+			{}[\emph{B, Sporco}]                     & Aspira   \\
+			{}[\emph{A, Pulito}], [\emph{A, Pulito}] & Destra   \\
+			{}[\emph{A, Pulito}], [\emph{A, Sporco}] & Aspira   \\
+			$\vdots$                                 & $\vdots$ \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\vspace{1em}
+	Se un agente ha $\vert{}\mathcal{P}\vert{}$ possibili percezioni, dopo $T$
+	passi temporali, la funzione agente ha $\sum_{t=1}^{T}\vert{}\mathcal{P}\vert{}
+	^{t}$ voci. Se lo storico di percezioni \`e irrilevante, cio\`e se l'azione
+	dipende soltanto dalla percezione corrente, l'agente viene detto \textbf{Simple
+	Reflex Agent}.
+
+	L'obiettivo \`e progettare piccoli programmi agente per rappresentare enormi funzioni
+	agente.
+
+% \begin{noindent}
+\begin{codice}
+[Un possibile programma agente]
+function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
+    if stato = Sporco then return Aspira
+    else if posizione = A then return Destra
+    else if posizione = B then return Sinistra
+\end{codice}
+% \end{noindent}
+
+	Questo programma \`e adeguato se la performance measure prende in considerazione
+	solo il numero di stanze pulite. Se subentrassero altre metriche che portano
+	ad una definizione della performance measure diversa (stato della batteria,
+	percentuale di ricarica, minimizzare il numero di spostamenti), tale programma
+	non \`e in grado di esprimere la cosa migliore da fare. Da notare che l'agente
+	che implementa tale programma \`e un \textbf{Simple Reflex Agent}: l'azione
+	dipende soltanto dalla percezione corrente.
+
+	\section{Razionalit\`a}
+	\subsection{Comportarsi Correttamente: il concetto di razionalit\`a}
+
+	\begin{definizione}
+		Un \textbf{agente razionale} \`e un agente che fa la cosa giusta.
+	\end{definizione}
+
+	Esistono diverse accezioni dell'espressione ``cosa giusta'', ma l'IA rimane fedele
+	alla nozione di \textbf{consequenzialismo}: si valuta il comportamento di un agente
+	considerando le conseguenze. Quando un agente viene inserito in un ambiente, genera
+	una sequenza di azioni in base alle percezioni che riceve. Questa sequenza di
+	azioni porta l'ambiente ad attraversare una sequenza di stati: se tale sequenza
+	\`e desiderabile, significa che l'agente si \`e comportato bene. Questa nozione
+	di desiderabilit\`a \`e catturata da una misura di prestazione che valuta la
+	sequenza di stati dell'ambiente.
+
+	In un dato momento, ci\`o che \`e razionale dipende da quattro fattori:
+	\begin{itemize}
+		\item la misura di prestazione che definisce il criterio del successo
+
+		\item la conoscenza pregressa dell'ambiente da parte dell'agente
+
+		\item le azioni che l'agente pu\`o eseguire
+
+		\item la sequenza percettiva dell'agente fino allo stato corrente
+	\end{itemize}
+
+	Tutto ci\`o porta a una definizione molto formale di \textbf{agente razionale}:
+	\begin{definizione}
+		Per ogni possibile sequenza di percezioni, un agente razionale dovrebbe
+		scegliere un'azione che massimizzi il valore atteso della sua misura di
+		prestazione, date le informazioni fornite dalla sequenza percettiva e da ogni
+		ulteriore conoscenza dell'agente.
+	\end{definizione}
+
+	La razionalit\`a allora non \`e altro che un problema di ottimizzazione sulla
+	performance measure: un agente razionale sceglie l'azione che massimizza il valore
+	atteso della misura di prestazione, data la sequenza percettiva accumulata
+	fino a quel momento.
+
+	Notare come essere razionale non vuol dire essere onnisciente.\footnote{Possedere
+	conoscenza illimitata su qualsiasi cosa.} Infatti le percezioni potrebbero non
+	fornire tutte le informazioni rilevanti in un dato istante. Pertanto, i
+	risultati potrebbero essere diversi da quelli previsti.
+
+	\begin{nota}
+		{Differenza}{Razionalit\`a vs Perfezione} La razionalit\`a massimizza la
+		prestazione \textbf{attesa}, mentre la perfezione massimizzerebbe la
+		prestazione \textbf{effettiva}. Un agente razionale non pu\`o essere
+		giudicato per esiti che non poteva prevedere: se attraverso la strada dopo aver
+		controllato che sia libera e vengo colpito da un oggetto caduto dall'alto,
+		la mia scelta \`e stata comunque razionale.
+	\end{nota}
+
+	\subsection{Esercizio}
+	L'esercizio propone di analizzare un ambiente composto da tre stanze (A, B, C)
+	e due robot ($r_{1}, r_{2}$). Il robot $r_{1}$ pu\`o pattugliare le stanze A e
+	B partendo da A, mentre $r_{2}$ pu\`o pattugliare B e C partendo da C.
+	Assumendo un tempo di spostamento nullo, l'obiettivo \`e definire un
+	comportamento razionale capace di minimizzare l'inattivit\`a media (\emph{average
+	idleness}), definita come la frazione del tempo in cui una stanza non \`e visitata
+	da alcun robot.
+
+	Per affrontare il problema, possiamo analizzare tre diverse strategie:
+	\begin{itemize}
+		\item \textbf{Prima strategia (Vettore di inattivit\`a $[0, 1, 0]$):} I
+			robot non cambiano mai la loro posizione iniziale. Il robot $r_{1}$ rimane
+			in A e $r_{2}$ in C. Di conseguenza, le stanze A e C hanno inattivit\`a nulla,
+			ma la stanza B non viene mai coperta, generando un'inattivit\`a pari a 1.
+
+		\item \textbf{Seconda strategia (Vettore di inattivit\`a $[1/2, 1/2, 0]$):}
+			Si decide di muovere soltanto il primo robot ($r_{1}$), che si sposter\`a continuamente
+			da A a B e viceversa, mentre $r_{2}$ resta fermo in C. In questo scenario,
+			le stanze A e B rimangono scoperte per met\`a del tempo.
+
+		\item \textbf{Terza strategia (Vettore di inattivit\`a $[1/4, 1/2, 1/4]$):}
+			Questa strategia consente di far giocare un ruolo attivo anche al secondo
+			robot ($r_{2}$), coordinando il movimento di entrambi per coprire l'intera
+			area: ogni robot trascorre $3/4$ del tempo nella propria stanza esterna e
+			$1/4$ in B, e i due non si trovano mai in B contemporaneamente. La stanza
+			B resta quindi coperta per met\`a del tempo.
+	\end{itemize}
+
+	Si noti che in tutte e tre le strategie la somma delle inattivit\`a vale 1, quindi
+	l'\textbf{inattivit\`a media \`e sempre $1/3$}: rispetto all'obiettivo formale
+	le tre strategie sono equivalenti. Tuttavia la \textbf{terza strategia \`e la migliore}:
+	nella pratica, per coprire il pi\`u possibile tutte le diverse stanze in modo omogeneo,
+	\`e fondamentale introdurre il concetto di \emph{equit\`a}. Per garantire questa
+	equit\`a, limitarsi a valutare la media non \`e sufficiente: risulta
+	necessario introdurre il calcolo della \textbf{varianza} o della \textbf{deviazione
+	standard}, in modo da penalizzare gli squilibri estremi tra le stanze.
+
+	\section{PEAS}
+	Per progettare un agente intelligente bisogna definire l'ambiente in cui opera:
+	\begin{itemize}
+		\item \textbf{Performance Measures}: metodo di valutazione del successo dell'agente
+
+		\item \textbf{Environment}: il contesto in cui l'agente opera
+
+		\item \textbf{Actuators}: i mezzi attraverso cui l'agente agisce sull'ambiente
+
+		\item \textbf{Sensors}: i mezzi attraverso cui l'agente percepisce l'ambiente
+	\end{itemize}
+
+	\needspace{8\baselineskip}
+	\emph{Esempio}: Prendiamo in considerazione un taxi automatico: il PEAS
+	potrebbe essere:
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{@{}l X@{}}
+			\toprule
+			\textbf{Performance measures} & Soddisfazione del cliente, sicurezza, efficienza
+				del carburante (SOLO E85), rispetto per le leggi stradali \\
+			\textbf{Environment} & Traffico stradale, condizioni meteorologiche,
+				segnali stradali, pedoni e altri veicoli \\
+			\textbf{Actuators} & Volante, acceleratore, freni, indicatori di direzione \\
+			\textbf{Sensors} & Telecamere, GPS, sensori di velocit\`a, radar \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	\section{Tipi di Ambiente}
+	Gli ambienti possono essere classificati secondo diverse caratteristiche:
+	\begin{itemize}
+		\item \textbf{Osservabile} (vs \emph{parzialmente osservabile}): se l'agente
+			pu\`o percepire completamente lo stato dell'ambiente in ogni momento
+
+		\item \textbf{Deterministico} (vs \emph{stocastico}): se lo stato successivo
+			dell'ambiente \`e determinato completamente dallo stato corrente e dall'azione
+			eseguita dall'agente
+
+		\item \textbf{Episodico} (vs \emph{sequenziale}): se l'esperienza dell'agente
+			\`e divisa in episodi indipendenti, cio\`e l'azione in un episodio non
+			influisce sugli episodi successivi
+
+		\item \textbf{Statico} (vs \emph{dinamico}): se l'ambiente non cambia mentre
+			l'agente sta prendendo una decisione
+
+		\item \textbf{Discreto} (vs \emph{continuo}): se stati, percezioni, azioni e
+			tempo assumono un numero finito di valori distinti
+
+		\item \textbf{Singolo Agente} (vs \emph{multi-agente}): se l'agente opera da
+			solo nell'ambiente senza la presenza di altri agenti
+
+		\item \textbf{Noto} (vs \emph{ignoto}): se l'agente (o il progettista)
+			conosce le regole dell'ambiente, cio\`e gli esiti delle azioni
+	\end{itemize}
+	\begin{nota}
+		{Approfondimento}{Scenario Singolo Agente in contesti Multi-Agenti} Un
+		ambiente multi-agente pu\`o essere considerato singolo agente in quelle
+		circostanze in cui si prevede la progettazione di un singolo agente mentre
+		gli altri agenti non vengono modellati (che quindi vengono considerati elementi
+		dell'ambiente).
+	\end{nota}
+
+	\emph{Esempio}: Tipi di ambienti in diversi contesti
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{|l|c|c|c|c|}
+			\hline
+			                                   & Crossword & Robo-selector & Poker  & Taxi   \\
+			\hline
+			\textcolor{magenta}{Observable}    & Yes       & Partly        & Partly & Partly \\
+			\hline
+			\textcolor{magenta}{Deterministic} & Yes       & No            & No     & No     \\
+			\hline
+			\textcolor{magenta}{Episodic}      & No        & Yes           & No     & No     \\
+			\hline
+			\textcolor{magenta}{Static}        & Yes       & No            & Yes    & No     \\
+			\hline
+			\textcolor{magenta}{Discrete}      & Yes       & No            & Yes    & No     \\
+			\hline
+			\textcolor{magenta}{Single-agent}  & Yes       & Yes           & No     & No     \\
+			\hline
+		\end{tabular}
+	\end{table}
+
+	Durante il corso ci soffermeremo sugli ambienti \emph{osservabili} e \emph{deterministici}
+	per descrivere problemi sequenziali: un'azione svolta ha un impatto sul futuro.
+
+	\section{Tipi di Problemi}
+	\begin{itemize}
+		\item \textbf{Deterministico, completamente osservabile} $\implies$ \textbf{problema
+            a stato singolo (Single-State Problem)}. \\L'agente sa esattamente in quale 
+            stato si trover\`a; la soluzione \`e una sequenza di azioni.
+
+		\item \textbf{Non osservabile} $\implies$ \textbf{problema conformante}. \\L'agente
+			potrebbe non avere idea di dove si trovi: l'agente non dispone di sensori.
+            la soluzione (se esiste) \`e una sequenza di azioni.
+
+		\item \textbf{Non deterministico e/o parzialmente osservabile} $\implies$
+			\textbf{problema di contingenza}. \\Le percezioni forniscono costantemente
+			nuove informazioni sullo stato corrente; la soluzione \`e un piano
+			contingente (basato su condizioni del tipo if-then)
+            o una \textit{policy} (mapping stato-azione): molto spesso si alternano 
+            le fasi di ricerca e di esecuzione.
+
+		\item \textbf{Spazio degli stati sconosciuto} $\implies$ \textbf{problema di
+			esplorazione} (\textit{online}). \\L'agente deve scoprire gli stati e le
+			transizioni interagendo direttamente con l'ambiente per capire come funziona il problema.
+	\end{itemize}
+
+	\section{Programma Agente}
+	Poich\'e l'agente \`e composto da un'architettura interna e un \textbf{programma
+	agente}, \`e utile definire le caratteristiche generali di un programma agente.
+
+	In generale, lo scheletro di un programma \`e composto da:
+	\begin{itemize}
+		\item Input: Percezione \textbf{corrente}. In tutti quei contesti in cui l'agente
+			necessita di una sequenza di percezioni, ogni percezione dovr\`a essere salvata
+			per riassemblare l'intera sequenza
+
+		\item Output: \textbf{Prossima} azione
+	\end{itemize}
+
+	In questo schema \`e possibile seguire alcune architetture che consentono la modellazione
+	di diversi agenti. Architetture diverse hanno diversi scopi. Di seguito l'elenco
+	dei quattro tipi base di quasi tutti i sistemi intelligenti:
+	\begin{itemize}
+		\item Simple Reflex Agents
+
+		\item Reflex Agents with State
+
+		\item Agenti basati su obiettivi (Goal-Based Agents)
+
+		\item Agenti basati sull'utilit\`a (Utility-Based Agents)
+	\end{itemize}
+
+	\subsection{Simple Reflex Agents}
+	L'architettura pi\`u semplice \`e l'\textbf{Agente Reattivo Semplice}. Questi agenti
+	scelgono le azioni sulla base della percezione corrente, ignorando tutta la
+	storia percettiva precedente. Pertanto, il principio seguito \`e quello del
+	tipo \textbf{regola condizione-azione}.
+% \begin{noindent}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			font=\sffamily\small,
+			>={Stealth[length=2.5mm]},
+			box/.style={draw, thick, align=center, minimum width=3.2cm, minimum height=1cm},
+			regole/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, inner xsep=8pt}
+		]
+			% Elementi interni all'agente
+			\node                (sensori)   at (0,0)                    {sensori};
+			\node[box]           (mondo)     [below=0.6cm of sensori]    {aspetto corrente\\ del mondo};
+			\node[box]           (azione)    [below=1.8cm of mondo]      {azione da\\ eseguire adesso};
+			\node[regole]        (reg)       [left=1.0cm of azione]      {regole condizione-azione};
+			\node                (attuatori) [below=0.6cm of azione]     {attuatori};
+
+			% Riquadro agente
+			\draw[thick, rounded corners=15pt] (-7,0.6) rectangle (2,-6.3);
+			\node[anchor=north west, font=\sffamily\large] at (-6.8,0.45) {agente};
+
+			% Riquadro ambiente
+			\draw[thick, rounded corners=15pt] (2.4,0.6) rectangle (4.4,-6.3);
+			\node[rotate=-90, font=\sffamily\large] at (3.4,-2.85) {ambiente};
+
+			% Frecce
+			\draw[->, thick] (3.9,0) -- (sensori.east);
+			\draw[->, thick] (sensori) -- (mondo);
+			\draw[->, thick] (mondo) -- (azione);
+			\draw[->, thick] (reg) -- (azione);
+			\draw[->, thick] (azione) -- (attuatori);
+			\draw[->, thick] (attuatori.east) -- (3.4,0 |- attuatori.east);
+
+			% Cornice esterna
+			\draw (-7.4,1) rectangle (4.8,-6.7);
+		\end{tikzpicture}
+	\end{figure}
+% \end{noindent}
+
+% \begin{noindent}
+\begin{codice}
+[Simple Reflex Agents]
+function AGENTE-REATTIVO-SEMPLICE(percezione) returns azione
+    persistent: regole      // insieme di regole condizione-azione
+
+    stato ← INTERPRETA-INPUT(percezione)
+    regola ← REGOLA-CORRISPONDENTE(stato, regole)
+    azione ← regola.AZIONE
+    return azione
+\end{codice}
+% \end{noindent}
+
+	Gli agenti reattivi semplici hanno il pregio della semplicit\`a, ma un'intelligenza
+	molto limitata: funzionano correttamente \textbf{solo se l'ambiente \`e completamente
+	osservabile}, cio\`e se la decisione giusta pu\`o essere presa sulla base
+	della sola percezione corrente. Anche una minima parte di non osservabilit\`a pu\`o
+	causare seri problemi.
+
+	\emph{Esempio}: se l'aspirapolvere non avesse il sensore di posizione e percepisse
+	soltanto [\emph{Pulito}] o [\emph{Sporco}], davanti a una stanza pulita
+	dovrebbe scegliere sempre la stessa azione, ad esempio \emph{Sinistra}. Se si trova
+	in A, quell'azione fallisce sempre: l'agente entra in un \textbf{ciclo
+	infinito}.
+
+	\subsection{Reflex Agents with State}
+	Il modo pi\`u efficace di gestire l'osservabilit\`a parziale, per un agente, \`e
+	tener traccia della parte del mondo che non pu\`o vedere nell'istante corrente.
+	Questo significa che l'agente deve mantenere una sorta di \textbf{stato
+	interno} che dipende dalla storia delle percezioni e che quindi riflette
+	almeno una parte degli aspetti non osservabili dello stato corrente. In particolare,
+	aggiornare lo stato interno richiede due componenti fondamentali: gli effetti delle
+	azioni dell'agente e le modalit\`a di evoluzione del mondo indipendentemente dall'agente.
+	Tale conoscenza viene implementata tramite un \textbf{modello di transizione}.
+	Inoltre, sono necessari \textbf{modelli sensoriali} che descrivono come lo
+	stato del mondo si rifletta nelle percezioni dell'agente.
+
+	Un agente che utilizza tali modelli prende il nome di \textbf{Agente Basato su
+	Modello}.
+% \begin{noindent}
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			font=\sffamily\small,
+			>={Stealth[length=2.5mm]},
+			box/.style={draw, thick, align=center, minimum width=3.2cm, minimum height=1cm},
+			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, inner xsep=8pt}
+		]
+			% Elementi interni all'agente
+			\node                (sensori)   at (0,0)                    {sensori};
+			\node[box]           (mondo)     [below=0.6cm of sensori]    {aspetto corrente\\ del mondo};
+			\node[box]           (azione)    [below=2cm of mondo]        {azione da\\ eseguire adesso};
+			\node                (attuatori) [below=0.6cm of azione]     {attuatori};
+
+			% Elementi con bordi smussati
+			\node[tondo, anchor=east] (stato)  at (-3.2,-0.5)                {stato};
+			\node[tondo, anchor=east] (evolve) at (-2.6,-1.3)                {come evolve il mondo};
+			\node[tondo, anchor=east] (cosa)   at (-2.6,-2.4)                {cosa fanno le mie azioni};
+			\node[tondo, anchor=east] (regole) at ([xshift=-1cm]azione.west) {regole condizione-azione};
+
+			% Riquadro agente
+			\draw[thick, rounded corners=15pt] (-7,0.6) rectangle (2,-6.3);
+			\node[anchor=south west, font=\sffamily\large] at (-6.6,-6.1) {agente};
+
+			% Riquadro ambiente
+			\draw[thick, rounded corners=15pt] (2.4,0.6) rectangle (4.4,-6.3);
+			\node[rotate=-90, font=\sffamily\large] at (3.4,-2.85) {ambiente};
+
+			% Frecce
+			\draw[->, thick] (3.9,0) -- (sensori.east);
+			\draw[->, thick] (sensori) -- (mondo);
+			\draw[->, thick] (stato.east) -- ([yshift=2mm]mondo.west);
+			\draw[->, thick] (evolve.east) -- ([yshift=-1mm]mondo.west);
+			\draw[->, thick] (cosa.east) -- ([xshift=3mm]mondo.south west);
+			\draw[->, thick, dashed] ([xshift=6mm]mondo.north west)
+				to[out=100, in=20] (stato.north east);
+			\draw[->, thick] (mondo) -- (azione);
+			\draw[->, thick] (regole.east) -- (azione.west);
+			\draw[->, thick] (azione) -- (attuatori);
+			\draw[->, thick] (attuatori.east) -- (3.4,0 |- attuatori.east);
+
+			% Cornice esterna
+			\draw (-7.4,1) rectangle (4.8,-6.7);
+		\end{tikzpicture}
+	\end{figure}
+% \end{noindent}
+
+% \begin{noindent}
+\begin{codice}
+[Reflex Agents with State]
+function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
+    persistent:
+        stato               // concezione corrente dello stato del mondo
+        modello_transizione // stato successivo in funzione di stato e azione
+        modello_sensoriale  // come lo stato si riflette nelle percezioni
+        regole              // insieme di regole condizione-azione
+        azione              // l'azione più recente, inizialmente nessuna
+
+    stato ← AGGIORNA-STATO(stato, azione, percezione,
+                           modello_transizione, modello_sensoriale)
+    regola ← REGOLA-CORRISPONDENTE(stato, regole)
+    azione ← regola.AZIONE
+    return azione
+\end{codice}
+% \end{noindent}
+
+	\subsection{Goal-Based Agents}
+	La conoscenza dello stato corrente dell'ambiente non \`e sempre sufficiente per
+	decidere quale azione intraprendere. Spesso \`e necessario introdurre informazioni
+	relative all'\textbf{obiettivo} (\textit{goal}), ovvero la descrizione delle
+	situazioni desiderabili da raggiungere. Un agente basato su obiettivi (\textit{Goal-Based
+	Agent}) combina queste informazioni con il proprio modello interno del mondo, superando
+	il limite delle semplici regole ``condizione-azione''. Non basta pi\`u, infatti,
+	associare direttamente una percezione a un'azione prestabilita. A differenza degli
+	agenti reattivi (\textit{Reflex Agents}), in cui l'obiettivo \`e solo
+	implicito nelle regole pre-programmate, l'agente basato su obiettivi valuta in
+	modo esplicito le conseguenze delle proprie scelte: prima di agire, analizza attivamente
+	se lo svolgimento di una determinata azione lo porter\`a o meno al soddisfacimento
+	del proprio scopo.
+
+	\emph{Esempio}: L'agente reattivo frena quando vede le luci di frenata, senza
+	rendersi conto del motivo. Un agente basato su obiettivi frena quando vede le luci
+	di frenata perch\'e quella \`e l'unica azione che, secondo la sua previsione,
+	permette di raggiungere l'obiettivo di non tamponare altre macchine.
+
+	\textbf{Ricerca} e \textbf{pianificazione} sono sottocampi dell'IA dedicati a
+	identificare le sequenze di azioni da intraprendere per raggiungere gli
+	obiettivi.
+
+	Pu\`o sembrare che un Goal-Based Agent sia meno efficiente (magari l'agente che
+	modella le funzionalit\`a di guida autonoma potrebbe frenare invece di accelerare
+	su una strada dritta ad alta velocit\`a), ma garantisce maggiore \textbf{flessibilit\`a},
+	perch\'e la conoscenza che guida le sue decisioni \`e rappresentata
+	esplicitamente e pu\`o essere modificata.
+
+	\subsection{Agenti Basati Sull'Utilit\`a}
+	Raggiungere semplicemente un obiettivo non basta: per un risultato ottimale \`e
+	fondamentale valutare anche la qualit\`a e l'efficienza delle azioni scelte per
+	ottenerlo (come velocit\`a, sicurezza o convenienza).
+
+	In questo ambito, infatti, si introduce il concetto di \textbf{Utilit\`a}: all'interno
+	dell'agente viene implementata una \textbf{Funzione di utilit\`a} che internalizza
+	la performance measure. Purch\'e la funzione di utilit\`a interna e la misura di
+	prestazione esterna concordino, un agente che sceglie le azioni per massimizzare
+	l'utilit\`a sar\`a comunque razionale in base alla misura di prestazione esterna.
+
+	Si sottolinea che questo non \`e l'unico modo per essere razionali: l'esempio sull'aspirapolvere
+	mostra la modellazione di un comportamento razionale senza introdurre obiettivi
+	o funzioni di utilit\`a. Ma anche in questo caso i vantaggi sono
+	principalmente in termini di flessibilit\`a, soprattutto in contesti in cui \`e
+	necessario prendere decisioni in condizioni d'incertezza.
+
+	In termini tecnici, un agente razionale basato sull'utilit\`a sceglie l'azione
+	che massimizza l'\textbf{utilit\`a attesa} dei risultati, ovvero l'utilit\`a
+	che l'agente si attende di ottenere, in media, date le probabilit\`a e le
+	utilit\`a di ciascun risultato.
+
+	\emph{Esempio}: Si immagini un taxi a guida autonoma che deve scegliere tra
+	due strade:
+	\begin{itemize}
+		\item \textbf{STRADA A (Urbana)}: \`e sempre libera ($100\%$) e porta a
+			destinazione nei tempi previsti, con utilit\`a moderata pari a 5. \\Utilit\`a
+			attesa: $1.0 \times 5 = 5$
+
+		\item \textbf{STRADA B (Autostrada)}: \`e libera nell'$80\%$ dei casi, offrendo
+			la possibilit\`a di arrivare in largo anticipo, con utilit\`a elevata pari
+			a 10. Nel restante $20\%$ dei casi, invece, si trova un ingorgo totale e
+			si arriva molto in ritardo, con utilit\`a = $-5$. \\Utilit\`a attesa:
+			$(0.8 \times 10) + (0.2 \times -5) = 8 - 1 = 7$
+	\end{itemize}
+
+	La strada che massimizza l'utilit\`a attesa \`e pertanto la B.
+
+	\begin{nota}
+		{Approfondimento}{Utilit\`a Attesa} Si noti che non \`e altro che il calcolo
+		del valore medio (\emph{speranza matematica}): $E[X] = \sum x_{i} \cdot P(X =
+		x_{i})$
+	\end{nota}
+
+	\begin{nota}
+		{Differenza}{Funzione di Utilit\`a vs Performance Measure} Sebbene
+		rappresentino concetti assai simili, la Performance Measure \`e il metro di
+		giudizio \textbf{esterno}, stabilito dal progettista per valutare la qualit\`a
+		complessiva del comportamento dell'agente: l'agente non ha necessariamente accesso
+		diretto a essa.
+
+		La funzione di utilit\`a \`e invece \textbf{interna} all'agente: \`e l'internalizzazione
+		della performance measure, costruita dal progettista in modo che le due
+		siano allineate. L'agente la usa per assegnare un valore a ogni possibile stato
+		del mondo e, in condizioni di incertezza, sceglie l'azione che massimizza l'utilit\`a
+		attesa. Se la funzione di utilit\`a non rispecchia fedelmente la performance
+		measure, l'agente pu\`o massimizzarla e comportarsi comunque in modo non razionale
+		rispetto al criterio esterno.
+	\end{nota}
+
+% \begin{noindent}
+	\begin{figure}[H]
+		\centering
+		\resizebox{0.87\textwidth}{!}{
+		\begin{tikzpicture}[
+			font=\sffamily\small,
+			>={Stealth[length=2.5mm]},
+			box/.style={draw, thick, align=center, minimum width=3.9cm, minimum height=1cm},
+			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, inner xsep=8pt}
+		]
+			% Elementi interni all'agente
+			\node                (sensori)     at (0,0.2)                     {sensori};
+			\node[box]           (mondo)       [below=0.3cm of sensori]       {aspetto corrente\\ del mondo};
+			\node[box]           (conseguenze) [below=0.3cm of mondo]         {come cambier\`a il mondo \\ se eseguo l'azione A};
+			\node[box]           (utile)       [below=0.6cm of conseguenze]   {quanto sar\`o contento \\ in uno stato simile};
+			\node[box]           (azione)      [below=0.6cm of utile]         {azione da \\ eseguire adesso};
+			\node                (attuatori)   [below=0.4cm of azione]        {attuatori};
+
+			% Fondo dei riquadri, calcolato in base agli attuatori
+			\coordinate (fondo) at ([yshift=-3mm]attuatori.south);
+
+			% Elementi con bordi smussati
+			\node[tondo, anchor=east] (stato)  at (-3.2,-0.5)               {stato};
+			\node[tondo, anchor=east] (evolve) at (-2.6,-1.3)               {come evolve il mondo};
+			\node[tondo, anchor=east] (cosa)   at (-2.6,-2.4)               {cosa fanno le mie azioni};
+			\node[tondo, anchor=east] (regole) at ([xshift=-1cm]utile.west) {utilit\`a};
+
+			% Frecce della colonna centrale
+			\draw[->, thick] (3.9,0.2) -- (sensori.east);
+			\draw[->, thick] (sensori) -- (mondo);
+			\draw[->, thick] (mondo) -- (conseguenze);
+			\draw[->, thick] (conseguenze) -- (utile);
+			\draw[->, thick] (utile) -- (azione);
+			\draw[->, thick] (azione) -- (attuatori);
+			\draw[->, thick] (attuatori.east) -- (3.4,0 |- attuatori.east);
+
+			% Frecce dagli elementi con bordi smussati
+			\draw[->, thick, dashed] ([xshift=6mm]mondo.north west)
+				to[out=100, in=20] (stato.north east);
+			\draw[->, thick] (stato.east) -- ([yshift=2mm]mondo.west);
+			\draw[->, thick] (evolve.east) -- ([yshift=-1mm]mondo.west);
+			\draw[->, thick] (evolve.east) -- ([yshift=3mm]conseguenze.west);
+			\draw[->, thick] (cosa.east) -- ([yshift=-2mm]mondo.west);
+			\draw[->, thick] (cosa.east) -- (conseguenze.west);
+			\draw[->, thick] (regole.east) -- (utile.west);
+
+			% Riquadro agente
+			\draw[thick, rounded corners=15pt] (-7,0.6) rectangle (2.2,0 |- fondo);
+			\node[anchor=north west, font=\sffamily\large] at (-6.8,0.45) {agente};
+
+			% Riquadro ambiente
+			\draw[thick, rounded corners=15pt] (2.4,0.6) rectangle (4.4,0 |- fondo);
+			\path (3.4,0.6) -- (3.4,0 |- fondo)
+				node[midway, rotate=-90, font=\sffamily\large] {ambiente};
+
+			% Cornice esterna
+			\draw (-7.4,1) rectangle ([yshift=-4mm]4.8,0 |- fondo);
+		\end{tikzpicture}
+		}
+	\end{figure}
+% \end{noindent}
+
+	\chapter{Risolvere Problemi con la Ricerca}
+
+	\section{Problem Solving Agents}
+	Quando l'azione da svolgere non \`e subito evidente, un agente potrebbe avere
+	la necessit\`a di guardare avanti, cio\`e considerare una sequenza di azioni (\emph{cammino})
+	che porta a uno stato obiettivo. Questo tipo di agente viene chiamato \textbf{Agente
+	Risolutore di Problemi} (\emph{Problem Solving Agent}). Gli agenti risolutori di
+	problemi utilizzano rappresentazioni \textbf{atomiche} degli stati, i quali vengono
+	considerati come entit\`a prive di una struttura interna.
+
+	I Problem Solving Agents sono in particolare una sottocategoria dei Goal-Based
+	Agents. Per decidere quale azione intraprendere, questi agenti adottano un approccio
+	sistematico sequenziale basato sulla formulazione di problemi, determinazione
+	di obiettivi e sulla ricerca di soluzioni. Tale processo si divide in quattro macro-fasi:
+	\begin{enumerate}
+		\item \textbf{Formulazione dell'obiettivo (\emph{Goal Formulation})}: dato lo
+			stato corrente dell'ambiente, l'agente definisce una situazione
+			desiderabile (l'obiettivo) da raggiungere.
+
+		\item \textbf{Formulazione del problema (\emph{Problem Formulation})}: l'agente
+			decide quali stati e quali azioni prendere in considerazione per
+			raggiungere tale obiettivo.
+
+		\item \textbf{Ricerca (\emph{Search})}: l'agente esplora lo spazio degli stati
+			simulando diverse sequenze di azioni nel proprio modello interno, fino a
+			trovare una soluzione valida (una sequenza di mosse che porta all'obiettivo).
+
+		\item \textbf{Esecuzione (\emph{Execution})}: l'agente esegue, una alla
+			volta, le azioni previste dalla soluzione trovata, ignorando le percezioni.
+	\end{enumerate}
+	Notare come la risoluzione del problema in questo caso \`e di tipo \textbf{offline}:
+	la soluzione viene eseguita a ``occhi chiusi'' (come detto prima, si ignorano le
+	percezioni).
+
+	\begin{nota}
+		{Differenza}{Online vs Offline Problem Solving} A differenza della tecnica
+		offline, la quale pu\`o essere usata in ambienti completamente deterministici
+		e osservabili, la \textbf{Online Problem Solving} prevede che l'agente agisca
+		in condizioni di parziale ignoranza, dove la conoscenza sull'ambiente non \`e
+		completa. Pertanto \`e indispensabile che i sensori rimangano attivi per valutare
+		l'esito delle proprie azioni.
+	\end{nota}
+
+    Di seguito un'implementazione di un programma agente per un Problem Solving Agent che procede 
+    alla risoluzione di un problema mediante ricerca nello spazio degli stati.
+
+% \begin{noindent}
+\begin{codice}
+[Simple Problem-Solving Agent]
+function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
+    persistent:
+        seq         // sequenza di azioni, inizialmente vuota
+        stato       // descrizione dello stato corrente del mondo
+        obiettivo   // un obiettivo, inizialmente nullo
+        problema    // la formulazione del problema
+
+    stato ← AGGIORNA-STATO(stato, percezione)
+    if seq è vuota then // la prima volta che si esegue
+        obiettivo ← FORMULA-OBIETTIVO(stato) // che si vuole raggiungere
+        problema ← FORMULA-PROBLEMA(stato, obiettivo) 
+        seq ← RICERCA(problema)
+        if seq = failure then return null
+    azione ← PRIMO(seq)
+    seq ← RESTO(seq)
+    return azione
+\end{codice}
+% \end{noindent}
+
+    Da notare come l'agente sceglie cosa fare \textbf{solamente} all'inizio e poi continua, ignorando
+    completamente le percezioni.
+
+    \section{Come Formulare un Problema}
+    \subsection{Problema: Vacanze in Romania (con un M5 e39)}
+    Ci troviamo in Romania e dobbiamo andare a Bucarest per poi prendere l'aereo e tornare a casa.
+    Attualmente ci troviamo ad Arad. Vogliamo trovare la serie di citt\`a da attraversare per 
+    giungere a Bucarest.
+    Dobbiamo individuare un corretto livello di astrazione, ma ragionevolmente si procede nel
+    seguente modo:
+    \begin{itemize}
+        \item \textbf{Obiettivo}: andare a Bucarest
+        \item \textbf{Formulazione del problema}
+            \begin{enumerate}
+                \item \textbf{states}: le diverse citt\`a
+                \item \textbf{actions}: guidare per attraversare le citt\`a 
+            \end{enumerate}
+        \item \textbf{Soluzione da Individuare}: sequenza di citt\`a da attraversare per 
+            arrivare a Bucarest
+    \end{itemize}
+
+    Fin da subito \`e possibile mettere in discussione il livello di deterministicit\`a del problema.
+    A causa di agenti esterni (incidenti, lavori) si potrebbe essere dirottati su citt\`a non scelte.
+    Tali supposizioni vengono inizialmente ignorate. 
+    In questo caso vogliamo trovare \textbf{una} soluzione: non \`e detto che quella trovata sia a costo
+    minimo.
+    %TODO: importare immagine grafo topologico ROMANIA
+
+    Cerchiamo di proporre una formulazione di tale quesito mediante Single-State problem. Allora si 
+    individuano i seguenti elementi:
+    \begin{enumerate}
+        \item \textbf{Stato Iniziale}: la citt\`a di partenza.
+
+        \item \textbf{Successor Function} che assume la seguente forma: $f : S \times A \rightarrow S$.
+            Si mappa uno stato e un'azione in un altro stato. 
+
+            \emph{Esempio}: $S(A) = \{<Arad \rightarrow Zerind, Zerind>, \hdots \}$
+
+        \item \textbf{Goal Test} che pu\`o essere di due nature diverse:
+            \begin{enumerate}
+                \item esplicito: la citt\`a di destinazione (Bucarest). Lo stato in cui ci si deve
+                    trovare affinch\'e il problema possa considerarsi risolto.
+
+                \item implicito: una feature che descrive pi\`u di uno stato.
+            \end{enumerate}
+
+        \item \textbf{Path Cost}: Non sempre si desidera trovare una soluzione qualunque. 
+            Potrebbe essere utile trovare quella a costo minimo. Nel nostro esempio corrisponde ad una
+            metrica che indica il costo di un percorso (il costo espresso sugli archi).
+            Il path cost \`e un processo additivo in cui vengono sommati gli \textbf{step cost}, 
+            funzioni del tipo $STEP\_COST = S \times A \times S \rightarrow \mathbb{R}^+$.
+        \item \textbf{Soluzione}: sequenza di azioni che porta dallo stato iniziale a uno dei goal-state.
+    \end{enumerate}
+
+    \section{Tree-Search Algorithm}
+    L'idea di base \`e fare un'esplorazione simulata e offline (essendo un single state problem)
+    le percezioni vengono ignorate. Concettualmente l'agente ragiona, individua una sequenza di
+    azioni e procede a eseguirla. Pertanto si generano dei successori degli stati usando 
+    regole che si conoscono del mondo.
+
+% \begin{noindent}
+\begin{codice}
+[Tree-Search Algorithm]
+function TREE-SEARCH(problema, strategia) returns una soluzione, o failure
+    inizializza l'albero di ricerca usando lo stato iniziale del problema
+
+    loop do
+        if nessun candidato per l'espansione then return failure
+        scelgo uno dei nodi per l'espansione seguendo la strategia
+        if nodo contiene un goal-state then return soluzione
+        else aggiungi il nodo successore al search tree (e espando)
+    end
+\end{codice}
+% \end{noindent}
+
+	\subsection{Stati vs Nodi}
+	Nell'albero di ricerca \`e importante distinguere due concetti che a prima vista
+	possono sembrare equivalenti:
+	\begin{itemize}
+		\item uno \textbf{stato} \`e la rappresentazione di una configurazione fisica del
+			mondo: descrive \emph{dove} si trova l'agente (ad esempio, ``sono ad Arad'');
+
+		\item un \textbf{nodo} \`e una \textbf{struttura dati} che costituisce parte
+			dell'albero di ricerca: oltre allo stato a cui corrisponde, memorizza
+			\emph{come} ci si \`e arrivati.
+	\end{itemize}
+
+	I campi di un nodo sono:
+	\begin{table}[H]
+		\centering
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{@{}l X@{}}
+			\toprule
+			\textbf{State} & lo stato del mondo a cui corrisponde il nodo \\
+			\textbf{Parent} & il nodo da cui \`e stato generato \\
+			\textbf{Action} & l'azione applicata al padre per generare il nodo \\
+			\textbf{Children} & i nodi generati espandendo il nodo \\
+			\textbf{Depth} & il numero di passi dalla radice \\
+			\textbf{Path cost} $g(x)$ & il costo del cammino dalla radice fino al nodo \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	\begin{nota}
+		{Differenza}{Stato vs Nodo}
+		Gli stati \textbf{non} hanno padre, azioni, figli, profondit\`a o costo di
+		cammino: queste informazioni dipendono dal \emph{percorso} seguito e non dal
+		mondo. Per questo lo \textbf{stesso stato} pu\`o comparire in \textbf{pi\`u
+		nodi diversi} dell'albero di ricerca.
+	\end{nota}
+
+	\emph{Esempio}: nel problema della Romania, lo stato ``sono a Sibiu'' pu\`o essere
+	raggiunto:
+	\begin{itemize}
+		\item direttamente da Arad: profondit\`a 1, $g = 140$;
+
+		\item passando per Arad $\rightarrow$ Zerind $\rightarrow$ Oradea $\rightarrow$
+			Sibiu: \\ profondit\`a 3, ${g = 75 + 71 + 151 = 297}$.
+	\end{itemize}
+	Si ottengono quindi due nodi distinti, con padre, profondit\`a e costo diversi, che
+	contengono per\`o lo stesso stato. In sintesi: lo stato indica \emph{dove} si trova
+	l'agente, il nodo indica anche \emph{come} ci \`e arrivato.
+
+\end{document}
