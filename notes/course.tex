@@ -60,9 +60,9 @@ Scale=MatchLowercase
 	Intelligence'' in cui viene proposto un esperimento per determinare se una
 	macchina pu\`o essere considerata dotata di intelligenza. Tale esperimento,
 	noto come \emph{Test di Turing}, coinvolge un interrogatore umano che comunica
-	con due entit\`a nascoste: una \textbf{macchina} e un \textbf{essere umano}. L'interrogatore
-	sottopone domande ad entrambe le entit\`a e, basandosi sulle risposte fornite,
-	deve determinare quale delle due \`e la macchina. Se l'interrogatore non \`e in
+	con due entit\`a nascoste: una \textbf{macchina} e un \textbf{essere umano}. 
+    L'interrogatore sottopone domande ad entrambe le entit\`a e, basandosi sulle risposte 
+    fornite, deve determinare quale delle due \`e la macchina. Se l'interrogatore non \`e in
 	grado di distinguere le due parti, la macchina \`e considerata intelligente.
 
 	In seguito l'attenzione si \`e spostata sulla ricerca di metodi utili per
@@ -164,15 +164,16 @@ Scale=MatchLowercase
 
 	\begin{nota}
 		{Differenza}{Intelligent Agents vs Autonomous Agents} I due concetti si
-		sovrappongono in gran parte, ma pongono l'accento su aspetti diversi. L'\textbf{intelligenza}
-		riguarda la \emph{qualit\`a delle decisioni}: un agente \`e intelligente (razionale)
-		se sceglie le azioni che massimizzano la performance measure attesa. L'\textbf{autonomia}
+		sovrappongono in gran parte, ma pongono l'accento su aspetti diversi. 
+        L'\textbf{intelligenza} riguarda la \emph{qualit\`a delle decisioni}: un 
+        agente \`e intelligente (razionale) se sceglie le azioni che massimizzano 
+        la performance measure attesa. L'\textbf{autonomia}
 		riguarda invece \emph{quanto l'agente dipende dal progettista}: un agente \`e
 		autonomo nella misura in cui il suo comportamento si basa sulla propria esperienza
 		(percezioni e apprendimento) anzich\'e solo sulla conoscenza inserita a priori,
-		e opera senza un intervento umano continuo. Le due propriet\`a sono quindi indipendenti:
-		un termostato con regole fisse \`e un agente ma non \`e autonomo, mentre un'auto
-		a guida autonoma che impara e si adatta a situazioni nuove \`e sia
+		e opera senza un intervento umano continuo. Le due propriet\`a sono quindi 
+        indipendenti: un termostato con regole fisse \`e un agente ma non \`e autonomo, 
+        mentre un'auto a guida autonoma che impara e si adatta a situazioni nuove \`e sia
 		intelligente sia autonoma.
 	\end{nota}
 
@@ -187,8 +188,8 @@ Scale=MatchLowercase
 		\item \textbf{Actions}: insieme $A$ delle azioni che l'agente pu\`o intraprendere
 
 		\item \textbf{Transition model}: effetto che le azioni hanno sull'ambiente.
-			Poich\'e gli effetti potrebbero essere incerti, il modello assegna una probabilit\`a
-			a ogni possibile stato successivo
+			Poich\'e gli effetti potrebbero essere incerti, il modello assegna 
+            una probabilit\`a a ogni possibile stato successivo
 			\begin{displaymath}
 				\text{T}(s, a, s') = P(s' \mid s, a)
 			\end{displaymath}
@@ -257,7 +258,8 @@ Scale=MatchLowercase
 			font=\sffamily,
 			thick,
 			box/.style={draw, rounded corners=15pt, minimum height=7.5cm, fill=gray!10},
-			blackbox/.style={draw, fill=black, text=white, minimum size=2.2cm, font=\Huge\bfseries}
+			blackbox/.style={draw, fill=black, text=white, minimum size=2.2cm, 
+            font=\Huge\bfseries}
 		]
 			% 1. Nodi centrali
 			\node[blackbox] (brain) {?};
@@ -328,8 +330,8 @@ Scale=MatchLowercase
 	agente}.
 	\begin{nota}
 		{Differenza}{Programma Agente vs Funzione Agente} Mentre la funzione agente
-		\`e una descrizione matematica astratta, il programma agente \`e una sua implementazione
-		fisica concreta, in esecuzione all'interno del sistema fisico.
+		\`e una descrizione matematica astratta, il programma agente \`e una sua 
+        implementazione fisica concreta, in esecuzione all'interno del sistema fisico.
 	\end{nota}
 	\emph{Esempio}: Un mondo dell'aspirapolvere con due sole posizioni. Ogni posizione
 	pu\`o essere pulita o sporca, l'agente pu\`o andare a sinistra o a destra e pu\`o
@@ -448,9 +450,9 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 			ma la stanza B non viene mai coperta, generando un'inattivit\`a pari a 1.
 
 		\item \textbf{Seconda strategia (Vettore di inattivit\`a $[1/2, 1/2, 0]$):}
-			Si decide di muovere soltanto il primo robot ($r_{1}$), che si sposter\`a continuamente
-			da A a B e viceversa, mentre $r_{2}$ resta fermo in C. In questo scenario,
-			le stanze A e B rimangono scoperte per met\`a del tempo.
+			Si decide di muovere soltanto il primo robot ($r_{1}$), che si 
+            sposter\`a continuamente da A a B e viceversa, mentre $r_{2}$ resta fermo
+            in C. In questo scenario, le stanze A e B rimangono scoperte per met\`a del tempo.
 
 		\item \textbf{Terza strategia (Vettore di inattivit\`a $[1/4, 1/2, 1/4]$):}
 			Questa strategia consente di far giocare un ruolo attivo anche al secondo
@@ -577,7 +579,8 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 
 		\item \textbf{Spazio degli stati sconosciuto} $\implies$ \textbf{problema di
 			esplorazione} (\textit{online}). \\L'agente deve scoprire gli stati e le
-			transizioni interagendo direttamente con l'ambiente per capire come funziona il problema.
+			transizioni interagendo direttamente con l'ambiente per capire come funziona 
+            il problema.
 	\end{itemize}
 
 	\section{Programma Agente}
@@ -618,14 +621,15 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 			font=\sffamily\small,
 			>={Stealth[length=2.5mm]},
 			box/.style={draw, thick, align=center, minimum width=3.2cm, minimum height=1cm},
-			regole/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, inner xsep=8pt}
+			regole/.style={draw, thick, rounded corners=8pt, 
+            minimum height=0.6cm, inner xsep=8pt}
 		]
 			% Elementi interni all'agente
-			\node                (sensori)   at (0,0)                    {sensori};
-			\node[box]           (mondo)     [below=0.6cm of sensori]    {aspetto corrente\\ del mondo};
-			\node[box]           (azione)    [below=1.8cm of mondo]      {azione da\\ eseguire adesso};
-			\node[regole]        (reg)       [left=1.0cm of azione]      {regole condizione-azione};
-			\node                (attuatori) [below=0.6cm of azione]     {attuatori};
+			\node (sensori)   at (0,0)                    {sensori};
+			\node[box] (mondo)     [below=0.6cm of sensori]    {aspetto corrente\\ del mondo};
+			\node[box] (azione)    [below=1.8cm of mondo]      {azione da\\ eseguire adesso};
+			\node[regole] (reg)    [left=1.0cm of azione]      {regole condizione-azione};
+			\node  (attuatori)     [below=0.6cm of azione]     {attuatori};
 
 			% Riquadro agente
 			\draw[thick, rounded corners=15pt] (-7,0.6) rectangle (2,-6.3);
@@ -695,19 +699,21 @@ function AGENTE-REATTIVO-SEMPLICE(percezione) returns azione
 			font=\sffamily\small,
 			>={Stealth[length=2.5mm]},
 			box/.style={draw, thick, align=center, minimum width=3.2cm, minimum height=1cm},
-			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, inner xsep=8pt}
+			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, 
+            inner xsep=8pt}
 		]
 			% Elementi interni all'agente
-			\node                (sensori)   at (0,0)                    {sensori};
-			\node[box]           (mondo)     [below=0.6cm of sensori]    {aspetto corrente\\ del mondo};
-			\node[box]           (azione)    [below=2cm of mondo]        {azione da\\ eseguire adesso};
-			\node                (attuatori) [below=0.6cm of azione]     {attuatori};
+			\node (sensori)   at (0,0)                    {sensori};
+			\node[box] (mondo)     [below=0.6cm of sensori]    {aspetto corrente\\ del mondo};
+			\node[box](azione)    [below=2cm of mondo]        {azione da\\ eseguire adesso};
+			\node (attuatori) [below=0.6cm of azione]     {attuatori};
 
 			% Elementi con bordi smussati
-			\node[tondo, anchor=east] (stato)  at (-3.2,-0.5)                {stato};
-			\node[tondo, anchor=east] (evolve) at (-2.6,-1.3)                {come evolve il mondo};
-			\node[tondo, anchor=east] (cosa)   at (-2.6,-2.4)                {cosa fanno le mie azioni};
-			\node[tondo, anchor=east] (regole) at ([xshift=-1cm]azione.west) {regole condizione-azione};
+			\node[tondo, anchor=east] (stato)  at (-3.2,-0.5) {stato};
+			\node[tondo, anchor=east] (evolve) at (-2.6,-1.3) {come evolve il mondo};
+			\node[tondo, anchor=east] (cosa)   at (-2.6,-2.4){cosa fanno le mie azioni};
+			\node[tondo, anchor=east] (regole) at ([xshift=-1cm]azione.west) 
+            {regole condizione-azione};
 
 			% Riquadro agente
 			\draw[thick, rounded corners=15pt] (-7,0.6) rectangle (2,-6.3);
@@ -795,9 +801,9 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	prestazione esterna concordino, un agente che sceglie le azioni per massimizzare
 	l'utilit\`a sar\`a comunque razionale in base alla misura di prestazione esterna.
 
-	Si sottolinea che questo non \`e l'unico modo per essere razionali: l'esempio sull'aspirapolvere
-	mostra la modellazione di un comportamento razionale senza introdurre obiettivi
-	o funzioni di utilit\`a. Ma anche in questo caso i vantaggi sono
+	Si sottolinea che questo non \`e l'unico modo per essere razionali: l'esempio 
+    sull'aspirapolvere mostra la modellazione di un comportamento razionale senza 
+    introdurre obiettivi o funzioni di utilit\`a. Ma anche in questo caso i vantaggi sono
 	principalmente in termini di flessibilit\`a, soprattutto in contesti in cui \`e
 	necessario prendere decisioni in condizioni d'incertezza.
 
@@ -835,10 +841,11 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 		complessiva del comportamento dell'agente: l'agente non ha necessariamente accesso
 		diretto a essa.
 
-		La funzione di utilit\`a \`e invece \textbf{interna} all'agente: \`e l'internalizzazione
-		della performance measure, costruita dal progettista in modo che le due
-		siano allineate. L'agente la usa per assegnare un valore a ogni possibile stato
-		del mondo e, in condizioni di incertezza, sceglie l'azione che massimizza l'utilit\`a
+		La funzione di utilit\`a \`e invece \textbf{interna} all'agente: \`e 
+        l'internalizzazione della performance measure, costruita dal progettista in 
+        modo che le due siano allineate. L'agente la usa per assegnare un 
+        valore a ogni possibile stato del mondo e, in condizioni di incertezza, 
+        sceglie l'azione che massimizza l'utilit\`a
 		attesa. Se la funzione di utilit\`a non rispecchia fedelmente la performance
 		measure, l'agente pu\`o massimizzarla e comportarsi comunque in modo non razionale
 		rispetto al criterio esterno.
@@ -852,23 +859,30 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 			font=\sffamily\small,
 			>={Stealth[length=2.5mm]},
 			box/.style={draw, thick, align=center, minimum width=3.9cm, minimum height=1cm},
-			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, inner xsep=8pt}
+			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, 
+            inner xsep=8pt}
 		]
 			% Elementi interni all'agente
-			\node                (sensori)     at (0,0.2)                     {sensori};
-			\node[box]           (mondo)       [below=0.3cm of sensori]       {aspetto corrente\\ del mondo};
-			\node[box]           (conseguenze) [below=0.3cm of mondo]         {come cambier\`a il mondo \\ se eseguo l'azione A};
-			\node[box]           (utile)       [below=0.6cm of conseguenze]   {quanto sar\`o contento \\ in uno stato simile};
-			\node[box]           (azione)      [below=0.6cm of utile]         {azione da \\ eseguire adesso};
-			\node                (attuatori)   [below=0.4cm of azione]        {attuatori};
+			\node (sensori)     at (0,0.2)                     {sensori};
+			\node[box] (mondo)       [below=0.3cm of sensori]  {aspetto corrente\\ del mondo};
+			\node[box] (conseguenze) [below=0.3cm of mondo] 
+            {come cambier\`a il mondo \\ se eseguo l'azione A};
+			
+            \node[box] (utile)       [below=0.6cm of conseguenze]   
+            {quanto sar\`o contento \\ in uno stato simile};
+			
+            \node[box] (azione)      [below=0.6cm of utile]         
+            {azione da \\ eseguire adesso};
+			
+            \node (attuatori)        [below=0.4cm of azione]        {attuatori};
 
 			% Fondo dei riquadri, calcolato in base agli attuatori
 			\coordinate (fondo) at ([yshift=-3mm]attuatori.south);
 
 			% Elementi con bordi smussati
-			\node[tondo, anchor=east] (stato)  at (-3.2,-0.5)               {stato};
-			\node[tondo, anchor=east] (evolve) at (-2.6,-1.3)               {come evolve il mondo};
-			\node[tondo, anchor=east] (cosa)   at (-2.6,-2.4)               {cosa fanno le mie azioni};
+			\node[tondo, anchor=east] (stato)  at (-3.2,-0.5) {stato};
+			\node[tondo, anchor=east] (evolve) at (-2.6,-1.3) {come evolve il mondo};
+			\node[tondo, anchor=east] (cosa)   at (-2.6,-2.4) {cosa fanno le mie azioni};
 			\node[tondo, anchor=east] (regole) at ([xshift=-1cm]utile.west) {utilit\`a};
 
 			% Frecce della colonna centrale
@@ -910,7 +924,8 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 
 	\section{Problem Solving Agents}
 	Quando l'azione da svolgere non \`e subito evidente, un agente potrebbe avere
-	la necessit\`a di guardare avanti, cio\`e considerare una sequenza di azioni (\emph{cammino})
+	la necessit\`a di guardare avanti, cio\`e considerare una sequenza di azioni 
+    (\emph{cammino})
 	che porta a uno stato obiettivo. Questo tipo di agente viene chiamato \textbf{Agente
 	Risolutore di Problemi} (\emph{Problem Solving Agent}). Gli agenti risolutori di
 	problemi utilizzano rappresentazioni \textbf{atomiche} degli stati, i quali vengono
@@ -949,7 +964,8 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 		l'esito delle proprie azioni.
 	\end{nota}
 
-    Di seguito un'implementazione di un programma agente per un Problem Solving Agent che procede 
+    Di seguito un'implementazione di un programma agente per un Problem Solving Agent
+    che procede 
     alla risoluzione di un problema mediante ricerca nello spazio degli stati.
 
 % \begin{noindent}
@@ -974,12 +990,13 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
 \end{codice}
 % \end{noindent}
 
-    Da notare come l'agente sceglie cosa fare \textbf{solamente} all'inizio e poi continua, ignorando
-    completamente le percezioni.
+    Da notare come l'agente sceglie cosa fare \textbf{solamente} all'inizio e poi 
+    continua, ignorando completamente le percezioni.
 
     \section{Come Formulare un Problema}
     \subsection{Problema: Vacanze in Romania (con un M5 e39)}
-    Ci troviamo in Romania e dobbiamo andare a Bucarest per poi prendere l'aereo e tornare a casa.
+    Ci troviamo in Romania e dobbiamo andare a Bucarest per poi prendere l'aereo 
+    e tornare a casa.
     Attualmente ci troviamo ad Arad. Vogliamo trovare la serie di citt\`a da attraversare per 
     giungere a Bucarest.
     Dobbiamo individuare un corretto livello di astrazione, ma ragionevolmente si procede nel
@@ -995,41 +1012,47 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
             arrivare a Bucarest
     \end{itemize}
 
-    Fin da subito \`e possibile mettere in discussione il livello di deterministicit\`a del problema.
-    A causa di agenti esterni (incidenti, lavori) si potrebbe essere dirottati su citt\`a non scelte.
-    Tali supposizioni vengono inizialmente ignorate. 
-    In questo caso vogliamo trovare \textbf{una} soluzione: non \`e detto che quella trovata sia a costo
-    minimo.
+    Fin da subito \`e possibile mettere in discussione il livello di deterministicit\`a 
+    del problema. A causa di agenti esterni (incidenti, lavori) si potrebbe 
+    essere dirottati su citt\`a non scelte. Tali supposizioni vengono inizialmente ignorate. 
+    In questo caso vogliamo trovare \textbf{una} soluzione: non \`e detto che quella 
+    trovata sia a costo minimo.
     %TODO: importare immagine grafo topologico ROMANIA
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{images/romania_mappa}
+    \end{center}
 
-    Cerchiamo di proporre una formulazione di tale quesito mediante Single-State problem. Allora si 
-    individuano i seguenti elementi:
+    Cerchiamo di proporre una formulazione di tale quesito mediante Single-State problem. 
+    Allora si individuano i seguenti elementi:
     \begin{enumerate}
         \item \textbf{Stato Iniziale}: la citt\`a di partenza.
 
-        \item \textbf{Successor Function} che assume la seguente forma: $f : S \times A \rightarrow S$.
+        \item \textbf{Successor Function} che assume la seguente forma: 
+            $f : S \times A \rightarrow S$.
             Si mappa uno stato e un'azione in un altro stato. 
-
             \emph{Esempio}: $S(A) = \{<Arad \rightarrow Zerind, Zerind>, \hdots \}$
 
         \item \textbf{Goal Test} che pu\`o essere di due nature diverse:
             \begin{enumerate}
-                \item esplicito: la citt\`a di destinazione (Bucarest). Lo stato in cui ci si deve
-                    trovare affinch\'e il problema possa considerarsi risolto.
+                \item esplicito: la citt\`a di destinazione (Bucarest). Lo stato in cui 
+                    ci si deve trovare affinch\'e il problema possa considerarsi risolto.
 
                 \item implicito: una feature che descrive pi\`u di uno stato.
             \end{enumerate}
 
         \item \textbf{Path Cost}: Non sempre si desidera trovare una soluzione qualunque. 
-            Potrebbe essere utile trovare quella a costo minimo. Nel nostro esempio corrisponde ad una
-            metrica che indica il costo di un percorso (il costo espresso sugli archi).
-            Il path cost \`e un processo additivo in cui vengono sommati gli \textbf{step cost}, 
+            Potrebbe essere utile trovare quella a costo minimo. Nel nostro esempio 
+            corrisponde ad una metrica che indica il costo di un percorso 
+            (il costo espresso sugli archi). Il path cost \`e un processo additivo in 
+            cui vengono sommati gli \textbf{step cost}, 
             funzioni del tipo $STEP\_COST = S \times A \times S \rightarrow \mathbb{R}^+$.
-        \item \textbf{Soluzione}: sequenza di azioni che porta dallo stato iniziale a uno dei goal-state.
+        \item \textbf{Soluzione}: sequenza di azioni che porta dallo stato iniziale a 
+            uno dei goal-state.
     \end{enumerate}
 
     \section{Tree-Search Algorithm}
-    L'idea di base \`e fare un'esplorazione simulata e offline (essendo un single state problem)
+    L'idea di base \`e fare un'esplorazione simulata e offline 
+    (essendo un single state problem)
     le percezioni vengono ignorate. Concettualmente l'agente ragiona, individua una sequenza di
     azioni e procede a eseguirla. Pertanto si generano dei successori degli stati usando 
     regole che si conoscono del mondo.
