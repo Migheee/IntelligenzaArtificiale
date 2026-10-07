@@ -21,7 +21,7 @@
 \usetikzlibrary{positioning, fit, arrows.meta, backgrounds}
 \defaultfontfeatures{} % XCharter imposta Extension=.otf: va resettato
 \setmonofont{JetBrainsMono Nerd Font}[
-Scale=MatchLowercase
+    Scale=MatchLowercase
 ]
 
 \definecolor{defborder}{HTML}{1F3FA8}
@@ -33,17 +33,87 @@ Scale=MatchLowercase
 \definecolor{codeborder}{HTML}{707070}
 \definecolor{codeback}{HTML}{F0F0F0}
 
-\newtcolorbox{definizione}[1][Definizione]{ breakable, enhanced, sharp corners, boxrule=0.6pt, colframe=defborder, colback=defback, title=#1, fonttitle=\bfseries, coltitle=defborder, attach title to upper={\par\smallskip}, before skip=12pt, after skip=12pt, boxsep=6pt }
+\newtcolorbox{definizione}[1][Definizione]{
+    breakable,
+    enhanced,
+    sharp corners,
+    boxrule=0.6pt,
+    colframe=defborder,
+    colback=defback,
+    title=#1,
+    fonttitle=\bfseries,
+    coltitle=defborder,
+    attach title to upper={\par\smallskip},
+    before skip=12pt,
+    after skip=12pt,
+    boxsep=6pt
+}
 
-\newtcolorbox{nota}[2]{ enhanced, sharp corners, boxrule=0.6pt, colframe=notaborder, colback=notaback, title={#1 -- #2}, fonttitle=\bfseries, coltitle=notaborder, attach title to upper={\par\smallskip}, before skip=12pt, after skip=12pt, boxsep=6pt }
+\newtcolorbox{nota}[2]{
+    enhanced,
+    sharp corners,
+    boxrule=0.6pt,
+    colframe=notaborder,
+    colback=notaback,
+    title={#1 -- #2},
+    fonttitle=\bfseries,
+    coltitle=notaborder,
+    attach title to upper={\par\smallskip},
+    before skip=12pt,
+    after skip=12pt,
+    boxsep=6pt
+}
 
 \definecolor{codekeyword}{HTML}{1F3FA8}
 \definecolor{codecomment}{HTML}{6A737D}
 \definecolor{codestring}{HTML}{A31515}
 
-\lstdefinelanguage{pseudo}{ morekeywords={function, end, returns, return, if, then, else, while, do, for, each, in, loop, repeat, until, persistent, static, local, and, or, not, true, false, null, failure}, sensitive=true, alsoletter={-}, morecomment=[l]{//}, morestring=[b]" }
+\lstdefinelanguage{pseudo}{
+    morekeywords={function, end, returns, return, if, then, else, while, do,
+        for, each, in, loop, repeat, until, persistent, static, local, and,
+        or, not, true, false, null, failure},
+    sensitive=true,
+    alsoletter={-},
+    morecomment=[l]{//},
+    morestring=[b]"
+}
 
-\newtcblisting{codice}[1][Codice]{ breakable, enhanced, sharp corners, boxrule=0.6pt, colframe=codeborder, colback=codeback, title=#1, fonttitle=\bfseries, coltitle=codeborder, attach title to upper={\par\smallskip}, before skip=12pt, after skip=12pt, boxsep=4pt, left=4pt, right=4pt, grow to left by=1cm, grow to right by=1cm, listing only, listing options={ language=pseudo, basicstyle=\ttfamily\footnotesize, keywordstyle=\color{codekeyword}\bfseries, commentstyle=\color{codecomment}\itshape, stringstyle=\color{codestring}, breaklines=true, breakatwhitespace=true, breakautoindent=true, breakindent=2em, postbreak=\mbox{\textcolor{codecomment}{$\hookrightarrow$}\space}, tabsize=4, columns=fullflexible, keepspaces=true } }
+\newtcblisting{codice}[1][Codice]{
+    breakable,
+    enhanced,
+    sharp corners,
+    boxrule=0.6pt,
+    colframe=codeborder,
+    colback=codeback,
+    title=#1,
+    fonttitle=\bfseries,
+    coltitle=codeborder,
+    attach title to upper={\par\smallskip},
+    before skip=12pt,
+    after skip=12pt,
+    boxsep=4pt,
+    left=4pt,
+    right=4pt,
+    grow to left by=1cm,
+    grow to right by=1cm,
+    listing only,
+    listing options={
+        language=pseudo,
+        basicstyle=\ttfamily\footnotesize,
+        keywordstyle=\color{codekeyword}\bfseries,
+        commentstyle=\color{codecomment}\itshape,
+        stringstyle=\color{codestring},
+        breaklines=true,
+        breakatwhitespace=true,
+        breakautoindent=true,
+        breakindent=2em,
+        postbreak=\mbox{\textcolor{codecomment}{$\hookrightarrow$}\space},
+        tabsize=4,
+        columns=fullflexible,
+        keepspaces=true,
+        literate={<-}{{←}}1 {->}{{→}}1 {<=}{{≤}}1 {>=}{{≥}}1 {!=}{{≠}}1
+    }
+}
 
 \title{Intelligenza Artificiale}
 \author{Michele Castenedoli}
@@ -60,9 +130,9 @@ Scale=MatchLowercase
 	Intelligence'' in cui viene proposto un esperimento per determinare se una
 	macchina pu\`o essere considerata dotata di intelligenza. Tale esperimento,
 	noto come \emph{Test di Turing}, coinvolge un interrogatore umano che comunica
-	con due entit\`a nascoste: una \textbf{macchina} e un \textbf{essere umano}. 
-    L'interrogatore sottopone domande a entrambe le entit\`a e, basandosi sulle risposte 
-    fornite, deve determinare quale delle due \`e la macchina. Se l'interrogatore non \`e in
+	con due entit\`a nascoste: una \textbf{macchina} e un \textbf{essere umano}.
+	L'interrogatore sottopone domande a entrambe le entit\`a e, basandosi sulle risposte
+	fornite, deve determinare quale delle due \`e la macchina. Se l'interrogatore non \`e in
 	grado di distinguere le due parti, la macchina \`e considerata intelligente.
 
 	In seguito l'attenzione si \`e spostata sulla ricerca di metodi utili per
@@ -164,16 +234,16 @@ Scale=MatchLowercase
 
 	\begin{nota}
 		{Differenza}{Intelligent Agents vs Autonomous Agents} I due concetti si
-		sovrappongono in gran parte, ma pongono l'accento su aspetti diversi. 
-        L'\textbf{intelligenza} riguarda la \emph{qualit\`a delle decisioni}: un 
-        agente \`e intelligente (razionale) se sceglie le azioni che massimizzano 
-        la performance measure attesa. L'\textbf{autonomia}
+		sovrappongono in gran parte, ma pongono l'accento su aspetti diversi.
+		L'\textbf{intelligenza} riguarda la \emph{qualit\`a delle decisioni}: un
+		agente \`e intelligente (razionale) se sceglie le azioni che massimizzano
+		la performance measure attesa. L'\textbf{autonomia}
 		riguarda invece \emph{quanto l'agente dipende dal progettista}: un agente \`e
 		autonomo nella misura in cui il suo comportamento si basa sulla propria esperienza
 		(percezioni e apprendimento) anzich\'e solo sulla conoscenza inserita a priori,
-		e opera senza un intervento umano continuo. Le due propriet\`a sono quindi 
-        indipendenti: un termostato con regole fisse \`e un agente ma non \`e autonomo, 
-        mentre un'auto a guida autonoma che impara e si adatta a situazioni nuove \`e sia
+		e opera senza un intervento umano continuo. Le due propriet\`a sono quindi
+		indipendenti: un termostato con regole fisse \`e un agente ma non \`e autonomo,
+		mentre un'auto a guida autonoma che impara e si adatta a situazioni nuove \`e sia
 		intelligente sia autonoma.
 	\end{nota}
 
@@ -188,8 +258,8 @@ Scale=MatchLowercase
 		\item \textbf{Actions}: insieme $A$ delle azioni che l'agente pu\`o intraprendere
 
 		\item \textbf{Transition model}: effetto che le azioni hanno sull'ambiente.
-			Poich\'e gli effetti potrebbero essere incerti, il modello assegna 
-            una probabilit\`a a ogni possibile stato successivo
+			Poich\'e gli effetti potrebbero essere incerti, il modello assegna
+			una probabilit\`a a ogni possibile stato successivo
 			\begin{displaymath}
 				\text{T}(s, a, s') = P(s' \mid s, a)
 			\end{displaymath}
@@ -258,8 +328,8 @@ Scale=MatchLowercase
 			font=\sffamily,
 			thick,
 			box/.style={draw, rounded corners=15pt, minimum height=7.5cm, fill=gray!10},
-			blackbox/.style={draw, fill=black, text=white, minimum size=2.2cm, 
-            font=\Huge\bfseries}
+			blackbox/.style={draw, fill=black, text=white, minimum size=2.2cm,
+			font=\Huge\bfseries}
 		]
 			% 1. Nodi centrali
 			\node[blackbox] (brain) {?};
@@ -330,8 +400,8 @@ Scale=MatchLowercase
 	agente}.
 	\begin{nota}
 		{Differenza}{Programma Agente vs Funzione Agente} Mentre la funzione agente
-		\`e una descrizione matematica astratta, il programma agente \`e una sua 
-        implementazione fisica concreta, in esecuzione all'interno del sistema fisico.
+		\`e una descrizione matematica astratta, il programma agente \`e una sua
+		implementazione fisica concreta, in esecuzione all'interno del sistema fisico.
 	\end{nota}
 	\emph{Esempio}: Un mondo dell'aspirapolvere con due sole posizioni. Ogni posizione
 	pu\`o essere pulita o sporca, l'agente pu\`o andare a sinistra o a destra e pu\`o
@@ -450,9 +520,9 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 			ma la stanza B non viene mai coperta, generando un'inattivit\`a pari a 1.
 
 		\item \textbf{Seconda strategia (Vettore di inattivit\`a $[1/2, 1/2, 0]$):}
-			Si decide di muovere soltanto il primo robot ($r_{1}$), che si 
-            sposter\`a continuamente da A a B e viceversa, mentre $r_{2}$ resta fermo
-            in C. In questo scenario, le stanze A e B rimangono scoperte per met\`a del tempo.
+			Si decide di muovere soltanto il primo robot ($r_{1}$), che si
+			sposter\`a continuamente da A a B e viceversa, mentre $r_{2}$ resta fermo
+			in C. In questo scenario, le stanze A e B rimangono scoperte per met\`a del tempo.
 
 		\item \textbf{Terza strategia (Vettore di inattivit\`a $[1/4, 1/2, 1/4]$):}
 			Questa strategia consente di far giocare un ruolo attivo anche al secondo
@@ -540,7 +610,7 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 		\centering
 		\begin{tabular}{|l|c|c|c|c|}
 			\hline
-			                                   & Crossword & Robo-selector & Poker  & Taxi   \\
+											& Crossword & Robo-selector & Poker  & Taxi   \\
 			\hline
 			\textcolor{magenta}{Observable}    & Yes       & Partly        & Partly & Partly \\
 			\hline
@@ -563,24 +633,24 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	\section{Tipi di Problemi}
 	\begin{itemize}
 		\item \textbf{Deterministico, completamente osservabile} $\implies$ \textbf{problema
-            a stato singolo (Single-State Problem)}. \\L'agente sa esattamente in quale 
-            stato si trover\`a; la soluzione \`e una sequenza di azioni.
+			a stato singolo (Single-State Problem)}. \\L'agente sa esattamente in quale
+			stato si trover\`a; la soluzione \`e una sequenza di azioni.
 
 		\item \textbf{Non osservabile} $\implies$ \textbf{problema conformante}. \\L'agente
 			potrebbe non avere idea di dove si trovi: l'agente non dispone di sensori.
-            La soluzione (se esiste) \`e una sequenza di azioni.
+			La soluzione (se esiste) \`e una sequenza di azioni.
 
 		\item \textbf{Non deterministico e/o parzialmente osservabile} $\implies$
 			\textbf{problema di contingenza}. \\Le percezioni forniscono costantemente
 			nuove informazioni sullo stato corrente; la soluzione \`e un piano
 			contingente (basato su condizioni del tipo if-then)
-            o una \textit{policy} (mapping stato-azione): molto spesso si alternano 
-            le fasi di ricerca e di esecuzione.
+			o una \textit{policy} (mapping stato-azione): molto spesso si alternano
+			le fasi di ricerca e di esecuzione.
 
 		\item \textbf{Spazio degli stati sconosciuto} $\implies$ \textbf{problema di
 			esplorazione} (\textit{online}). \\L'agente deve scoprire gli stati e le
-			transizioni interagendo direttamente con l'ambiente per capire come funziona 
-            il problema.
+			transizioni interagendo direttamente con l'ambiente per capire come funziona
+			il problema.
 	\end{itemize}
 
 	\section{Programma Agente}
@@ -621,8 +691,8 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 			font=\sffamily\small,
 			>={Stealth[length=2.5mm]},
 			box/.style={draw, thick, align=center, minimum width=3.2cm, minimum height=1cm},
-			regole/.style={draw, thick, rounded corners=8pt, 
-            minimum height=0.6cm, inner xsep=8pt}
+			regole/.style={draw, thick, rounded corners=8pt,
+			minimum height=0.6cm, inner xsep=8pt}
 		]
 			% Elementi interni all'agente
 			\node (sensori)   at (0,0)                    {sensori};
@@ -699,8 +769,8 @@ function AGENTE-REATTIVO-SEMPLICE(percezione) returns azione
 			font=\sffamily\small,
 			>={Stealth[length=2.5mm]},
 			box/.style={draw, thick, align=center, minimum width=3.2cm, minimum height=1cm},
-			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, 
-            inner xsep=8pt}
+			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm,
+			inner xsep=8pt}
 		]
 			% Elementi interni all'agente
 			\node (sensori)   at (0,0)                    {sensori};
@@ -712,8 +782,8 @@ function AGENTE-REATTIVO-SEMPLICE(percezione) returns azione
 			\node[tondo, anchor=east] (stato)  at (-3.2,-0.5) {stato};
 			\node[tondo, anchor=east] (evolve) at (-2.6,-1.3) {come evolve il mondo};
 			\node[tondo, anchor=east] (cosa)   at (-2.6,-2.4){cosa fanno le mie azioni};
-			\node[tondo, anchor=east] (regole) at ([xshift=-1cm]azione.west) 
-            {regole condizione-azione};
+			\node[tondo, anchor=east] (regole) at ([xshift=-1cm]azione.west)
+			{regole condizione-azione};
 
 			% Riquadro agente
 			\draw[thick, rounded corners=15pt] (-7,0.6) rectangle (2,-6.3);
@@ -765,7 +835,8 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	La conoscenza dello stato corrente dell'ambiente non \`e sempre sufficiente per
 	decidere quale azione intraprendere. Spesso \`e necessario introdurre informazioni
 	relative all'\textbf{obiettivo} (\textit{goal}), ovvero la descrizione delle
-	situazioni desiderabili da raggiungere. Un \textit{Goal-Based Agent} combina queste informazioni con il proprio modello interno del mondo, superando
+	situazioni desiderabili da raggiungere. Un \textit{Goal-Based Agent} combina
+	queste informazioni con il proprio modello interno del mondo, superando
 	il limite delle semplici regole ``condizione-azione''. Non basta pi\`u, infatti,
 	associare direttamente una percezione a un'azione prestabilita. A differenza dei
 	\textit{Reflex Agents}, in cui l'obiettivo \`e solo
@@ -800,9 +871,9 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	measure esterna concordino, un agente che sceglie le azioni per massimizzare
 	l'utilit\`a sar\`a comunque razionale in base alla performance measure esterna.
 
-	Si sottolinea che questo non \`e l'unico modo per essere razionali: l'esempio 
-    sull'aspirapolvere mostra la modellazione di un comportamento razionale senza 
-    introdurre obiettivi o funzioni di utilit\`a. Anche in questo caso, comunque, i vantaggi sono
+	Si sottolinea che questo non \`e l'unico modo per essere razionali: l'esempio
+	sull'aspirapolvere mostra la modellazione di un comportamento razionale senza
+	introdurre obiettivi o funzioni di utilit\`a. Anche in questo caso, comunque, i vantaggi sono
 	principalmente in termini di flessibilit\`a, soprattutto in contesti in cui \`e
 	necessario prendere decisioni in condizioni d'incertezza.
 
@@ -840,11 +911,11 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 		complessiva del comportamento dell'agente: l'agente non ha necessariamente accesso
 		diretto a essa.
 
-		La funzione di utilit\`a \`e invece \textbf{interna} all'agente: \`e 
-        l'internalizzazione della performance measure, costruita dal progettista in 
-        modo che le due siano allineate. L'agente la usa per assegnare un 
-        valore a ogni possibile stato del mondo e, in condizioni di incertezza, 
-        sceglie l'azione che massimizza l'utilit\`a
+		La funzione di utilit\`a \`e invece \textbf{interna} all'agente: \`e
+		l'internalizzazione della performance measure, costruita dal progettista in
+		modo che le due siano allineate. L'agente la usa per assegnare un
+		valore a ogni possibile stato del mondo e, in condizioni di incertezza,
+		sceglie l'azione che massimizza l'utilit\`a
 		attesa. Se la funzione di utilit\`a non rispecchia fedelmente la performance
 		measure, l'agente pu\`o massimizzarla e comportarsi comunque in modo non razionale
 		rispetto al criterio esterno.
@@ -858,22 +929,22 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 			font=\sffamily\small,
 			>={Stealth[length=2.5mm]},
 			box/.style={draw, thick, align=center, minimum width=3.9cm, minimum height=1cm},
-			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm, 
-            inner xsep=8pt}
+			tondo/.style={draw, thick, rounded corners=8pt, minimum height=0.6cm,
+			inner xsep=8pt}
 		]
 			% Elementi interni all'agente
 			\node (sensori)     at (0,0.2)                     {sensori};
 			\node[box] (mondo)       [below=0.3cm of sensori]  {aspetto corrente\\ del mondo};
-			\node[box] (conseguenze) [below=0.3cm of mondo] 
-            {come cambier\`a il mondo \\ se eseguo l'azione A};
-			
-            \node[box] (utile)       [below=0.6cm of conseguenze]   
-            {quanto sar\`o contento \\ in uno stato simile};
-			
-            \node[box] (azione)      [below=0.6cm of utile]         
-            {azione da \\ eseguire adesso};
-			
-            \node (attuatori)        [below=0.4cm of azione]        {attuatori};
+			\node[box] (conseguenze) [below=0.3cm of mondo]
+			{come cambier\`a il mondo \\ se eseguo l'azione A};
+
+			\node[box] (utile)       [below=0.6cm of conseguenze]
+			{quanto sar\`o contento \\ in uno stato simile};
+
+			\node[box] (azione)      [below=0.6cm of utile]
+			{azione da \\ eseguire adesso};
+
+			\node (attuatori)        [below=0.4cm of azione]        {attuatori};
 
 			% Fondo dei riquadri, calcolato in base agli attuatori
 			\coordinate (fondo) at ([yshift=-3mm]attuatori.south);
@@ -923,10 +994,9 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 
 	\section{Problem Solving Agents}
 	Quando l'azione da svolgere non \`e subito evidente, un agente potrebbe avere
-	la necessit\`a di guardare avanti, cio\`e considerare una sequenza di azioni 
-    (\emph{cammino})
-	che porta a uno stato obiettivo. Questo tipo di agente viene chiamato \textbf{Problem Solving Agent}. I Problem Solving Agents
-	utilizzano rappresentazioni \textbf{atomiche} degli stati, i quali vengono
+	la necessit\`a di guardare avanti, cio\`e considerare una sequenza di azioni
+	(\emph{cammino}) che porta a uno stato obiettivo. Questo tipo di agente viene
+	chiamato \textbf{Problem Solving Agent}. I Problem Solving Agents utilizzano rappresentazioni \textbf{atomiche} degli stati, i quali vengono
 	considerati come entit\`a prive di una struttura interna.
 
 	I Problem Solving Agents sono in particolare una sottocategoria dei Goal-Based
@@ -962,9 +1032,8 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 		l'esito delle proprie azioni.
 	\end{nota}
 
-    Di seguito un'implementazione di un programma agente per un Problem Solving Agent
-    che procede 
-    alla risoluzione di un problema mediante ricerca nello spazio degli stati.
+	Di seguito un'implementazione di un programma agente per un Problem Solving Agent
+	che procede alla risoluzione di un problema mediante ricerca nello spazio degli stati.
 
 % \begin{noindent}
 \begin{codice}
@@ -988,72 +1057,75 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
 \end{codice}
 % \end{noindent}
 
-    Da notare come l'agente decida cosa fare \textbf{solamente} quando la sequenza \texttt{seq}
-    \`e vuota: in quel momento formula obiettivo e problema e cerca una soluzione, poi la
-    esegue ignorando completamente le percezioni. Solo una volta esaurita la sequenza
-    torna a formulare un nuovo obiettivo.
+	Da notare come l'agente decida cosa fare \textbf{solamente} quando la sequenza \texttt{seq}
+	\`e vuota: in quel momento formula obiettivo e problema e cerca una soluzione, poi la
+	esegue ignorando completamente le percezioni. Solo una volta esaurita la sequenza
+	torna a formulare un nuovo obiettivo.
 
-    \section{Come Formulare un Problema}
-    \subsection{Problema: Vacanze in Romania (con un M5 e39)}
-    Ci troviamo in Romania e dobbiamo andare a Bucarest per poi prendere l'aereo 
-    e tornare a casa.
-    Attualmente ci troviamo ad Arad. Vogliamo trovare la serie di citt\`a da attraversare per 
-    giungere a Bucarest.
-    Dobbiamo individuare un corretto livello di astrazione, ma ragionevolmente si procede nel
-    seguente modo:
-    \begin{itemize}
-        \item \textbf{Obiettivo}: andare a Bucarest
-        \item \textbf{Formulazione del problema}
-            \begin{enumerate}
-                \item \textbf{states}: le diverse citt\`a
-                \item \textbf{actions}: guidare per attraversare le citt\`a 
-            \end{enumerate}
-        \item \textbf{Soluzione da Individuare}: sequenza di citt\`a da attraversare per 
-            arrivare a Bucarest
-    \end{itemize}
+	\section{Come Formulare un Problema}
+	\subsection{Problema: Vacanze in Romania (con un M5 e39)}
+	Ci troviamo in Romania e dobbiamo andare a Bucarest per poi prendere l'aereo
+	e tornare a casa.
+	Attualmente ci troviamo ad Arad. Vogliamo trovare la serie di citt\`a da attraversare per
+	giungere a Bucarest.
+	Dobbiamo individuare un corretto livello di astrazione, ma ragionevolmente si procede nel
+	seguente modo:
+	\begin{itemize}
+		\item \textbf{Obiettivo}: andare a Bucarest
 
-    Fin da subito \`e possibile mettere in discussione il livello di determinismo
-    del problema. A causa di agenti esterni (incidenti, lavori) si potrebbe 
-    essere dirottati su citt\`a non scelte. Tali eventualit\`a vengono inizialmente ignorate. 
-    In questo caso vogliamo trovare \textbf{una} soluzione: non \`e detto che quella 
-    trovata sia a costo minimo.
-    \begin{center}
-        \includegraphics[width=0.7\textwidth]{images/romania_mappa}
-    \end{center}
+		\item \textbf{Formulazione del problema}
+			\begin{enumerate}
+				\item \textbf{states}: le diverse citt\`a
 
-    Cerchiamo di proporre una formulazione di tale quesito come Single-State Problem. 
-    Allora si individuano i seguenti elementi:
-    \begin{enumerate}
-        \item \textbf{Stato Iniziale}: la citt\`a di partenza.
+				\item \textbf{actions}: guidare per attraversare le citt\`a
+			\end{enumerate}
 
-        \item \textbf{Successor Function} $S(x)$: dato uno stato $x$, restituisce
-            l'insieme delle coppie \emph{azione--stato}, ovvero ogni azione applicabile
-            in $x$ insieme allo stato in cui porta.
-            \emph{Esempio}: $S(A) = \{\langle Arad \rightarrow Zerind, Zerind \rangle, \hdots \}$
+		\item \textbf{Soluzione da Individuare}: sequenza di citt\`a da attraversare per
+			arrivare a Bucarest
+	\end{itemize}
 
-        \item \textbf{Goal Test} che pu\`o essere di due nature diverse:
-            \begin{enumerate}
-                \item esplicito: la citt\`a di destinazione (Bucarest). Lo stato in cui 
-                    ci si deve trovare affinch\'e il problema possa considerarsi risolto.
+	Fin da subito \`e possibile mettere in discussione il livello di determinismo
+	del problema. A causa di agenti esterni (incidenti, lavori) si potrebbe
+	essere dirottati su citt\`a non scelte. Tali eventualit\`a vengono inizialmente ignorate.
+	In questo caso vogliamo trovare \textbf{una} soluzione: non \`e detto che quella
+	trovata sia a costo minimo.
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{images/romania_mappa}
+	\end{center}
 
-                \item implicito: una feature che descrive pi\`u di uno stato.
-            \end{enumerate}
+	Cerchiamo di proporre una formulazione di tale quesito come Single-State Problem.
+	Allora si individuano i seguenti elementi:
+	\begin{enumerate}
+		\item \textbf{Stato Iniziale}: la citt\`a di partenza.
 
-        \item \textbf{Path Cost}: Non sempre si desidera trovare una soluzione qualunque. 
-            Potrebbe essere utile trovare quella a costo minimo. Nel nostro esempio 
-            corrisponde a una metrica che indica il costo di un percorso 
-            (il costo espresso sugli archi). Il path cost \`e una funzione additiva in 
-            cui vengono sommati gli \textbf{step cost}, 
-            funzioni del tipo $\text{STEP-COST}: S \times A \times S \rightarrow \mathbb{R}^+$.
-        \item \textbf{Soluzione}: sequenza di azioni che porta dallo stato iniziale a 
-            uno dei goal state.
-    \end{enumerate}
+		\item \textbf{Successor Function} $S(x)$: dato uno stato $x$, restituisce
+			l'insieme delle coppie \emph{azione--stato}, ovvero ogni azione applicabile
+			in $x$ insieme allo stato in cui porta.
+			\emph{Esempio}: $S(A) = \{\langle Arad \rightarrow Zerind, Zerind \rangle, \hdots \}$
 
-    \section{Tree-Search Algorithm}
-    L'idea di base \`e fare un'esplorazione simulata e offline:
-    essendo un Single-State Problem, le percezioni vengono ignorate. Concettualmente l'agente ragiona, individua una sequenza di
-    azioni e procede a eseguirla. Pertanto si generano i successori degli stati usando
-    le regole note del mondo.
+		\item \textbf{Goal Test} che pu\`o essere di due nature diverse:
+			\begin{enumerate}
+				\item esplicito: la citt\`a di destinazione (Bucarest). Lo stato in cui
+					ci si deve trovare affinch\'e il problema possa considerarsi risolto.
+
+				\item implicito: una feature che descrive pi\`u di uno stato.
+			\end{enumerate}
+
+		\item \textbf{Path Cost}: Non sempre si desidera trovare una soluzione qualunque.
+			Potrebbe essere utile trovare quella a costo minimo. Nel nostro esempio
+			corrisponde a una metrica che indica il costo di un percorso
+			(il costo espresso sugli archi). Il path cost \`e una funzione additiva in
+			cui vengono sommati gli \textbf{step cost},
+			funzioni del tipo $\text{STEP-COST}: S \times A \times S \rightarrow \mathbb{R}^+$.
+		\item \textbf{Soluzione}: sequenza di azioni che porta dallo stato iniziale a
+			uno dei goal state.
+	\end{enumerate}
+
+	\section{Tree-Search Algorithm}
+	L'idea di base \`e fare un'esplorazione simulata e offline: essendo un Single-State
+	Problem, le percezioni vengono ignorate. Concettualmente l'agente ragiona, individua
+	una sequenza di azioni e procede a eseguirla. Pertanto si generano i successori degli stati usando
+	le regole note del mondo.
 
 % \begin{noindent}
 \begin{codice}
@@ -1118,12 +1190,12 @@ function TREE-SEARCH(problema, strategia) returns una soluzione, o failure
 	contengono per\`o lo stesso stato. In sintesi: lo stato indica \emph{dove} si trova
 	l'agente, il nodo indica anche \emph{come} ci \`e arrivato.
 
-    \subsection{Un'implementazione di pi\`u basso livello}
+	\subsection{Un'implementazione di pi\`u basso livello}
 
-    Lo pseudocodice sopra descritto risulta essere di carattere estremamente generale,
-    pertanto si pone a un livello di astrazione tale che risulta estremamente complesso
-    procedere con una sua implementazione. Ecco perch\'e generalmente si utilizza
-    uno pseudocodice che fornisce una descrizione di pi\`u basso livello.
+	Lo pseudocodice sopra descritto risulta essere di carattere estremamente generale,
+	pertanto si pone a un livello di astrazione tale che risulta estremamente complesso
+	procedere con una sua implementazione. Ecco perch\'e generalmente si utilizza
+	uno pseudocodice che fornisce una descrizione di pi\`u basso livello.
 
 \begin{codice}
 [Tree-Search Algorithm]
@@ -1137,22 +1209,22 @@ function TREE-SEARCH(problema, frontiera) returns una soluzione, o failure
     return failure
 \end{codice}
 
-    La \texttt{frontiera} non \`e altro che una struttura dati che contiene nodi, disposti
-    in un certo ordine. Il modo in cui i nodi vengono inseriti nella frontiera determina
-    il tipo di strategia che si sta utilizzando (Breadth First Search, Depth First Search, 
-    Best First Search \dots). 
+	La \texttt{frontiera} non \`e altro che una struttura dati che contiene nodi, disposti
+	in un certo ordine. Il modo in cui i nodi vengono inseriti nella frontiera determina
+	il tipo di strategia che si sta utilizzando (Breadth First Search, Depth First Search,
+	Best First Search \dots).
 
-    Notiamo come la strategia non \`e pi\`u un parametro in input,
-    ma \`e intrinseca nel modo in cui i nodi vengono inseriti nella frontiera.
-    Prima di tutto, inseriamo nella frontiera il nodo corrispondente allo stato iniziale. Fino a quando la frontiera
-    non \`e vuota si itera estraendo il primo nodo dalla frontiera (i nodi sono ordinati secondo la
-    priorit\`a definita dalla strategia) e si controlla se il nodo contiene il \emph{goal state}.
-    In caso affermativo, il nodo viene restituito, altrimenti si espande il nodo appena
-    estratto dalla frontiera basandosi sulle regole presenti nel problema e poi si procede
-    a inserire ci\`o che si \`e ottenuto con l'espansione all'interno della frontiera seguendo
-    un determinato ordine. L'ordine stesso determina il modo in cui si effettua la ricerca.
+	Notiamo come la strategia non \`e pi\`u un parametro in input, ma \`e intrinseca
+	nel modo in cui i nodi vengono inseriti nella frontiera. Prima di tutto, inseriamo
+	nella frontiera il nodo corrispondente allo stato iniziale. Fino a quando la frontiera
+	non \`e vuota si itera estraendo il primo nodo dalla frontiera (i nodi sono ordinati secondo la
+	priorit\`a definita dalla strategia) e si controlla se il nodo contiene il \emph{goal state}.
+	In caso affermativo, il nodo viene restituito, altrimenti si espande il nodo appena
+	estratto dalla frontiera basandosi sulle regole presenti nel problema e poi si procede
+	a inserire ci\`o che si \`e ottenuto con l'espansione all'interno della frontiera seguendo
+	un determinato ordine. L'ordine stesso determina il modo in cui si effettua la ricerca.
 
-    Di seguito lo pseudocodice della funzione \texttt{ESPANDI}:
+	Di seguito lo pseudocodice della funzione \texttt{ESPANDI}:
 
 \begin{codice}
 [Expand Function]
@@ -1172,123 +1244,312 @@ function ESPANDI(nodo, problema) returns un insieme di nodi
     return successori
 \end{codice}
 
-    In particolare, analizziamo il suo comportamento:
-    \begin{enumerate}
-        \item La funzione \texttt{FUNZIONE-SUCCESSORI} implementa la Successor Function $S(x)$:
-        restituisce l'insieme delle coppie (\texttt{azione}, \texttt{risultato}), cio\`e
-        tutte le azioni applicabili nello stato del nodo e gli stati che ne risultano. Se un'azione
-        non altera l'ambiente, si rimane nello stesso stato di partenza.
+	In particolare, analizziamo il suo comportamento:
+	\begin{enumerate}
+		\item La funzione \texttt{FUNZIONE-SUCCESSORI} implementa la Successor Function $S(x)$:
+			restituisce l'insieme delle coppie (\texttt{azione}, \texttt{risultato}), cio\`e
+			tutte le azioni applicabili nello stato del nodo e gli stati che ne risultano. Se un'azione
+			non altera l'ambiente, si rimane nello stesso stato di partenza.
 
-        \item Il nuovo nodo non contiene solo lo stato di arrivo isolato, ma registra 
-        esplicitamente il nodo padre (attributo \texttt{padre}) e l'azione eseguita (attributo
-        \texttt{azione}). 
-        Questa serie di puntatori è ciò che permette di ricostruire l'intero percorso 
-        (la soluzione) una volta raggiunto l'obiettivo.
+		\item Il nuovo nodo non contiene solo lo stato di arrivo isolato, ma registra
+			esplicitamente il nodo padre (attributo \texttt{padre}) e l'azione eseguita (attributo
+			\texttt{azione}).
+			Questa serie di puntatori è ciò che permette di ricostruire l'intero percorso
+			(la soluzione) una volta raggiunto l'obiettivo.
 
-        \item Il calcolo \texttt{nodo.path\_cost + STEP-COST} accumula il costo effettivo del percorso
-        dalla radice fino a quel punto esatto.
+		\item Il calcolo \texttt{nodo.path\_cost + STEP-COST} accumula il costo effettivo del percorso
+			dalla radice fino a quel punto esatto.
 
-        \item Raccolta dei risultati: tutti i nuovi nodi istanziati e completamente popolati
-        vengono aggiunti all'insieme \texttt{successori}, che viene poi restituito al chiamante.
-    \end{enumerate}
+		\item Raccolta dei risultati: tutti i nuovi nodi istanziati e completamente popolati
+			vengono aggiunti all'insieme \texttt{successori}, che viene poi restituito al chiamante.
+	\end{enumerate}
 
-    \subsection{Search Strategies}
-    Una strategia è definita scegliendo l'\textbf{ordine di espansione dei nodi}.
-    Le strategie sono valutate in base alle seguenti dimensioni:
-    \begin{itemize}
-        \item \textbf{completezza}: se c'\`e una soluzione, la ricerca \`e in
-            grado di trovarla.
-        \item \textbf{complessità temporale}: in funzione del numero di nodi generati/espansi,
-            poich\'e generare e valutare un nodo richiede tempo.
-        \item \textbf{complessità spaziale}: numero massimo di nodi in memoria. Tutti
-            i nodi che sono in memoria sono stati generati, ma potrebbe essere necessario
-            tenere in memoria meno nodi rispetto a quelli generati.
-        \item \textbf{ottimalità}: trova sempre la soluzione a costo minimo (quindi si
-            desidera ottimizzare il \texttt{path\_cost}, non la profondit\`a)
-    \end{itemize}
+	\subsection{Search Strategies}
+	Una strategia è definita scegliendo l'\textbf{ordine di espansione dei nodi}.
+	Le strategie sono valutate in base alle seguenti dimensioni:
+	\begin{itemize}
+		\item \textbf{completezza}: se c'\`e una soluzione, la ricerca \`e in
+			grado di trovarla.
+		\item \textbf{complessità temporale}: in funzione del numero di nodi generati/espansi,
+			poich\'e generare e valutare un nodo richiede tempo.
+		\item \textbf{complessità spaziale}: numero massimo di nodi in memoria. Tutti
+			i nodi che sono in memoria sono stati generati, ma potrebbe essere necessario
+			tenere in memoria meno nodi rispetto a quelli generati.
+		\item \textbf{ottimalità}: trova sempre la soluzione a costo minimo (quindi si
+			desidera ottimizzare il \texttt{path\_cost}, non la profondit\`a)
+	\end{itemize}
 
-    \begin{nota}
-        {Differenza}{Generated vs Expanded}
-        Qui il comportamento delle due procedure \`e molto diverso: la \textbf{generazione}
-        procede a istanziare un nuovo nodo allocando lo spazio necessario e inizializzandone gli
-        attributi, analogamente al concetto di costruttore nella OOP.
-        L'espansione, invece, prende un nodo e le regole di un problema per procedere a 
-        generare tutti i nodi figli da poi inserire nella frontiera.
-    \end{nota}
+	\begin{nota}
+		{Differenza}{Generated vs Expanded}
+		Qui il comportamento delle due procedure \`e molto diverso: la \textbf{generazione}
+		procede a istanziare un nuovo nodo allocando lo spazio necessario e inizializzandone gli
+		attributi, analogamente al concetto di costruttore nella OOP.
+		L'espansione, invece, prende un nodo e le regole di un problema per procedere a
+		generare tutti i nodi figli da poi inserire nella frontiera.
+	\end{nota}
 
-    La complessità temporale e quella spaziale sono misurate in termini di:
-    \begin{itemize}
-        \item $b$: fattore di diramazione massimo dell'albero di ricerca. In parole meno
-            tecnici, il massimo numero di figli di ciascun nodo.
-        \item $d$: profondità della soluzione a costo minimo.
-        \item $m$: profondità massima dello spazio degli stati (può essere $\infty$)
-    \end{itemize}
+	La complessità temporale e quella spaziale sono misurate in termini di:
+	\begin{itemize}
+		\item $b$: fattore di diramazione massimo dell'albero di ricerca. In parole meno
+			tecnici, il massimo numero di figli di ciascun nodo.
+		\item $d$: profondità della soluzione a costo minimo.
+		\item $m$: profondità massima dello spazio degli stati (può essere $\infty$)
+	\end{itemize}
 
-    Notiamo come $m$ \`e dato dallo spazio degli stati, mentre $d$ dalla soluzione a costo 
-    minimo (tipicamente $d \ll m$).
+	Notiamo come $m$ \`e dato dallo spazio degli stati, mentre $d$ dalla soluzione a costo
+	minimo (tipicamente $d \ll m$).
 
-    \newpage
-    \subsection{Stati Ripetuti}
-    Dato uno stato, possono esistere diverse azioni che consentono di raggiungere lo stesso
-    stato successivo.
+	\subsection{Stati Ripetuti}
+	Dato uno stato, possono esistere diverse azioni che consentono di raggiungere lo stesso
+	stato successivo.
 
-    \begin{center}
-    \begin{tikzpicture}[
-        >=Stealth, 
-        nodo/.style={circle, draw=black, fill=gray!80, inner sep=3pt, minimum size=0.25cm}
-    ]
+	\begin{center}
+		\begin{tikzpicture}[
+			>=Stealth,
+			nodo/.style={circle, draw=black, fill=gray!80, inner sep=3pt, minimum size=0.25cm}
+		]
 
-    % Definizione dei nodi centrali
-    \node[nodo] (A) at (0, 0) {};
-    \node[nodo] (B) at (0, -2) {};
-    \node[nodo] (C) at (0, -4) {};
-    \node[nodo] (D) at (0, -6) {};
+			% Definizione dei nodi centrali
+			\node[nodo] (A) at (0, 0) {};
+			\node[nodo] (B) at (0, -2) {};
+			\node[nodo] (C) at (0, -4) {};
+			\node[nodo] (D) at (0, -6) {};
 
-    % Etichette delle lettere a sinistra
-    \node at (-1.5, 0)  {\textbf{A}};
-    \node at (-1.5, -2) {\textbf{B}};
-    \node at (-1.5, -4) {\textbf{C}};
-    \node at (-1.5, -6) {\textbf{D}};
+			% Etichette delle lettere a sinistra
+			\node at (-1.5, 0)  {\textbf{A}};
+			\node at (-1.5, -2) {\textbf{B}};
+			\node at (-1.5, -4) {\textbf{C}};
+			\node at (-1.5, -6) {\textbf{D}};
 
-    % Etichette scritte a mano blu in alto (R e L)
-    \node[text=blue!80!black, font=\Large] at (-0.8, 0.4) {$\mathcal{R}$};
-    \node[text=blue!80!black, font=\Large] at (0.8, 0.4) {$\mathcal{L}$};
+			% Etichette scritte a mano blu in alto (R e L)
+			\node[text=blue!80!black, font=\Large] at (-0.8, 0.4) {$\mathcal{R}$};
+			\node[text=blue!80!black, font=\Large] at (0.8, 0.4) {$\mathcal{L}$};
 
-    % Archi tra A e B
-    \draw[->] (A) to[out=180, in=180, looseness=1.5] (B);
-    \draw[->] (A) to[out=0, in=0, looseness=1.5] (B);
+			% Archi tra A e B
+			\draw[->] (A) to[out=180, in=180, looseness=1.5] (B);
+			\draw[->] (A) to[out=0, in=0, looseness=1.5] (B);
 
-    % Archi tra B e C
-    \draw[->] (B) to[out=180, in=180, looseness=1.5] (C);
-    \draw[->] (B) to[out=0, in=0, looseness=1.5] (C);
+			% Archi tra B e C
+			\draw[->] (B) to[out=180, in=180, looseness=1.5] (C);
+			\draw[->] (B) to[out=0, in=0, looseness=1.5] (C);
 
-    % Archi tra C e D
-    \draw[->] (C) to[out=180, in=180, looseness=1.5] (D);
-    \draw[->] (C) to[out=0, in=0, looseness=1.5] (D);
+			% Archi tra C e D
+			\draw[->] (C) to[out=180, in=180, looseness=1.5] (D);
+			\draw[->] (C) to[out=0, in=0, looseness=1.5] (D);
 
-    % Archi uscenti da D
-    \draw[->] (D) to[out=180, in=90] (-0.9, -7);
-    \draw[->] (D) to[out=0, in=90] (0.9, -7);
+			% Archi uscenti da D
+			\draw[->] (D) to[out=180, in=90] (-0.9, -7);
+			\draw[->] (D) to[out=0, in=90] (0.9, -7);
 
-    \end{tikzpicture}
-    \end{center}
+		\end{tikzpicture}
+	\end{center}
 
 
-    Si osservi che lo stato B viene rappresentato nella frontiera \textbf{da 2 nodi distinti}:
-    il primo generato dall'azione $\mathcal{R}$ e il secondo dall'azione $\mathcal{L}$. 
-    Questa ridondanza fa sì che la complessità del problema cresca notevolmente, 
-    assumendo un andamento di tipo esponenziale.
+	Si osservi che lo stato B viene rappresentato nella frontiera \textbf{da 2 nodi distinti}:
+	il primo generato dall'azione $\mathcal{R}$ e il secondo dall'azione $\mathcal{L}$.
+	Questa ridondanza fa sì che la complessità del problema cresca notevolmente,
+	assumendo un andamento di tipo esponenziale.
 
-    Sebbene in generale si preferisca evitare l'espansione di stati ripetuti, è fondamentale 
-    prestare attenzione poiché, in certi contesti, mantenere l'esplorazione di questi 
-    percorsi multipli è cruciale per garantire l'ottimalità. Infatti, se un nodo appena 
-    espanso corrisponde al goal state e la ricerca viene interrotta
-    immediatamente, si rischia di accettare una soluzione non ottimale.
+	Sebbene in generale si preferisca evitare l'espansione di stati ripetuti, è fondamentale
+	prestare attenzione poiché, in certi contesti, mantenere l'esplorazione di questi
+	percorsi multipli è cruciale per garantire l'ottimalità. Infatti, se un nodo appena
+	espanso corrisponde al goal state e la ricerca viene interrotta
+	immediatamente, si rischia di accettare una soluzione non ottimale.
 
-    Facendo riferimento alla figura, supponiamo che B sia il goal state e che
-    lo step cost associato all'azione $\mathcal{R}$ sia maggiore rispetto 
-    a quello di $\mathcal{L}$. Se l'algoritmo si fermasse all'istante subito dopo aver 
-    raggiunto B tramite $\mathcal{R}$, la soluzione a costo minimo 
-    (ovvero quella ottenibile tramite l'azione $\mathcal{L}$) verrebbe ignorata e 
-    mai individuata.
+	Facendo riferimento alla figura, supponiamo che B sia il goal state e che
+	lo step cost associato all'azione $\mathcal{R}$ sia maggiore rispetto
+	a quello di $\mathcal{L}$. Se l'algoritmo si fermasse all'istante subito dopo aver
+	raggiunto B tramite $\mathcal{R}$, la soluzione a costo minimo
+	(ovvero quella ottenibile tramite l'azione $\mathcal{L}$) verrebbe ignorata e
+	mai individuata.
+	La soluzione che si pu\`o adottare per evitare ridondanza corrisponde al tenere traccia
+	di tutti gli stati gi\`a visitati, come accade nel seguente esempio.
+
+
+\begin{codice}
+[Graph-Search Algorithm]
+function GRAPH-SEARCH(problema, frontiera) returns una soluzione, o failure
+    esplorati <- INSIEME-VUOTO()
+    frontiera <- INSERISCI(CREA-NODO(problema.stato_iniziale))
+    while not VUOTA(frontiera) do
+        nodo <- POP(frontiera)
+        if problema.GOAL_TEST(nodo.stato) then return nodo
+        if nodo.stato not in esplorati then
+            AGGIUNGI(nodo.stato, esplorati)
+            frontiera <- INSERISCI_TUTTI(ESPANDI(nodo, problema))
+        end if
+    end loop
+    return failure
+\end{codice}
+
+	Notiamo che se abbiamo un nodo con uno stato gi\`a esplorato, allora in questo caso non si
+	procede con l'espansione. Nonostante ci\`o vi \`e il rischio di perdere la soluzione ottimale.
+	Quindi il controllo del goal test e la natura di gestione della frontiera risultano essere
+	fondamentali.
+
+	\section{Ricerca Non Informata}
+	\subsection{Strategie Possibili}
+	Una \textbf{Ricerca Non Informata} utilizza solo le informazioni disponibili nella definizione
+	del problema.
+
+	Di seguito un elenco delle strategie possibili:
+	\begin{itemize}
+		\item Breadth-First Search
+		\item Depth-First Search
+		\item Depth-Limited Search
+		\item Uniform-Cost Search (Dijkstra)
+		\item Iterative Deepening Search
+	\end{itemize}
+
+	\subsection{Breadth-First Search}
+	La \textbf{Breadth-First Search} (BFS, ricerca in ampiezza) espande sempre il nodo
+	\textbf{pi\`u superficiale} tra quelli presenti nella frontiera: prima la radice,
+	poi tutti i suoi figli, poi tutti i figli dei figli e cos\`i via. L'albero viene
+	quindi esplorato \emph{livello per livello}: nessun nodo a profondit\`a $k+1$ viene
+	espanso prima che siano stati espansi tutti i nodi a profondit\`a $k$.
+
+	Per ottenere questo comportamento basta usare come frontiera una \textbf{coda FIFO}:
+	i successori appena generati vengono inseriti in fondo alla coda, mentre il nodo da
+	espandere viene estratto dalla testa. Poich\'e i nodi di un livello vengono tutti
+	generati prima di quelli del livello successivo, la coda risulta automaticamente
+	ordinata per profondit\`a. L'ordine con cui vengono generati i fratelli (cio\`e i nodi
+	dello stesso livello) non \`e invece rilevante per il funzionamento dell'algoritmo.
+
+\begin{codice}
+[Breadth-First Graph Search]
+function BFS(problema) returns una soluzione, o failure
+    nodo <- CREA-NODO()
+    nodo.stato <- problema.stato_iniziale
+    nodo.path_cost <- 0
+    if problema.GOAL_TEST(nodo.stato) then return nodo
+    frontiera <- CREA-FIFO()
+    frontiera <- INSERISCI(nodo)
+    esplorati <- INSIEME-VUOTO()
+    loop do
+        if VUOTA(frontiera) then return failure
+        nodo <- POP(frontiera)         // il nodo più superficiale
+        AGGIUNGI(nodo.stato, esplorati)
+        for each azione in problema.AZIONI(nodo.stato) do
+            figlio <- NODO-FIGLIO(problema, nodo, azione)
+            if figlio.stato not in esplorati and figlio.stato not in frontiera then
+                if problema.GOAL_TEST(figlio.stato) then return figlio
+                frontiera <- INSERISCI(figlio)
+            end if
+        end for
+    end loop
+\end{codice}
+
+	La funzione \texttt{NODO-FIGLIO} corrisponde a una singola iterazione del ciclo di
+	\texttt{ESPANDI}: crea il nodo ottenuto applicando \texttt{azione} allo stato di
+	\texttt{nodo}, impostandone padre, azione, stato, path cost e profondit\`a.
+
+	Rispetto allo schema generale di \texttt{GRAPH-SEARCH} si notano tre differenze:
+	\begin{enumerate}
+		\item \textbf{La frontiera \`e una coda FIFO}: \`e l'unico elemento che
+			caratterizza davvero la strategia.
+
+		\item \textbf{Il goal test viene anticipato}: non si controlla il nodo quando
+			viene estratto dalla frontiera, ma \emph{nel momento in cui viene generato}
+			(per la radice, prima ancora di entrare nel ciclo).
+
+		\item \textbf{Il controllo sugli stati ripetuti riguarda anche la frontiera}: un
+			figlio viene scartato non solo se il suo stato \`e gi\`a stato espanso, ma
+			anche se \`e gi\`a presente in un nodo in attesa nella frontiera. In questo
+			modo ogni stato compare al pi\`u in un nodo, e non si espandono mai due nodi
+			con lo stesso stato: si tratta a tutti gli effetti di una \emph{Graph Search}.
+	\end{enumerate}
+
+	\begin{nota}
+		{Approfondimento}{Early Goal Test}
+		Il controllo effettuato subito dopo la generazione prende il nome di
+		\textbf{early goal test}. Nella BFS \`e lecito perch\'e i nodi vengono generati in
+		ordine di profondit\`a: il primo nodo obiettivo generato \`e necessariamente quello
+		alla profondit\`a minima, quindi aspettare di estrarlo dalla frontiera non potrebbe
+		portare a una soluzione pi\`u corta. Si risparmia per\`o la generazione di un intero
+		livello dell'albero (si veda la complessit\`a temporale).
+
+		Come visto nella sezione sugli stati ripetuti, lo stesso ragionamento \textbf{non}
+		vale se l'obiettivo \`e minimizzare il \emph{path cost} con step cost diversi: in
+		quel caso il primo nodo obiettivo generato non \`e necessariamente il pi\`u
+		economico, e il goal test va effettuato all'estrazione.
+	\end{nota}
+
+	\begin{nota}
+		{Approfondimento}{Controllo degli stati nella frontiera}
+		La frontiera contiene \emph{nodi}, non stati: la condizione
+		\texttt{figlio.stato not in frontiera} \`e un'abbreviazione tipica dello pseudocodice
+		e significa ``non esiste nella frontiera un nodo il cui attributo \texttt{stato}
+		coincide con \texttt{figlio.stato}''. Scorrere la coda a ogni controllo costerebbe
+		tempo lineare; nelle implementazioni reali si affianca quindi alla coda un insieme
+		(ad esempio una hash table) contenente gli stati dei nodi in frontiera, cos\`i che
+		il controllo avvenga in tempo costante.
+	\end{nota}
+
+	\needspace{12\baselineskip}
+	\emph{Esempio}: BFS sul problema della Romania, da Arad a Bucarest, generando i
+	successori in ordine alfabetico.
+	\begin{table}[H]
+		\centering
+		\small
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{\textwidth}{@{}l X X@{}}
+			\toprule
+			\textbf{Nodo estratto} & \textbf{Figli generati} & \textbf{Frontiera dopo l'espansione} \\
+			\midrule
+			--- & --- & [Arad] \\
+			Arad & Sibiu, Timisoara, Zerind & [Sibiu, Timisoara, Zerind] \\
+			Sibiu & Fagaras, Oradea, Rimnicu Vilcea (Arad \`e gi\`a esplorato)
+				& [Timisoara, Zerind, Fagaras, Oradea, Rimnicu Vilcea] \\
+			Timisoara & Lugoj & [Zerind, Fagaras, Oradea, Rimnicu Vilcea, Lugoj] \\
+			Zerind & nessuno (Arad \`e esplorato, Oradea \`e gi\`a in frontiera)
+				& [Fagaras, Oradea, Rimnicu Vilcea, Lugoj] \\
+			Fagaras & Bucarest: goal test superato & --- \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	La soluzione restituita \`e Arad $\rightarrow$ Sibiu $\rightarrow$ Fagaras
+	$\rightarrow$ Bucarest: \`e la pi\`u corta in numero di passi (profondit\`a 3), ma ha
+	costo $140 + 99 + 211 = 450$, mentre il percorso Arad $\rightarrow$ Sibiu $\rightarrow$
+	Rimnicu Vilcea $\rightarrow$ Pitesti $\rightarrow$ Bucarest, pi\`u lungo di un passo,
+	costa soltanto $140 + 80 + 97 + 101 = 418$. Grazie all'early goal test, inoltre,
+	Bucarest viene riconosciuto come obiettivo appena generato, senza dover prima
+	estrarre Oradea, Rimnicu Vilcea e Lugoj.
+
+	\subsubsection*{Propriet\`a}
+	\begin{itemize}
+		\item \textbf{Completezza}: s\`i, se il fattore di diramazione $b$ \`e finito.
+			Se una soluzione esiste, si trova a una profondit\`a finita $d$, e la BFS
+			raggiunge ogni livello dopo aver esaurito i precedenti, che sono composti da un
+			numero finito di nodi.
+
+		\item \textbf{Complessit\`a temporale}: nel caso pessimo il nodo obiettivo \`e
+			l'ultimo a essere generato al livello $d$. Grazie all'early goal test
+			l'algoritmo si ferma proprio in quel momento, dopo aver generato
+			\[
+				N = 1 + b + b^2 + \dots + b^d = \frac{b^{d+1} - 1}{b - 1}
+			\]
+			nodi. Nella notazione asintotica conta solo il termine di grado massimo, quindi
+			la complessit\`a temporale \`e $\mathcal{O}(b^d)$.
+
+			Se invece il goal test venisse effettuato all'estrazione (dopo la
+			\texttt{POP}), prima di arrivare al nodo obiettivo bisognerebbe espandere tutti
+			gli altri nodi del livello $d$, generando fino a $b \cdot (b^d - 1) = b^{d+1} - b$
+			nodi del livello $d+1$. La complessit\`a temporale salirebbe cos\`i a
+			$\mathcal{O}(b^{d+1})$: un intero livello in pi\`u, cio\`e un fattore $b$.
+
+		\item \textbf{Complessit\`a spaziale}: ogni nodo generato rimane in memoria, o
+			nell'insieme \texttt{esplorati} ($\mathcal{O}(b^{d-1})$ stati) o nella
+			frontiera ($\mathcal{O}(b^d)$ nodi). Lo spazio \`e quindi dominato dalla
+			frontiera ed \`e $\mathcal{O}(b^d)$, come il tempo. \`E il vero punto debole
+			della BFS: per problemi anche di dimensione moderata la memoria si esaurisce
+			molto prima del tempo a disposizione.
+
+		\item \textbf{Ottimalit\`a}: la BFS trova sempre la soluzione con il \emph{minor
+			numero di passi}, ma questa coincide con quella a costo minimo solo se tutti gli
+			step cost sono uguali (pi\`u in generale, se il path cost \`e una funzione non
+			decrescente della profondit\`a). Con step cost arbitrari non \`e ottima, come
+			mostra l'esempio della Romania.
+	\end{itemize}
 \end{document}
+
