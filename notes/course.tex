@@ -50,6 +50,7 @@
 }
 
 \newtcolorbox{nota}[2]{
+    breakable,
     enhanced,
     sharp corners,
     boxrule=0.6pt,
@@ -1471,7 +1472,8 @@ function BFS(problema) returns una soluzione, o failure
 		Come visto nella sezione sugli stati ripetuti, lo stesso ragionamento \textbf{non}
 		vale se l'obiettivo \`e minimizzare il \emph{path cost} con step cost diversi: in
 		quel caso il primo nodo obiettivo generato non \`e necessariamente il pi\`u
-		economico, e il goal test va effettuato all'estrazione.
+		economico, e il goal test va effettuato all'estrazione (si veda la
+		\hyperref[sec:ucs]{Uniform-Cost Search}).
 	\end{nota}
 
 	\begin{nota}
@@ -1484,37 +1486,6 @@ function BFS(problema) returns una soluzione, o failure
 		(ad esempio una hash table) contenente gli stati dei nodi in frontiera, cos\`i che
 		il controllo avvenga in tempo costante.
 	\end{nota}
-
-	\needspace{12\baselineskip}
-	\emph{Esempio}: BFS sul problema della Romania, da Arad a Bucarest, generando i
-	successori in ordine alfabetico.
-	\begin{table}[H]
-		\centering
-		\small
-		\renewcommand{\arraystretch}{1.3}
-		\begin{tabularx}{\textwidth}{@{}l X X@{}}
-			\toprule
-			\textbf{Nodo estratto} & \textbf{Figli generati} & \textbf{Frontiera dopo l'espansione} \\
-			\midrule
-			--- & --- & [Arad] \\
-			Arad & Sibiu, Timisoara, Zerind & [Sibiu, Timisoara, Zerind] \\
-			Sibiu & Fagaras, Oradea, Rimnicu Vilcea (Arad \`e gi\`a esplorato)
-				& [Timisoara, Zerind, Fagaras, Oradea, Rimnicu Vilcea] \\
-			Timisoara & Lugoj & [Zerind, Fagaras, Oradea, Rimnicu Vilcea, Lugoj] \\
-			Zerind & nessuno (Arad \`e esplorato, Oradea \`e gi\`a in frontiera)
-				& [Fagaras, Oradea, Rimnicu Vilcea, Lugoj] \\
-			Fagaras & Bucarest: goal test superato & --- \\
-			\bottomrule
-		\end{tabularx}
-	\end{table}
-
-	La soluzione restituita \`e Arad $\rightarrow$ Sibiu $\rightarrow$ Fagaras
-	$\rightarrow$ Bucarest: \`e la pi\`u corta in numero di passi (profondit\`a 3), ma ha
-	costo $140 + 99 + 211 = 450$, mentre il percorso Arad $\rightarrow$ Sibiu $\rightarrow$
-	Rimnicu Vilcea $\rightarrow$ Pitesti $\rightarrow$ Bucarest, pi\`u lungo di un passo,
-	costa soltanto $140 + 80 + 97 + 101 = 418$. Grazie all'early goal test, inoltre,
-	Bucarest viene riconosciuto come obiettivo appena generato, senza dover prima
-	estrarre Oradea, Rimnicu Vilcea e Lugoj.
 
 	\subsubsection*{Propriet\`a}
 	\begin{itemize}
@@ -1548,8 +1519,107 @@ function BFS(problema) returns una soluzione, o failure
 		\item \textbf{Ottimalit\`a}: la BFS trova sempre la soluzione con il \emph{minor
 			numero di passi}, ma questa coincide con quella a costo minimo solo se tutti gli
 			step cost sono uguali (pi\`u in generale, se il path cost \`e una funzione non
-			decrescente della profondit\`a). Con step cost arbitrari non \`e ottima, come
-			mostra l'esempio della Romania.
+			decrescente della profondit\`a). Con step cost arbitrari non \`e ottima.
+	\end{itemize}
+	\subsection{Uniform-Cost Search}
+	\label{sec:ucs}
+	La BFS \`e ottima solo quando tutti gli step cost sono uguali, perch\'e espande i nodi
+	in ordine di \emph{profondit\`a}. La \textbf{Uniform-Cost Search} (UCS, ricerca a costo
+	uniforme) generalizza l'idea: espande sempre il nodo non ancora espanso con il
+	\textbf{path cost $g(n)$ minimo}, cio\`e il nodo pi\`u ``vicino'' alla radice in termini
+	di costo invece che di numero di passi. \`E la versione per la ricerca dell'algoritmo di
+	\textbf{Dijkstra} per i cammini minimi.
+
+	L'implementazione si ottiene sostituendo la coda FIFO con una \textbf{coda con priorit\`a}
+	ordinata per path cost crescente: la \texttt{POP} restituisce il nodo con $g(n)$ minore.
+	Se tutti gli step cost sono uguali, ordinare per costo equivale a ordinare per
+	profondit\`a, e la UCS si comporta esattamente come una BFS.
+
+\begin{codice}
+[Uniform-Cost Search]
+function UNIFORM-COST-SEARCH(problema) returns una soluzione, o failure
+    nodo <- CREA-NODO()
+    nodo.stato <- problema.stato_iniziale
+    nodo.path_cost <- 0
+    frontiera <- CREA-CODA-PRIORITA()  // ordinata per path_cost crescente
+    frontiera <- INSERISCI(nodo)
+    esplorati <- INSIEME-VUOTO()
+    loop do
+        if VUOTA(frontiera) then return failure
+        nodo <- POP(frontiera)         // il nodo con path_cost minimo
+        if problema.GOAL_TEST(nodo.stato) then return nodo
+        AGGIUNGI(nodo.stato, esplorati)
+        for each azione in problema.AZIONI(nodo.stato) do
+            figlio <- NODO-FIGLIO(problema, nodo, azione)
+            if figlio.stato not in esplorati and figlio.stato not in frontiera then
+                frontiera <- INSERISCI(figlio)
+            else if figlio.stato in frontiera con path_cost maggiore then
+                sostituisci quel nodo della frontiera con figlio
+            end if
+        end for
+    end loop
+\end{codice}
+
+	Rispetto alla BFS vista prima, le modifiche necessarie per garantire l'ottimalit\`a sono
+	due:
+	\begin{enumerate}
+		\item \textbf{Il goal test si effettua quando il nodo viene selezionato per
+			l'espansione} (subito dopo la \texttt{POP}), non quando viene generato.
+
+		\item \textbf{Se lo stato di un figlio \`e gi\`a presente nella frontiera con un path
+			cost maggiore, il vecchio nodo viene sostituito} da quello nuovo, che
+			rappresenta un cammino pi\`u economico verso lo stesso stato.
+	\end{enumerate}
+
+	\begin{nota}
+		{Approfondimento}{Perch\'e niente early goal test}
+		Nella BFS l'early goal test funziona perch\'e i nodi vengono \emph{generati} in
+		ordine di profondit\`a: il primo nodo obiettivo generato \`e anche il meno profondo.
+		Nella UCS, invece, l'ordine che conta \`e quello del path cost, e i nodi vengono
+		generati in un ordine che non ha nulla a che vedere con il loro costo: quando viene
+		generato un nodo obiettivo, nella frontiera possono esserci ancora nodi con $g$
+		minore da cui parte un cammino pi\`u economico verso lo stesso obiettivo. Fermarsi
+		alla generazione significherebbe restituire il \emph{primo} cammino trovato, non il
+		\emph{migliore}.
+
+		Con il goal test all'estrazione, invece, un nodo obiettivo con costo $g$ viene
+		restituito solo quando \`e il nodo pi\`u economico dell'intera frontiera. Poich\'e
+		gli step cost sono positivi, il costo lungo un cammino pu\`o solo crescere: ogni altro
+		cammino non ancora completato costa gi\`a almeno $g$, e non pu\`o portare a una
+		soluzione migliore. \`E esattamente il ragionamento visto nella sezione sugli stati
+		ripetuti, con la figura delle azioni $\mathcal{R}$ e $\mathcal{L}$.
+	\end{nota}
+
+	\subsubsection*{Propriet\`a}
+	Sia $C^*$ il costo della soluzione ottima e $\epsilon > 0$ il minimo step cost.
+	\begin{itemize}
+		\item \textbf{Completezza}: s\`i, se ogni step cost \`e $\geq \epsilon$ per qualche
+			$\epsilon > 0$. Con step cost nulli la ricerca potrebbe bloccarsi in un ciclo
+			infinito di azioni a costo zero (ad esempio un'azione \emph{NoOp} che lascia
+			lo stato invariato), perch\'e il path cost non crescerebbe mai.
+
+		\item \textbf{Complessit\`a temporale}: la UCS espande tutti i nodi con
+			$g \leq C^*$. Poich\'e ogni passo costa almeno $\epsilon$, un cammino di costo
+			$C^*$ ha al pi\`u $\lfloor C^*/\epsilon \rfloor$ passi: questo valore prende il
+			posto della profondit\`a $d$ della BFS. Il $+1$ all'esponente deriva dal goal test
+			all'estrazione, che costringe a generare anche i figli dei nodi dell'ultimo
+			livello. La complessit\`a temporale \`e quindi
+			\[
+				\mathcal{O}(b^{1 + \lfloor C^*/\epsilon \rfloor})
+			\]
+			Se tutti gli step cost valgono $\epsilon$, si ha $C^*/\epsilon = d$ e si ottiene
+			$\mathcal{O}(b^{d+1})$, cio\`e lo stesso costo della BFS con goal test
+			all'estrazione. Se invece esistono step cost molto piccoli, $C^*/\epsilon$ pu\`o
+			essere molto pi\`u grande di $d$: la UCS pu\`o esplorare a lungo cammini fatti
+			di tanti passi economici prima di considerare passi pi\`u costosi ma utili.
+
+		\item \textbf{Complessit\`a spaziale}: come per la BFS, i nodi generati restano in
+			memoria, quindi anche lo spazio \`e
+			$\mathcal{O}(b^{1 + \lfloor C^*/\epsilon \rfloor})$.
+
+		\item \textbf{Ottimalit\`a}: s\`i. I nodi vengono espansi in ordine crescente di
+			$g(n)$, quindi il primo nodo obiettivo estratto dalla frontiera \`e quello con il
+			cammino a costo minimo.
 	\end{itemize}
 \end{document}
 
