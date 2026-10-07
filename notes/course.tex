@@ -61,7 +61,7 @@ Scale=MatchLowercase
 	macchina pu\`o essere considerata dotata di intelligenza. Tale esperimento,
 	noto come \emph{Test di Turing}, coinvolge un interrogatore umano che comunica
 	con due entit\`a nascoste: una \textbf{macchina} e un \textbf{essere umano}. 
-    L'interrogatore sottopone domande ad entrambe le entit\`a e, basandosi sulle risposte 
+    L'interrogatore sottopone domande a entrambe le entit\`a e, basandosi sulle risposte 
     fornite, deve determinare quale delle due \`e la macchina. Se l'interrogatore non \`e in
 	grado di distinguere le due parti, la macchina \`e considerata intelligente.
 
@@ -95,7 +95,7 @@ Scale=MatchLowercase
 	trovare possibili pattern, correlazioni e regole statistiche necessarie per svolgere
 	il compito.
 
-	L'apprendimento automatico \`e suddiviso in tre categorie principali:
+	Il Machine Learning \`e suddiviso in tre categorie principali:
 	\begin{itemize}
 		\item \textbf{Unsupervised Learning}: il modello viene addestrato nel corso del
 			tempo su un insieme di dati non etichettati (senza alcun ``tag'', categoria,
@@ -104,7 +104,7 @@ Scale=MatchLowercase
 			corrette predefinite.
 
 		\item \textbf{Supervised Learning}: il modello viene addestrato su un insieme
-			di dati etichettati, dove ogni esempio di input \`e associato ad una risposta
+			di dati etichettati, dove ogni esempio di input \`e associato a una risposta
 			corretta. L'obiettivo \`e che il modello impari a mappare gli input alle risposte
 			corrette.
 
@@ -120,15 +120,15 @@ Scale=MatchLowercase
 	\end{itemize}
 
 	\subsection{Time Series Analysis}
-	L'analisi delle serie temporali \`e un'area dell'apprendimento automatico che si
-	concentra sull'analisi di dati collezionati nel tempo. Le serie temporali sono
-	sequenze di dati misurati ad intervalli regolari (temperatura giornaliera,
+	La Time Series Analysis \`e un'area del Machine Learning che si
+	concentra sull'analisi di dati raccolti nel tempo. Le time series sono
+	sequenze di dati misurati a intervalli regolari (temperatura giornaliera,
 	prezzi delle azioni o dati di vendita mensili). In questo caso, l'obiettivo \`e
 	identificare pattern, tendenze, stagionalit\`a\footnote{Stagionalit\`a: la presenza
-	di fluttuazioni, variazioni o pattern regolari prevedibili che si ripetono a
+	di fluttuazioni, variazioni o pattern prevedibili che si ripetono a
 	intervalli regolari di tempo.} per fare previsioni future.
 
-	Gli approcci comuni per l'analisi delle serie temporali sono:
+	Gli approcci comuni per la Time Series Analysis sono:
 	\begin{itemize}
 		\item \textbf{Riconoscimento di anomalie e cause}: processo di identificazione
 			di dati o eventi che si discostano significativamente dal comportamento normale
@@ -142,17 +142,17 @@ Scale=MatchLowercase
 			parti della sequenza in input durante la generazione di output.
 
 			\emph{Esempio}: Se il modello di apprendimento sta elaborando la sequenza di
-			token relativa alla frase ``ho mangiato una pesca'', il meccanismo alla
-			base di attenzione assegner\`a un peso (punteggio) molto elevato alle
+			token relativa alla frase ``ho mangiato una pesca'', il meccanismo di
+			attenzione assegner\`a un peso (punteggio) molto elevato alle
 			parole ``mangiato'' e ``una'' per aiutare il sistema a capire che ci si
 			sta riferendo al frutto e non all'hobby di pescare.
 	\end{itemize}
 
 	\subsection{Intelligent Agents}
-	Un agente intelligente \`e un sistema che percepisce l'ambiente circostante
+	Un Intelligent Agent \`e un sistema che percepisce l'ambiente circostante
 	attraverso sensori e agisce sull'ambiente per raggiungere un obiettivo
-	specifico e svolgere un determinato compito. Gli elementi cardine di un agente
-	intelligente includono:
+	specifico e svolgere un determinato compito. Gli elementi cardine di un
+	Intelligent Agent includono:
 	\begin{itemize}
 		\item \textbf{Performance Measure}: misurazione del successo (efficacia) dell'agente
 			nel raggiungere i suoi obiettivi.
@@ -193,8 +193,8 @@ Scale=MatchLowercase
 			\begin{displaymath}
 				\text{T}(s, a, s') = P(s' \mid s, a)
 			\end{displaymath}
-			Dove $T$ \`e la funzione di transizione e esprime la probabilit\`a di
-			capitare nello stato $s'$ sapendo che si \`e nello stato s e che l'azione $a$
+			dove $T$ \`e la funzione di transizione ed esprime la probabilit\`a di
+			capitare nello stato $s'$ sapendo che si \`e nello stato $s$ e che l'azione $a$
 			viene eseguita.
 
 			\begin{nota}
@@ -207,7 +207,7 @@ Scale=MatchLowercase
 			\begin{displaymath}
 				R: S \times A \times S \rightarrow \mathbb{R}
 			\end{displaymath}
-			Si definisce la ricompensa che l'agente guadagna raggiungendo quel passo:
+			Definisce il reward che l'agente ottiene compiendo quel passo:
 			\begin{itemize}
 				\item Il primo $S$ indica lo stato di partenza
 
@@ -217,8 +217,8 @@ Scale=MatchLowercase
 			\end{itemize}
 
 		\item \textbf{Policy}: strategia che l'agente utilizza per decidere quale azione
-			intraprendere in ogni stato con l'obiettivo di massimizzare la ricompensa totale
-			attesa nel tempo
+			intraprendere in ogni stato con l'obiettivo di massimizzare il reward totale
+			atteso nel tempo
 			\begin{displaymath}
 				\pi : S \rightarrow A
 			\end{displaymath}
@@ -235,17 +235,17 @@ Scale=MatchLowercase
 	In altre parole, lo stato corrente riassume tutta l'informazione rilevante per
 	decidere come agire.
 
-	\chapter{Agenti Intelligenti}
+	\chapter{Intelligent Agents}
 	\section{Definizione}
 	\begin{definizione}
-		[Agente Intelligente] Un \textbf{agente} \`e qualsiasi cosa possa essere vista
+		[Intelligent Agent] Un \textbf{agente} \`e qualsiasi cosa possa essere vista
 		come un sistema che percepisce il suo ambiente attraverso dei \textbf{sensori}
 		e agisce su di esso tramite \textbf{attuatori}.
 	\end{definizione}
 
 	\emph{Esempio}: L'agente umano possiede sensori come occhi e orecchie, mentre
 	pu\`o usare come attuatori mani, gambe, tratto vocale. Un agente robotico potrebbe
-	invece avere telecamere e telemetri a infrarossi per sensori e diversi motori come
+	invece avere telecamere e telemetri a infrarossi come sensori e diversi motori come
 	attuatori.
 
 	\vspace{2em}
@@ -373,9 +373,9 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 
 	Questo programma \`e adeguato se la performance measure prende in considerazione
 	solo il numero di stanze pulite. Se subentrassero altre metriche che portano
-	ad una definizione della performance measure diversa (stato della batteria,
+	a una definizione della performance measure diversa (stato della batteria,
 	percentuale di ricarica, minimizzare il numero di spostamenti), tale programma
-	non \`e in grado di esprimere la cosa migliore da fare. Da notare che l'agente
+	non sarebbe in grado di esprimere la cosa migliore da fare. Da notare che l'agente
 	che implementa tale programma \`e un \textbf{Simple Reflex Agent}: l'azione
 	dipende soltanto dalla percezione corrente.
 
@@ -392,12 +392,12 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	una sequenza di azioni in base alle percezioni che riceve. Questa sequenza di
 	azioni porta l'ambiente ad attraversare una sequenza di stati: se tale sequenza
 	\`e desiderabile, significa che l'agente si \`e comportato bene. Questa nozione
-	di desiderabilit\`a \`e catturata da una misura di prestazione che valuta la
+	di desiderabilit\`a \`e catturata da una performance measure che valuta la
 	sequenza di stati dell'ambiente.
 
 	In un dato momento, ci\`o che \`e razionale dipende da quattro fattori:
 	\begin{itemize}
-		\item la misura di prestazione che definisce il criterio del successo
+		\item la performance measure che definisce il criterio del successo
 
 		\item la conoscenza pregressa dell'ambiente da parte dell'agente
 
@@ -409,14 +409,14 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	Tutto ci\`o porta a una definizione molto formale di \textbf{agente razionale}:
 	\begin{definizione}
 		Per ogni possibile sequenza di percezioni, un agente razionale dovrebbe
-		scegliere un'azione che massimizzi il valore atteso della sua misura di
-		prestazione, date le informazioni fornite dalla sequenza percettiva e da ogni
+		scegliere un'azione che massimizzi il valore atteso della sua performance
+		measure, date le informazioni fornite dalla sequenza percettiva e da ogni
 		ulteriore conoscenza dell'agente.
 	\end{definizione}
 
 	La razionalit\`a allora non \`e altro che un problema di ottimizzazione sulla
 	performance measure: un agente razionale sceglie l'azione che massimizza il valore
-	atteso della misura di prestazione, data la sequenza percettiva accumulata
+	atteso della performance measure, data la sequenza percettiva accumulata
 	fino a quel momento.
 
 	Notare come essere razionale non vuol dire essere onnisciente.\footnote{Possedere
@@ -426,8 +426,8 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 
 	\begin{nota}
 		{Differenza}{Razionalit\`a vs Perfezione} La razionalit\`a massimizza la
-		prestazione \textbf{attesa}, mentre la perfezione massimizzerebbe la
-		prestazione \textbf{effettiva}. Un agente razionale non pu\`o essere
+		performance \textbf{attesa}, mentre la perfezione massimizzerebbe la
+		performance \textbf{effettiva}. Un agente razionale non pu\`o essere
 		giudicato per esiti che non poteva prevedere: se attraverso la strada dopo aver
 		controllato che sia libera e vengo colpito da un oggetto caduto dall'alto,
 		la mia scelta \`e stata comunque razionale.
@@ -484,7 +484,7 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	\end{itemize}
 
 	\needspace{8\baselineskip}
-	\emph{Esempio}: Prendiamo in considerazione un taxi automatico: il PEAS
+	\emph{Esempio}: Prendiamo in considerazione un taxi automatico. Il PEAS
 	potrebbe essere:
 	\begin{table}[H]
 		\centering
@@ -528,7 +528,7 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 			conosce le regole dell'ambiente, cio\`e gli esiti delle azioni
 	\end{itemize}
 	\begin{nota}
-		{Approfondimento}{Scenario Singolo Agente in contesti Multi-Agenti} Un
+		{Approfondimento}{Scenario Singolo Agente in contesti Multi-Agente} Un
 		ambiente multi-agente pu\`o essere considerato singolo agente in quelle
 		circostanze in cui si prevede la progettazione di un singolo agente mentre
 		gli altri agenti non vengono modellati (che quindi vengono considerati elementi
@@ -568,7 +568,7 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 
 		\item \textbf{Non osservabile} $\implies$ \textbf{problema conformante}. \\L'agente
 			potrebbe non avere idea di dove si trovi: l'agente non dispone di sensori.
-            la soluzione (se esiste) \`e una sequenza di azioni.
+            La soluzione (se esiste) \`e una sequenza di azioni.
 
 		\item \textbf{Non deterministico e/o parzialmente osservabile} $\implies$
 			\textbf{problema di contingenza}. \\Le percezioni forniscono costantemente
@@ -604,13 +604,13 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 
 		\item Reflex Agents with State
 
-		\item Agenti basati su obiettivi (Goal-Based Agents)
+		\item Goal-Based Agents
 
-		\item Agenti basati sull'utilit\`a (Utility-Based Agents)
+		\item Utility-Based Agents
 	\end{itemize}
 
 	\subsection{Simple Reflex Agents}
-	L'architettura pi\`u semplice \`e l'\textbf{Agente Reattivo Semplice}. Questi agenti
+	L'architettura pi\`u semplice \`e il \textbf{Simple Reflex Agent}. Questi agenti
 	scelgono le azioni sulla base della percezione corrente, ignorando tutta la
 	storia percettiva precedente. Pertanto, il principio seguito \`e quello del
 	tipo \textbf{regola condizione-azione}.
@@ -666,7 +666,7 @@ function AGENTE-REATTIVO-SEMPLICE(percezione) returns azione
 \end{codice}
 % \end{noindent}
 
-	Gli agenti reattivi semplici hanno il pregio della semplicit\`a, ma un'intelligenza
+	I Simple Reflex Agents hanno il pregio della semplicit\`a, ma un'intelligenza
 	molto limitata: funzionano correttamente \textbf{solo se l'ambiente \`e completamente
 	osservabile}, cio\`e se la decisione giusta pu\`o essere presa sulla base
 	della sola percezione corrente. Anche una minima parte di non osservabilit\`a pu\`o
@@ -686,7 +686,7 @@ function AGENTE-REATTIVO-SEMPLICE(percezione) returns azione
 	almeno una parte degli aspetti non osservabili dello stato corrente. In particolare,
 	aggiornare lo stato interno richiede due componenti fondamentali: gli effetti delle
 	azioni dell'agente e le modalit\`a di evoluzione del mondo indipendentemente dall'agente.
-	Tale conoscenza viene implementata tramite un \textbf{modello di transizione}.
+	Tale conoscenza viene implementata tramite un \textbf{transition model}.
 	Inoltre, sono necessari \textbf{modelli sensoriali} che descrivono come lo
 	stato del mondo si rifletta nelle percezioni dell'agente.
 
@@ -765,18 +765,17 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	La conoscenza dello stato corrente dell'ambiente non \`e sempre sufficiente per
 	decidere quale azione intraprendere. Spesso \`e necessario introdurre informazioni
 	relative all'\textbf{obiettivo} (\textit{goal}), ovvero la descrizione delle
-	situazioni desiderabili da raggiungere. Un agente basato su obiettivi (\textit{Goal-Based
-	Agent}) combina queste informazioni con il proprio modello interno del mondo, superando
+	situazioni desiderabili da raggiungere. Un \textit{Goal-Based Agent} combina queste informazioni con il proprio modello interno del mondo, superando
 	il limite delle semplici regole ``condizione-azione''. Non basta pi\`u, infatti,
-	associare direttamente una percezione a un'azione prestabilita. A differenza degli
-	agenti reattivi (\textit{Reflex Agents}), in cui l'obiettivo \`e solo
-	implicito nelle regole pre-programmate, l'agente basato su obiettivi valuta in
+	associare direttamente una percezione a un'azione prestabilita. A differenza dei
+	\textit{Reflex Agents}, in cui l'obiettivo \`e solo
+	implicito nelle regole pre-programmate, il Goal-Based Agent valuta in
 	modo esplicito le conseguenze delle proprie scelte: prima di agire, analizza attivamente
 	se lo svolgimento di una determinata azione lo porter\`a o meno al soddisfacimento
 	del proprio scopo.
 
-	\emph{Esempio}: L'agente reattivo frena quando vede le luci di frenata, senza
-	rendersi conto del motivo. Un agente basato su obiettivi frena quando vede le luci
+	\emph{Esempio}: Il Reflex Agent frena quando vede le luci di frenata, senza
+	rendersi conto del motivo. Un Goal-Based Agent frena quando vede le luci
 	di frenata perch\'e quella \`e l'unica azione che, secondo la sua previsione,
 	permette di raggiungere l'obiettivo di non tamponare altre macchine.
 
@@ -784,30 +783,30 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	identificare le sequenze di azioni da intraprendere per raggiungere gli
 	obiettivi.
 
-	Pu\`o sembrare che un Goal-Based Agent sia meno efficiente (magari l'agente che
-	modella le funzionalit\`a di guida autonoma potrebbe frenare invece di accelerare
-	su una strada dritta ad alta velocit\`a), ma garantisce maggiore \textbf{flessibilit\`a},
+	Pu\`o sembrare che un Goal-Based Agent sia meno efficiente (invece di applicare
+	una regola gi\`a pronta, prima di agire deve simulare le conseguenze delle possibili
+	azioni e verificare se portano all'obiettivo), ma garantisce maggiore \textbf{flessibilit\`a},
 	perch\'e la conoscenza che guida le sue decisioni \`e rappresentata
 	esplicitamente e pu\`o essere modificata.
 
-	\subsection{Agenti Basati Sull'Utilit\`a}
+	\subsection{Utility-Based Agents}
 	Raggiungere semplicemente un obiettivo non basta: per un risultato ottimale \`e
 	fondamentale valutare anche la qualit\`a e l'efficienza delle azioni scelte per
 	ottenerlo (come velocit\`a, sicurezza o convenienza).
 
 	In questo ambito, infatti, si introduce il concetto di \textbf{Utilit\`a}: all'interno
 	dell'agente viene implementata una \textbf{Funzione di utilit\`a} che internalizza
-	la performance measure. Purch\'e la funzione di utilit\`a interna e la misura di
-	prestazione esterna concordino, un agente che sceglie le azioni per massimizzare
-	l'utilit\`a sar\`a comunque razionale in base alla misura di prestazione esterna.
+	la performance measure. Purch\'e la funzione di utilit\`a interna e la performance
+	measure esterna concordino, un agente che sceglie le azioni per massimizzare
+	l'utilit\`a sar\`a comunque razionale in base alla performance measure esterna.
 
 	Si sottolinea che questo non \`e l'unico modo per essere razionali: l'esempio 
     sull'aspirapolvere mostra la modellazione di un comportamento razionale senza 
-    introdurre obiettivi o funzioni di utilit\`a. Ma anche in questo caso i vantaggi sono
+    introdurre obiettivi o funzioni di utilit\`a. Anche in questo caso, comunque, i vantaggi sono
 	principalmente in termini di flessibilit\`a, soprattutto in contesti in cui \`e
 	necessario prendere decisioni in condizioni d'incertezza.
 
-	In termini tecnici, un agente razionale basato sull'utilit\`a sceglie l'azione
+	In termini tecnici, un Utility-Based Agent razionale sceglie l'azione
 	che massimizza l'\textbf{utilit\`a attesa} dei risultati, ovvero l'utilit\`a
 	che l'agente si attende di ottenere, in media, date le probabilit\`a e le
 	utilit\`a di ciascun risultato.
@@ -926,15 +925,14 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	Quando l'azione da svolgere non \`e subito evidente, un agente potrebbe avere
 	la necessit\`a di guardare avanti, cio\`e considerare una sequenza di azioni 
     (\emph{cammino})
-	che porta a uno stato obiettivo. Questo tipo di agente viene chiamato \textbf{Agente
-	Risolutore di Problemi} (\emph{Problem Solving Agent}). Gli agenti risolutori di
-	problemi utilizzano rappresentazioni \textbf{atomiche} degli stati, i quali vengono
+	che porta a uno stato obiettivo. Questo tipo di agente viene chiamato \textbf{Problem Solving Agent}. I Problem Solving Agents
+	utilizzano rappresentazioni \textbf{atomiche} degli stati, i quali vengono
 	considerati come entit\`a prive di una struttura interna.
 
 	I Problem Solving Agents sono in particolare una sottocategoria dei Goal-Based
 	Agents. Per decidere quale azione intraprendere, questi agenti adottano un approccio
-	sistematico sequenziale basato sulla formulazione di problemi, determinazione
-	di obiettivi e sulla ricerca di soluzioni. Tale processo si divide in quattro macro-fasi:
+	sistematico sequenziale basato sulla formulazione di obiettivi e problemi e sulla
+	ricerca di soluzioni. Tale processo si divide in quattro macro-fasi:
 	\begin{enumerate}
 		\item \textbf{Formulazione dell'obiettivo (\emph{Goal Formulation})}: dato lo
 			stato corrente dell'ambiente, l'agente definisce una situazione
@@ -958,7 +956,7 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	\begin{nota}
 		{Differenza}{Online vs Offline Problem Solving} A differenza della tecnica
 		offline, la quale pu\`o essere usata in ambienti completamente deterministici
-		e osservabili, la \textbf{Online Problem Solving} prevede che l'agente agisca
+		e osservabili, l'\textbf{Online Problem Solving} prevede che l'agente agisca
 		in condizioni di parziale ignoranza, dove la conoscenza sull'ambiente non \`e
 		completa. Pertanto \`e indispensabile che i sensori rimangano attivi per valutare
 		l'esito delle proprie azioni.
@@ -990,8 +988,10 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
 \end{codice}
 % \end{noindent}
 
-    Da notare come l'agente sceglie cosa fare \textbf{solamente} all'inizio e poi 
-    continua, ignorando completamente le percezioni.
+    Da notare come l'agente decida cosa fare \textbf{solamente} quando la sequenza \texttt{seq}
+    \`e vuota: in quel momento formula obiettivo e problema e cerca una soluzione, poi la
+    esegue ignorando completamente le percezioni. Solo una volta esaurita la sequenza
+    torna a formulare un nuovo obiettivo.
 
     \section{Come Formulare un Problema}
     \subsection{Problema: Vacanze in Romania (con un M5 e39)}
@@ -1012,25 +1012,24 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
             arrivare a Bucarest
     \end{itemize}
 
-    Fin da subito \`e possibile mettere in discussione il livello di deterministicit\`a 
+    Fin da subito \`e possibile mettere in discussione il livello di determinismo
     del problema. A causa di agenti esterni (incidenti, lavori) si potrebbe 
-    essere dirottati su citt\`a non scelte. Tali supposizioni vengono inizialmente ignorate. 
+    essere dirottati su citt\`a non scelte. Tali eventualit\`a vengono inizialmente ignorate. 
     In questo caso vogliamo trovare \textbf{una} soluzione: non \`e detto che quella 
     trovata sia a costo minimo.
-    %TODO: importare immagine grafo topologico ROMANIA
     \begin{center}
         \includegraphics[width=0.7\textwidth]{images/romania_mappa}
     \end{center}
 
-    Cerchiamo di proporre una formulazione di tale quesito mediante Single-State problem. 
+    Cerchiamo di proporre una formulazione di tale quesito come Single-State Problem. 
     Allora si individuano i seguenti elementi:
     \begin{enumerate}
         \item \textbf{Stato Iniziale}: la citt\`a di partenza.
 
-        \item \textbf{Successor Function} che assume la seguente forma: 
-            $f : S \times A \rightarrow S$.
-            Si mappa uno stato e un'azione in un altro stato. 
-            \emph{Esempio}: $S(A) = \{<Arad \rightarrow Zerind, Zerind>, \hdots \}$
+        \item \textbf{Successor Function} $S(x)$: dato uno stato $x$, restituisce
+            l'insieme delle coppie \emph{azione--stato}, ovvero ogni azione applicabile
+            in $x$ insieme allo stato in cui porta.
+            \emph{Esempio}: $S(A) = \{\langle Arad \rightarrow Zerind, Zerind \rangle, \hdots \}$
 
         \item \textbf{Goal Test} che pu\`o essere di due nature diverse:
             \begin{enumerate}
@@ -1042,20 +1041,19 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
 
         \item \textbf{Path Cost}: Non sempre si desidera trovare una soluzione qualunque. 
             Potrebbe essere utile trovare quella a costo minimo. Nel nostro esempio 
-            corrisponde ad una metrica che indica il costo di un percorso 
-            (il costo espresso sugli archi). Il path cost \`e un processo additivo in 
+            corrisponde a una metrica che indica il costo di un percorso 
+            (il costo espresso sugli archi). Il path cost \`e una funzione additiva in 
             cui vengono sommati gli \textbf{step cost}, 
-            funzioni del tipo $STEP\_COST = S \times A \times S \rightarrow \mathbb{R}^+$.
+            funzioni del tipo $\text{STEP-COST}: S \times A \times S \rightarrow \mathbb{R}^+$.
         \item \textbf{Soluzione}: sequenza di azioni che porta dallo stato iniziale a 
-            uno dei goal-state.
+            uno dei goal state.
     \end{enumerate}
 
     \section{Tree-Search Algorithm}
-    L'idea di base \`e fare un'esplorazione simulata e offline 
-    (essendo un single state problem)
-    le percezioni vengono ignorate. Concettualmente l'agente ragiona, individua una sequenza di
-    azioni e procede a eseguirla. Pertanto si generano dei successori degli stati usando 
-    regole che si conoscono del mondo.
+    L'idea di base \`e fare un'esplorazione simulata e offline:
+    essendo un Single-State Problem, le percezioni vengono ignorate. Concettualmente l'agente ragiona, individua una sequenza di
+    azioni e procede a eseguirla. Pertanto si generano i successori degli stati usando
+    le regole note del mondo.
 
 % \begin{noindent}
 \begin{codice}
@@ -1065,9 +1063,9 @@ function TREE-SEARCH(problema, strategia) returns una soluzione, o failure
 
     loop do
         if nessun candidato per l'espansione then return failure
-        scelgo uno dei nodi per l'espansione seguendo la strategia
-        if nodo contiene un goal-state then return soluzione
-        else aggiungi il nodo successore al search tree (e espando)
+        scegli uno dei nodi per l'espansione seguendo la strategia
+        if il nodo contiene un goal state then return la soluzione
+        else espandi il nodo e aggiungi i successori all'albero di ricerca
     end
 \end{codice}
 % \end{noindent}
@@ -1095,15 +1093,15 @@ function TREE-SEARCH(problema, strategia) returns una soluzione, o failure
 			\textbf{Action} & l'azione applicata al padre per generare il nodo \\
 			\textbf{Children} & i nodi generati espandendo il nodo \\
 			\textbf{Depth} & il numero di passi dalla radice \\
-			\textbf{Path cost} $g(x)$ & il costo del cammino dalla radice fino al nodo \\
+			\textbf{Path cost} $g(n)$ & il costo del cammino dalla radice fino al nodo \\
 			\bottomrule
 		\end{tabularx}
 	\end{table}
 
 	\begin{nota}
 		{Differenza}{Stato vs Nodo}
-		Gli stati \textbf{non} hanno padre, azioni, figli, profondit\`a o costo di
-		cammino: queste informazioni dipendono dal \emph{percorso} seguito e non dal
+		Gli stati \textbf{non} hanno padre, azioni, figli, profondit\`a o path
+		cost: queste informazioni dipendono dal \emph{percorso} seguito e non dal
 		mondo. Per questo lo \textbf{stesso stato} pu\`o comparire in \textbf{pi\`u
 		nodi diversi} dell'albero di ricerca.
 	\end{nota}
@@ -1120,4 +1118,177 @@ function TREE-SEARCH(problema, strategia) returns una soluzione, o failure
 	contengono per\`o lo stesso stato. In sintesi: lo stato indica \emph{dove} si trova
 	l'agente, il nodo indica anche \emph{come} ci \`e arrivato.
 
+    \subsection{Un'implementazione di pi\`u basso livello}
+
+    Lo pseudocodice sopra descritto risulta essere di carattere estremamente generale,
+    pertanto si pone a un livello di astrazione tale che risulta estremamente complesso
+    procedere con una sua implementazione. Ecco perch\'e generalmente si utilizza
+    uno pseudocodice che fornisce una descrizione di pi\`u basso livello.
+
+\begin{codice}
+[Tree-Search Algorithm]
+function TREE-SEARCH(problema, frontiera) returns una soluzione, o failure
+    frontiera <- INSERISCI(CREA-NODO(problema.stato_iniziale))
+    while not VUOTA(frontiera) do
+        nodo <- POP(frontiera)
+        if problema.GOAL_TEST(nodo.stato) then return nodo
+        frontiera <- INSERISCI_TUTTI(ESPANDI(nodo, problema))
+    end loop
+    return failure
+\end{codice}
+
+    La \texttt{frontiera} non \`e altro che una struttura dati che contiene nodi, disposti
+    in un certo ordine. Il modo in cui i nodi vengono inseriti nella frontiera determina
+    il tipo di strategia che si sta utilizzando (Breadth First Search, Depth First Search, 
+    Best First Search \dots). 
+
+    Notiamo come la strategia non \`e pi\`u un parametro in input,
+    ma \`e intrinseca nel modo in cui i nodi vengono inseriti nella frontiera.
+    Prima di tutto, inseriamo nella frontiera il nodo corrispondente allo stato iniziale. Fino a quando la frontiera
+    non \`e vuota si itera estraendo il primo nodo dalla frontiera (i nodi sono ordinati secondo la
+    priorit\`a definita dalla strategia) e si controlla se il nodo contiene il \emph{goal state}.
+    In caso affermativo, il nodo viene restituito, altrimenti si espande il nodo appena
+    estratto dalla frontiera basandosi sulle regole presenti nel problema e poi si procede
+    a inserire ci\`o che si \`e ottenuto con l'espansione all'interno della frontiera seguendo
+    un determinato ordine. L'ordine stesso determina il modo in cui si effettua la ricerca.
+
+    Di seguito lo pseudocodice della funzione \texttt{ESPANDI}:
+
+\begin{codice}
+[Expand Function]
+function ESPANDI(nodo, problema) returns un insieme di nodi
+    successori <- INSIEME-VUOTO()
+    for each (azione, risultato) in FUNZIONE-SUCCESSORI(problema, nodo.stato) do
+        s <- CREA-NODO()
+        s.padre <- nodo
+        s.azione <- azione
+        s.stato <- risultato
+        s.path_cost <- nodo.path_cost + 
+                                    STEP-COST(nodo.stato, azione, risultato)
+
+        s.profondita <- nodo.profondita + 1
+        AGGIUNGI(s, successori)
+    end loop
+    return successori
+\end{codice}
+
+    In particolare, analizziamo il suo comportamento:
+    \begin{enumerate}
+        \item La funzione \texttt{FUNZIONE-SUCCESSORI} implementa la Successor Function $S(x)$:
+        restituisce l'insieme delle coppie (\texttt{azione}, \texttt{risultato}), cio\`e
+        tutte le azioni applicabili nello stato del nodo e gli stati che ne risultano. Se un'azione
+        non altera l'ambiente, si rimane nello stesso stato di partenza.
+
+        \item Il nuovo nodo non contiene solo lo stato di arrivo isolato, ma registra 
+        esplicitamente il nodo padre (attributo \texttt{padre}) e l'azione eseguita (attributo
+        \texttt{azione}). 
+        Questa serie di puntatori è ciò che permette di ricostruire l'intero percorso 
+        (la soluzione) una volta raggiunto l'obiettivo.
+
+        \item Il calcolo \texttt{nodo.path\_cost + STEP-COST} accumula il costo effettivo del percorso
+        dalla radice fino a quel punto esatto.
+
+        \item Raccolta dei risultati: tutti i nuovi nodi istanziati e completamente popolati
+        vengono aggiunti all'insieme \texttt{successori}, che viene poi restituito al chiamante.
+    \end{enumerate}
+
+    \subsection{Search Strategies}
+    Una strategia è definita scegliendo l'\textbf{ordine di espansione dei nodi}.
+    Le strategie sono valutate in base alle seguenti dimensioni:
+    \begin{itemize}
+        \item \textbf{completezza}: se c'\`e una soluzione, la ricerca \`e in
+            grado di trovarla.
+        \item \textbf{complessità temporale}: in funzione del numero di nodi generati/espansi,
+            poich\'e generare e valutare un nodo richiede tempo.
+        \item \textbf{complessità spaziale}: numero massimo di nodi in memoria. Tutti
+            i nodi che sono in memoria sono stati generati, ma potrebbe essere necessario
+            tenere in memoria meno nodi rispetto a quelli generati.
+        \item \textbf{ottimalità}: trova sempre la soluzione a costo minimo (quindi si
+            desidera ottimizzare il \texttt{path\_cost}, non la profondit\`a)
+    \end{itemize}
+
+    \begin{nota}
+        {Differenza}{Generated vs Expanded}
+        Qui il comportamento delle due procedure \`e molto diverso: la \textbf{generazione}
+        procede a istanziare un nuovo nodo allocando lo spazio necessario e inizializzandone gli
+        attributi, analogamente al concetto di costruttore nella OOP.
+        L'espansione, invece, prende un nodo e le regole di un problema per procedere a 
+        generare tutti i nodi figli da poi inserire nella frontiera.
+    \end{nota}
+
+    La complessità temporale e quella spaziale sono misurate in termini di:
+    \begin{itemize}
+        \item $b$: fattore di diramazione massimo dell'albero di ricerca. In parole meno
+            tecnici, il massimo numero di figli di ciascun nodo.
+        \item $d$: profondità della soluzione a costo minimo.
+        \item $m$: profondità massima dello spazio degli stati (può essere $\infty$)
+    \end{itemize}
+
+    Notiamo come $m$ \`e dato dallo spazio degli stati, mentre $d$ dalla soluzione a costo 
+    minimo (tipicamente $d \ll m$).
+
+    \newpage
+    \subsection{Stati Ripetuti}
+    Dato uno stato, possono esistere diverse azioni che consentono di raggiungere lo stesso
+    stato successivo.
+
+    \begin{center}
+    \begin{tikzpicture}[
+        >=Stealth, 
+        nodo/.style={circle, draw=black, fill=gray!80, inner sep=3pt, minimum size=0.25cm}
+    ]
+
+    % Definizione dei nodi centrali
+    \node[nodo] (A) at (0, 0) {};
+    \node[nodo] (B) at (0, -2) {};
+    \node[nodo] (C) at (0, -4) {};
+    \node[nodo] (D) at (0, -6) {};
+
+    % Etichette delle lettere a sinistra
+    \node at (-1.5, 0)  {\textbf{A}};
+    \node at (-1.5, -2) {\textbf{B}};
+    \node at (-1.5, -4) {\textbf{C}};
+    \node at (-1.5, -6) {\textbf{D}};
+
+    % Etichette scritte a mano blu in alto (R e L)
+    \node[text=blue!80!black, font=\Large] at (-0.8, 0.4) {$\mathcal{R}$};
+    \node[text=blue!80!black, font=\Large] at (0.8, 0.4) {$\mathcal{L}$};
+
+    % Archi tra A e B
+    \draw[->] (A) to[out=180, in=180, looseness=1.5] (B);
+    \draw[->] (A) to[out=0, in=0, looseness=1.5] (B);
+
+    % Archi tra B e C
+    \draw[->] (B) to[out=180, in=180, looseness=1.5] (C);
+    \draw[->] (B) to[out=0, in=0, looseness=1.5] (C);
+
+    % Archi tra C e D
+    \draw[->] (C) to[out=180, in=180, looseness=1.5] (D);
+    \draw[->] (C) to[out=0, in=0, looseness=1.5] (D);
+
+    % Archi uscenti da D
+    \draw[->] (D) to[out=180, in=90] (-0.9, -7);
+    \draw[->] (D) to[out=0, in=90] (0.9, -7);
+
+    \end{tikzpicture}
+    \end{center}
+
+
+    Si osservi che lo stato B viene rappresentato nella frontiera \textbf{da 2 nodi distinti}:
+    il primo generato dall'azione $\mathcal{R}$ e il secondo dall'azione $\mathcal{L}$. 
+    Questa ridondanza fa sì che la complessità del problema cresca notevolmente, 
+    assumendo un andamento di tipo esponenziale.
+
+    Sebbene in generale si preferisca evitare l'espansione di stati ripetuti, è fondamentale 
+    prestare attenzione poiché, in certi contesti, mantenere l'esplorazione di questi 
+    percorsi multipli è cruciale per garantire l'ottimalità. Infatti, se un nodo appena 
+    espanso corrisponde al goal state e la ricerca viene interrotta
+    immediatamente, si rischia di accettare una soluzione non ottimale.
+
+    Facendo riferimento alla figura, supponiamo che B sia il goal state e che
+    lo step cost associato all'azione $\mathcal{R}$ sia maggiore rispetto 
+    a quello di $\mathcal{L}$. Se l'algoritmo si fermasse all'istante subito dopo aver 
+    raggiunto B tramite $\mathcal{R}$, la soluzione a costo minimo 
+    (ovvero quella ottenibile tramite l'azione $\mathcal{L}$) verrebbe ignorata e 
+    mai individuata.
 \end{document}
