@@ -25,6 +25,28 @@
     Scale=MatchLowercase
 ]
 
+\newcounter{escount}[section]
+\newcommand{\esercizio}{
+    \needspace{8\baselineskip}% Evita il titolo isolato a fondo pagina
+    \stepcounter{escount}% Incrementa il contatore di 1
+    \subsection*{Esercizio \arabic{escount}}% Genera il titolo non numerato nativamente
+}
+
+% Testo dell'esercizio, evidenziato rispetto alla soluzione
+\newtcolorbox{enunciato}{
+    enhanced,
+    breakable,
+    sharp corners,
+    boxrule=0pt,
+    leftrule=2pt,
+    colframe=codekeyword,
+    colback=codekeyword!5,
+    before skip=6pt,
+    after skip=10pt,
+    left=8pt,
+    right=8pt
+}
+
 \definecolor{defborder}{HTML}{1F3FA8}
 \definecolor{defback}{HTML}{F4F6FB}
 
@@ -52,6 +74,7 @@
 
 \newtcolorbox{nota}[2]{
     breakable,
+    enlargepage flexible=2\baselineskip, % evita che resti una riga sola sulla pagina dopo
     enhanced,
     sharp corners,
     boxrule=0.6pt,
@@ -161,20 +184,17 @@
 	\subsection{Machine Learning}
 	\`E lo sviluppo di algoritmi che permettono a modelli di apprendere da \emph{dati
 	di esempio} e migliorare le loro prestazioni nel tempo senza essere
-	esplicitamente programmati: a differenza della programmazione manuale e tradizionale,
-	dove lo sviluppatore scrive una serie di istruzioni codificate in un
-	linguaggio di programmazione, si fornisce soltanto un algoritmo di base e una grande
-	quantit\`a di dati da cui apprendere. Il sistema analizza tali dati per
-	trovare possibili pattern, correlazioni e regole statistiche necessarie per svolgere
-	il compito.
+	esplicitamente programmati: a differenza della programmazione tradizionale, in cui lo
+	sviluppatore scrive le istruzioni, si fornisce soltanto un algoritmo di base e una
+	grande quantit\`a di dati, da cui il sistema ricava pattern, correlazioni e regole
+	statistiche necessarie per svolgere il compito.
 
 	Il Machine Learning \`e suddiviso in tre categorie principali:
 	\begin{itemize}
 		\item \textbf{Unsupervised Learning}: il modello viene addestrato nel corso del
 			tempo su un insieme di dati non etichettati (senza alcun ``tag'', categoria,
-			o classificazione assegnati a priori da un essere umano). Il target \`e scoprire
-			diverse strutture nascoste o pattern nei dati senza l'utilizzo di risposte
-			corrette predefinite.
+			o classificazione assegnati a priori da un essere umano). L'obiettivo \`e scoprire
+			strutture nascoste o pattern nei dati, senza risposte corrette predefinite.
 
 		\item \textbf{Supervised Learning}: il modello viene addestrato su un insieme
 			di dati etichettati, dove ogni esempio di input \`e associato a una risposta
@@ -196,7 +216,7 @@
 	La Time Series Analysis \`e un'area del Machine Learning che si
 	concentra sull'analisi di dati raccolti nel tempo. Le time series sono
 	sequenze di dati misurati a intervalli regolari (temperatura giornaliera,
-	prezzi delle azioni o dati di vendita mensili). In questo caso, l'obiettivo \`e
+	prezzi delle azioni o dati di vendita mensili). L'obiettivo \`e
 	identificare pattern, tendenze, stagionalit\`a\footnote{Stagionalit\`a: la presenza
 	di fluttuazioni, variazioni o pattern prevedibili che si ripetono a
 	intervalli regolari di tempo.} per fare previsioni future.
@@ -266,15 +286,9 @@
 			\begin{displaymath}
 				\text{T}(s, a, s') = P(s' \mid s, a)
 			\end{displaymath}
-			dove $T$ \`e la funzione di transizione ed esprime la probabilit\`a di
-			capitare nello stato $s'$ sapendo che si \`e nello stato $s$ e che l'azione $a$
-			viene eseguita.
-
-			\begin{nota}
-				{Approfondimento}{Transition Model} Da notare che $T$ \`e solo un altro modo
-				per descrivere la probabilit\`a condizionata di capitare in $s'$ sapendo
-				che si parte dallo stato $s$ e si esegue l'azione $a$.
-			\end{nota}
+			dove $T$ \`e la funzione di transizione: non \`e altro che la probabilit\`a
+			condizionata di capitare nello stato $s'$ partendo dallo stato $s$ ed eseguendo
+			l'azione $a$.
 
 		\item \textbf{Reward}: valore \textbf{immediato} dell'esecuzione di un'azione
 			\begin{displaymath}
@@ -374,12 +388,9 @@
 	integrata in esso e dall'intera sequenza percettiva osservata fino a quel
 	momento, ma non da qualcosa che l'agente non abbia percepito.
 
-	Specificando l'azione che un agente pu\`o scegliere in qualunque istante, si
-	definisce l'agente in modo completo. In termini matematici, il comportamento
-	di un agente \`e descritto dalla funzione agente, che descrive la
-	corrispondenza tra una qualsiasi sequenza percettiva e una specifica azione.
-
-	La funzione agente assume la seguente forma:
+	Specificando l'azione che un agente sceglie in qualunque istante, lo si definisce in
+	modo completo. In termini matematici, il comportamento di un agente \`e descritto dalla
+	\textbf{funzione agente}, che associa a ogni sequenza percettiva un'azione:
 	\begin{displaymath}
 		f: \mathcal{P}^{*}\rightarrow \mathcal{A}
 	\end{displaymath}
@@ -448,9 +459,8 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	solo il numero di stanze pulite. Se subentrassero altre metriche che portano
 	a una definizione della performance measure diversa (stato della batteria,
 	percentuale di ricarica, minimizzare il numero di spostamenti), tale programma
-	non sarebbe in grado di esprimere la cosa migliore da fare. Da notare che l'agente
-	che implementa tale programma \`e un \textbf{Simple Reflex Agent}: l'azione
-	dipende soltanto dalla percezione corrente.
+	non sarebbe in grado di esprimere la cosa migliore da fare. Si tratta di un
+	\textbf{Simple Reflex Agent}: l'azione dipende soltanto dalla percezione corrente.
 
 	\section{Razionalit\`a}
 	\subsection{Comportarsi Correttamente: il concetto di razionalit\`a}
@@ -479,7 +489,7 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 		\item la sequenza percettiva dell'agente fino allo stato corrente
 	\end{itemize}
 
-	Tutto ci\`o porta a una definizione molto formale di \textbf{agente razionale}:
+	Da qui la definizione formale di \textbf{agente razionale}:
 	\begin{definizione}
 		Per ogni possibile sequenza di percezioni, un agente razionale dovrebbe
 		scegliere un'azione che massimizzi il valore atteso della sua performance
@@ -487,15 +497,11 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 		ulteriore conoscenza dell'agente.
 	\end{definizione}
 
-	La razionalit\`a allora non \`e altro che un problema di ottimizzazione sulla
-	performance measure: un agente razionale sceglie l'azione che massimizza il valore
-	atteso della performance measure, data la sequenza percettiva accumulata
-	fino a quel momento.
-
-	Notare come essere razionale non vuol dire essere onnisciente.\footnote{Possedere
-	conoscenza illimitata su qualsiasi cosa.} Infatti le percezioni potrebbero non
-	fornire tutte le informazioni rilevanti in un dato istante. Pertanto, i
-	risultati potrebbero essere diversi da quelli previsti.
+	La razionalit\`a \`e quindi un problema di ottimizzazione sulla performance measure
+	attesa. Essere razionale non vuol dire essere onnisciente:\footnote{Possedere
+	conoscenza illimitata su qualsiasi cosa.} le percezioni potrebbero non fornire tutte
+	le informazioni rilevanti in un dato istante, e i risultati essere diversi da quelli
+	previsti.
 
 	\begin{nota}
 		{Differenza}{Razionalit\`a vs Perfezione} La razionalit\`a massimizza la
@@ -515,7 +521,7 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	idleness}), definita come la frazione del tempo in cui una stanza non \`e visitata
 	da alcun robot.
 
-	Per affrontare il problema, possiamo analizzare tre diverse strategie:
+	Per affrontare il problema, si possono analizzare tre diverse strategie:
 	\begin{itemize}
 		\item \textbf{Prima strategia (Vettore di inattivit\`a $[0, 1, 0]$):} I
 			robot non cambiano mai la loro posizione iniziale. Il robot $r_{1}$ rimane
@@ -523,13 +529,12 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 			ma la stanza B non viene mai coperta, generando un'inattivit\`a pari a 1.
 
 		\item \textbf{Seconda strategia (Vettore di inattivit\`a $[1/2, 1/2, 0]$):}
-			Si decide di muovere soltanto il primo robot ($r_{1}$), che si
-			sposter\`a continuamente da A a B e viceversa, mentre $r_{2}$ resta fermo
-			in C. In questo scenario, le stanze A e B rimangono scoperte per met\`a del tempo.
+			Si muove soltanto $r_{1}$, che si sposta continuamente tra A e B, mentre
+			$r_{2}$ resta fermo in C: le stanze A e B rimangono scoperte per met\`a del
+			tempo.
 
 		\item \textbf{Terza strategia (Vettore di inattivit\`a $[1/4, 1/2, 1/4]$):}
-			Questa strategia consente di far giocare un ruolo attivo anche al secondo
-			robot ($r_{2}$), coordinando il movimento di entrambi per coprire l'intera
+			Si muove anche $r_{2}$, coordinando i due robot per coprire l'intera
 			area: ogni robot trascorre $3/4$ del tempo nella propria stanza esterna e
 			$1/4$ in B, e i due non si trovano mai in B contemporaneamente. La stanza
 			B resta quindi coperta per met\`a del tempo.
@@ -538,11 +543,9 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	Si noti che in tutte e tre le strategie la somma delle inattivit\`a vale 1, quindi
 	l'\textbf{inattivit\`a media \`e sempre $1/3$}: rispetto all'obiettivo formale
 	le tre strategie sono equivalenti. Tuttavia la \textbf{terza strategia \`e la migliore}:
-	nella pratica, per coprire il pi\`u possibile tutte le diverse stanze in modo omogeneo,
-	\`e fondamentale introdurre il concetto di \emph{equit\`a}. Per garantire questa
-	equit\`a, limitarsi a valutare la media non \`e sufficiente: risulta
-	necessario introdurre il calcolo della \textbf{varianza} o della \textbf{deviazione
-	standard}, in modo da penalizzare gli squilibri estremi tra le stanze.
+	nella pratica conta anche coprire le stanze in modo omogeneo (\emph{equit\`a}), e per
+	misurarla la media non basta: serve introdurre la \textbf{varianza} o la
+	\textbf{deviazione standard}, che penalizzano gli squilibri estremi tra le stanze.
 
 	\section{PEAS}
 	Per progettare un agente intelligente bisogna definire l'ambiente in cui opera:
@@ -557,7 +560,7 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	\end{itemize}
 
 	\needspace{8\baselineskip}
-	\emph{Esempio}: Prendiamo in considerazione un taxi automatico. Il PEAS
+	\emph{Esempio}: si consideri un taxi automatico. Il PEAS
 	potrebbe essere:
 	\begin{table}[H]
 		\centering
@@ -630,7 +633,7 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 		\end{tabular}
 	\end{table}
 
-	Durante il corso ci soffermeremo sugli ambienti \emph{osservabili} e \emph{deterministici}
+	Durante il corso ci si soffermer\`a sugli ambienti \emph{osservabili} e \emph{deterministici}
 	per descrivere problemi sequenziali: un'azione svolta ha un impatto sul futuro.
 
 	\section{Tipi di Problemi}
@@ -657,21 +660,17 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	\end{itemize}
 
 	\section{Programma Agente}
-	Poich\'e l'agente \`e composto da un'architettura interna e un \textbf{programma
-	agente}, \`e utile definire le caratteristiche generali di un programma agente.
-
-	In generale, lo scheletro di un programma \`e composto da:
+	Un agente \`e composto da un'architettura interna e da un \textbf{programma agente},
+	il cui scheletro \`e composto da:
 	\begin{itemize}
-		\item Input: Percezione \textbf{corrente}. In tutti quei contesti in cui l'agente
-			necessita di una sequenza di percezioni, ogni percezione dovr\`a essere salvata
-			per riassemblare l'intera sequenza
+		\item Input: percezione \textbf{corrente}. Se l'agente necessita di una sequenza di
+			percezioni, ogni percezione va salvata per riassemblare l'intera sequenza
 
 		\item Output: \textbf{Prossima} azione
 	\end{itemize}
 
-	In questo schema \`e possibile seguire alcune architetture che consentono la modellazione
-	di diversi agenti. Architetture diverse hanno diversi scopi. Di seguito l'elenco
-	dei quattro tipi base di quasi tutti i sistemi intelligenti:
+	Su questo schema si costruiscono architetture diverse, con scopi diversi. I quattro
+	tipi base, alla base di quasi tutti i sistemi intelligenti, sono:
 	\begin{itemize}
 		\item Simple Reflex Agents
 
@@ -685,8 +684,7 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 	\subsection{Simple Reflex Agents}
 	L'architettura pi\`u semplice \`e il \textbf{Simple Reflex Agent}. Questi agenti
 	scelgono le azioni sulla base della percezione corrente, ignorando tutta la
-	storia percettiva precedente. Pertanto, il principio seguito \`e quello del
-	tipo \textbf{regola condizione-azione}.
+	storia percettiva precedente, seguendo \textbf{regole condizione-azione}.
 % \begin{noindent}
 	\begin{figure}[H]
 		\centering
@@ -839,14 +837,11 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	decidere quale azione intraprendere. Spesso \`e necessario introdurre informazioni
 	relative all'\textbf{obiettivo} (\textit{goal}), ovvero la descrizione delle
 	situazioni desiderabili da raggiungere. Un \textit{Goal-Based Agent} combina
-	queste informazioni con il proprio modello interno del mondo, superando
-	il limite delle semplici regole ``condizione-azione''. Non basta pi\`u, infatti,
-	associare direttamente una percezione a un'azione prestabilita. A differenza dei
-	\textit{Reflex Agents}, in cui l'obiettivo \`e solo
-	implicito nelle regole pre-programmate, il Goal-Based Agent valuta in
-	modo esplicito le conseguenze delle proprie scelte: prima di agire, analizza attivamente
-	se lo svolgimento di una determinata azione lo porter\`a o meno al soddisfacimento
-	del proprio scopo.
+	queste informazioni con il proprio modello interno del mondo: a differenza dei
+	\textit{Reflex Agents}, in cui l'obiettivo \`e solo implicito nelle regole
+	condizione-azione pre-programmate, valuta in modo esplicito le conseguenze delle
+	proprie scelte, verificando prima di agire se un'azione lo porter\`a o meno al proprio
+	scopo.
 
 	\emph{Esempio}: Il Reflex Agent frena quando vede le luci di frenata, senza
 	rendersi conto del motivo. Un Goal-Based Agent frena quando vede le luci
@@ -868,7 +863,7 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	fondamentale valutare anche la qualit\`a e l'efficienza delle azioni scelte per
 	ottenerlo (come velocit\`a, sicurezza o convenienza).
 
-	In questo ambito, infatti, si introduce il concetto di \textbf{Utilit\`a}: all'interno
+	Si introduce quindi il concetto di \textbf{Utilit\`a}: all'interno
 	dell'agente viene implementata una \textbf{Funzione di utilit\`a} che internalizza
 	la performance measure. Purch\'e la funzione di utilit\`a interna e la performance
 	measure esterna concordino, un agente che sceglie le azioni per massimizzare
@@ -876,14 +871,13 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 
 	Si sottolinea che questo non \`e l'unico modo per essere razionali: l'esempio
 	sull'aspirapolvere mostra la modellazione di un comportamento razionale senza
-	introdurre obiettivi o funzioni di utilit\`a. Anche in questo caso, comunque, i vantaggi sono
-	principalmente in termini di flessibilit\`a, soprattutto in contesti in cui \`e
+	introdurre obiettivi o funzioni di utilit\`a. I vantaggi sono comunque soprattutto in
+	termini di flessibilit\`a, soprattutto in contesti in cui \`e
 	necessario prendere decisioni in condizioni d'incertezza.
 
-	In termini tecnici, un Utility-Based Agent razionale sceglie l'azione
-	che massimizza l'\textbf{utilit\`a attesa} dei risultati, ovvero l'utilit\`a
-	che l'agente si attende di ottenere, in media, date le probabilit\`a e le
-	utilit\`a di ciascun risultato.
+	Un Utility-Based Agent razionale sceglie l'azione che massimizza l'\textbf{utilit\`a
+	attesa} dei risultati, cio\`e l'utilit\`a media data la probabilit\`a di ciascun
+	risultato.
 
 	\emph{Esempio}: Si immagini un taxi a guida autonoma che deve scegliere tra
 	due strade:
@@ -1002,10 +996,8 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 	chiamato \textbf{Problem Solving Agent}. I Problem Solving Agents utilizzano rappresentazioni \textbf{atomiche} degli stati, i quali vengono
 	considerati come entit\`a prive di una struttura interna.
 
-	I Problem Solving Agents sono in particolare una sottocategoria dei Goal-Based
-	Agents. Per decidere quale azione intraprendere, questi agenti adottano un approccio
-	sistematico sequenziale basato sulla formulazione di obiettivi e problemi e sulla
-	ricerca di soluzioni. Tale processo si divide in quattro macro-fasi:
+	Sono una sottocategoria dei Goal-Based Agents e, per decidere quale azione
+	intraprendere, seguono un processo in quattro macro-fasi:
 	\begin{enumerate}
 		\item \textbf{Formulazione dell'obiettivo (\emph{Goal Formulation})}: dato lo
 			stato corrente dell'ambiente, l'agente definisce una situazione
@@ -1022,21 +1014,19 @@ function AGENTE-REATTIVO-BASATO-SU-MODELLO(percezione) returns azione
 		\item \textbf{Esecuzione (\emph{Execution})}: l'agente esegue, una alla
 			volta, le azioni previste dalla soluzione trovata, ignorando le percezioni.
 	\end{enumerate}
-	Notare come la risoluzione del problema in questo caso \`e di tipo \textbf{offline}:
-	la soluzione viene eseguita a ``occhi chiusi'' (come detto prima, si ignorano le
-	percezioni).
+	La risoluzione \`e quindi di tipo \textbf{offline}: la soluzione viene eseguita
+	``a occhi chiusi'', ignorando le percezioni.
 
 	\begin{nota}
-		{Differenza}{Online vs Offline Problem Solving} A differenza della tecnica
-		offline, la quale pu\`o essere usata in ambienti completamente deterministici
-		e osservabili, l'\textbf{Online Problem Solving} prevede che l'agente agisca
-		in condizioni di parziale ignoranza, dove la conoscenza sull'ambiente non \`e
-		completa. Pertanto \`e indispensabile che i sensori rimangano attivi per valutare
-		l'esito delle proprie azioni.
+		{Differenza}{Online vs Offline Problem Solving} La tecnica offline pu\`o essere
+		usata solo in ambienti deterministici e completamente osservabili. Nell'\textbf{Online
+		Problem Solving}, invece, l'agente agisce con una conoscenza incompleta
+		dell'ambiente, quindi i sensori devono restare attivi per valutare l'esito delle
+		proprie azioni.
 	\end{nota}
 
-	Di seguito un'implementazione di un programma agente per un Problem Solving Agent
-	che procede alla risoluzione di un problema mediante ricerca nello spazio degli stati.
+	Un possibile programma per un Problem Solving Agent che risolve il problema mediante
+	ricerca nello spazio degli stati:
 
 % \begin{noindent}
 \begin{codice}
@@ -1060,19 +1050,16 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
 \end{codice}
 % \end{noindent}
 
-	Da notare come l'agente decida cosa fare \textbf{solamente} quando la sequenza \texttt{seq}
-	\`e vuota: in quel momento formula obiettivo e problema e cerca una soluzione, poi la
-	esegue ignorando completamente le percezioni. Solo una volta esaurita la sequenza
-	torna a formulare un nuovo obiettivo.
+	L'agente decide cosa fare \textbf{solo} quando \texttt{seq} \`e vuota: formula
+	obiettivo e problema, cerca una soluzione e la esegue ignorando le percezioni. Solo
+	una volta esaurita la sequenza torna a formulare un nuovo obiettivo.
 
 	\section{Come Formulare un Problema}
 	\subsection{Problema: Vacanze in Romania (con un M5 e39)}
-	Ci troviamo in Romania e dobbiamo andare a Bucarest per poi prendere l'aereo
-	e tornare a casa.
-	Attualmente ci troviamo ad Arad. Vogliamo trovare la serie di citt\`a da attraversare per
-	giungere a Bucarest.
-	Dobbiamo individuare un corretto livello di astrazione, ma ragionevolmente si procede nel
-	seguente modo:
+	Si supponga di trovarsi in Romania, ad Arad, e di dover raggiungere Bucarest per poi
+	prendere l'aereo e tornare a casa. L'obiettivo \`e trovare la serie di citt\`a da
+	attraversare per giungere a Bucarest. Occorre individuare un corretto livello di
+	astrazione, ma ragionevolmente si procede nel seguente modo:
 	\begin{itemize}
 		\item \textbf{Obiettivo}: andare a Bucarest
 
@@ -1087,17 +1074,16 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
 			arrivare a Bucarest
 	\end{itemize}
 
-	Fin da subito \`e possibile mettere in discussione il livello di determinismo
-	del problema. A causa di agenti esterni (incidenti, lavori) si potrebbe
-	essere dirottati su citt\`a non scelte. Tali eventualit\`a vengono inizialmente ignorate.
-	In questo caso vogliamo trovare \textbf{una} soluzione: non \`e detto che quella
+	Il problema potrebbe non essere deterministico: a causa di agenti esterni (incidenti,
+	lavori) si potrebbe essere dirottati su citt\`a non scelte. Per ora queste eventualit\`a
+	vengono ignorate. Si vuole trovare \textbf{una} soluzione: non \`e detto che quella
 	trovata sia a costo minimo.
 	\begin{center}
 		\includegraphics[width=0.7\textwidth]{images/romania_mappa}
 	\end{center}
 
-	Cerchiamo di proporre una formulazione di tale quesito come Single-State Problem.
-	Allora si individuano i seguenti elementi:
+	Si propone una formulazione di tale quesito come Single-State Problem, in cui
+	si individuano i seguenti elementi:
 	\begin{enumerate}
 		\item \textbf{Stato Iniziale}: la citt\`a di partenza.
 
@@ -1114,11 +1100,9 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
 				\item implicito: una feature che descrive pi\`u di uno stato.
 			\end{enumerate}
 
-		\item \textbf{Path Cost}: Non sempre si desidera trovare una soluzione qualunque.
-			Potrebbe essere utile trovare quella a costo minimo. Nel nostro esempio
-			corrisponde a una metrica che indica il costo di un percorso
-			(il costo espresso sugli archi). Il path cost \`e una funzione additiva in
-			cui vengono sommati gli \textbf{step cost},
+		\item \textbf{Path Cost}: costo di un cammino, necessario quando non basta una
+			soluzione qualunque ma si vuole quella a costo minimo (nell'esempio, i costi
+			espressi sugli archi). \`E una funzione additiva che somma gli \textbf{step cost},
 			funzioni del tipo $\text{STEP-COST}: S \times A \times S \rightarrow \mathbb{R}^+$.
 		\item \textbf{Soluzione}: sequenza di azioni che porta dallo stato iniziale a
 			uno dei goal state.
@@ -1126,9 +1110,9 @@ function AGENTE-RISOLUTORE-SEMPLICE(percezione) returns azione
 
 	\section{Tree-Search Algorithm}
 	L'idea di base \`e fare un'esplorazione simulata e offline: essendo un Single-State
-	Problem, le percezioni vengono ignorate. Concettualmente l'agente ragiona, individua
-	una sequenza di azioni e procede a eseguirla. Pertanto si generano i successori degli stati usando
-	le regole note del mondo.
+	Problem, le percezioni vengono ignorate: l'agente ragiona, individua una sequenza di
+	azioni e poi la esegue. I successori degli stati si generano usando le regole note del
+	mondo.
 
 % \begin{noindent}
 \begin{codice}
@@ -1146,8 +1130,7 @@ function TREE-SEARCH(problema, strategia) returns una soluzione, o failure
 % \end{noindent}
 
 	\subsection{Stati vs Nodi}
-	Nell'albero di ricerca \`e importante distinguere due concetti che a prima vista
-	possono sembrare equivalenti:
+	Nell'albero di ricerca vanno distinti due concetti che sembrano equivalenti:
 	\begin{itemize}
 		\item uno \textbf{stato} \`e la rappresentazione di una configurazione fisica del
 			mondo: descrive \emph{dove} si trova l'agente (ad esempio, ``sono ad Arad'');
@@ -1195,10 +1178,8 @@ function TREE-SEARCH(problema, strategia) returns una soluzione, o failure
 
 	\subsection{Un'implementazione di pi\`u basso livello}
 
-	Lo pseudocodice sopra descritto risulta essere di carattere estremamente generale,
-	pertanto si pone a un livello di astrazione tale che risulta estremamente complesso
-	procedere con una sua implementazione. Ecco perch\'e generalmente si utilizza
-	uno pseudocodice che fornisce una descrizione di pi\`u basso livello.
+	Lo pseudocodice precedente \`e troppo astratto per essere implementato direttamente:
+	se ne usa quindi una versione di pi\`u basso livello.
 
 \begin{codice}
 [Tree-Search Algorithm]
@@ -1212,22 +1193,21 @@ function TREE-SEARCH(problema, frontiera) returns una soluzione, o failure
     return failure
 \end{codice}
 
-	La \texttt{frontiera} non \`e altro che una struttura dati che contiene nodi, disposti
-	in un certo ordine. Il modo in cui i nodi vengono inseriti nella frontiera determina
-	il tipo di strategia che si sta utilizzando (Breadth First Search, Depth First Search,
-	Best First Search \dots).
+	La \texttt{frontiera} \`e una struttura dati che contiene nodi disposti in un certo
+	ordine. La strategia non \`e pi\`u un parametro in input: \`e determinata dal modo in cui
+	i nodi vengono inseriti nella frontiera (Breadth First Search, Depth First Search,
+	Best First Search \dots). L'algoritmo funziona cos\`i:
+	\begin{enumerate}
+		\item si inserisce nella frontiera il nodo corrispondente allo stato iniziale;
+		\item finch\'e la frontiera non \`e vuota, si estrae il primo nodo (i nodi sono
+			ordinati secondo la priorit\`a definita dalla strategia);
+		\item se il nodo contiene il \emph{goal state} viene restituito, altrimenti lo si
+			espande secondo le regole del problema e si inseriscono i successori nella
+			frontiera;
+		\item se la frontiera si svuota, si restituisce \texttt{failure}.
+	\end{enumerate}
 
-	Notiamo come la strategia non \`e pi\`u un parametro in input, ma \`e intrinseca
-	nel modo in cui i nodi vengono inseriti nella frontiera. Prima di tutto, inseriamo
-	nella frontiera il nodo corrispondente allo stato iniziale. Fino a quando la frontiera
-	non \`e vuota si itera estraendo il primo nodo dalla frontiera (i nodi sono ordinati secondo la
-	priorit\`a definita dalla strategia) e si controlla se il nodo contiene il \emph{goal state}.
-	In caso affermativo, il nodo viene restituito, altrimenti si espande il nodo appena
-	estratto dalla frontiera basandosi sulle regole presenti nel problema e poi si procede
-	a inserire ci\`o che si \`e ottenuto con l'espansione all'interno della frontiera seguendo
-	un determinato ordine. L'ordine stesso determina il modo in cui si effettua la ricerca.
-
-	Di seguito lo pseudocodice della funzione \texttt{ESPANDI}:
+	Lo pseudocodice della funzione \texttt{ESPANDI}:
 
 \begin{codice}
 [Expand Function]
@@ -1247,24 +1227,22 @@ function ESPANDI(nodo, problema) returns un insieme di nodi
     return successori
 \end{codice}
 
-	In particolare, analizziamo il suo comportamento:
+	Nel dettaglio:
 	\begin{enumerate}
 		\item La funzione \texttt{FUNZIONE-SUCCESSORI} implementa la Successor Function $S(x)$:
 			restituisce l'insieme delle coppie (\texttt{azione}, \texttt{risultato}), cio\`e
 			tutte le azioni applicabili nello stato del nodo e gli stati che ne risultano. Se un'azione
 			non altera l'ambiente, si rimane nello stesso stato di partenza.
 
-		\item Il nuovo nodo non contiene solo lo stato di arrivo isolato, ma registra
-			esplicitamente il nodo padre (attributo \texttt{padre}) e l'azione eseguita (attributo
-			\texttt{azione}).
-			Questa serie di puntatori è ciò che permette di ricostruire l'intero percorso
-			(la soluzione) una volta raggiunto l'obiettivo.
+		\item Il nuovo nodo registra, oltre allo stato, il nodo padre (\texttt{padre}) e
+			l'azione eseguita (\texttt{azione}): questa catena di puntatori permette di
+			ricostruire l'intero percorso (la soluzione) una volta raggiunto l'obiettivo.
 
-		\item Il calcolo \texttt{nodo.path\_cost + STEP-COST} accumula il costo effettivo del percorso
-			dalla radice fino a quel punto esatto.
+		\item \texttt{nodo.path\_cost + STEP-COST} accumula il costo del percorso dalla
+			radice fino al nuovo nodo.
 
-		\item Raccolta dei risultati: tutti i nuovi nodi istanziati e completamente popolati
-			vengono aggiunti all'insieme \texttt{successori}, che viene poi restituito al chiamante.
+		\item Tutti i nuovi nodi vengono aggiunti all'insieme \texttt{successori}, che
+			viene restituito al chiamante.
 	\end{enumerate}
 
 	\subsection{Search Strategies}
@@ -1275,31 +1253,29 @@ function ESPANDI(nodo, problema) returns un insieme di nodi
 			grado di trovarla.
 		\item \textbf{complessità temporale}: in funzione del numero di nodi generati/espansi,
 			poich\'e generare e valutare un nodo richiede tempo.
-		\item \textbf{complessità spaziale}: numero massimo di nodi in memoria. Tutti
-			i nodi che sono in memoria sono stati generati, ma potrebbe essere necessario
-			tenere in memoria meno nodi rispetto a quelli generati.
+		\item \textbf{complessità spaziale}: numero massimo di nodi in memoria (che
+			pu\`o essere minore del numero di nodi generati).
 		\item \textbf{ottimalità}: trova sempre la soluzione a costo minimo (quindi si
 			desidera ottimizzare il \texttt{path\_cost}, non la profondit\`a)
 	\end{itemize}
 
 	\begin{nota}
 		{Differenza}{Generated vs Expanded}
-		Qui il comportamento delle due procedure \`e molto diverso: la \textbf{generazione}
-		procede a istanziare un nuovo nodo allocando lo spazio necessario e inizializzandone gli
-		attributi, analogamente al concetto di costruttore nella OOP.
-		L'espansione, invece, prende un nodo e le regole di un problema per procedere a
-		generare tutti i nodi figli da poi inserire nella frontiera.
+		La \textbf{generazione} istanzia un nuovo nodo, allocando lo spazio necessario e
+		inizializzandone gli attributi (come un costruttore nella OOP). L'\textbf{espansione}
+		prende un nodo e, usando le regole del problema, ne genera tutti i figli da inserire
+		nella frontiera.
 	\end{nota}
 
 	La complessità temporale e quella spaziale sono misurate in termini di:
 	\begin{itemize}
-		\item $b$: fattore di diramazione massimo dell'albero di ricerca. In parole meno
-			tecnici, il massimo numero di figli di ciascun nodo.
+		\item $b$: fattore di diramazione massimo dell'albero di ricerca, cio\`e il massimo
+			numero di figli di un nodo.
 		\item $d$: profondità della soluzione a costo minimo.
 		\item $m$: profondità massima dello spazio degli stati (può essere $\infty$)
 	\end{itemize}
 
-	Notiamo come $m$ \`e dato dallo spazio degli stati, mentre $d$ dalla soluzione a costo
+	Si noti che $m$ \`e dato dallo spazio degli stati, mentre $d$ dalla soluzione a costo
 	minimo (tipicamente $d \ll m$).
 
 	\subsection{Stati Ripetuti}
@@ -1353,20 +1329,15 @@ function ESPANDI(nodo, problema) returns un insieme di nodi
 	Questa ridondanza fa sì che la complessità del problema cresca notevolmente,
 	assumendo un andamento di tipo esponenziale.
 
-	Sebbene in generale si preferisca evitare l'espansione di stati ripetuti, è fondamentale
-	prestare attenzione poiché, in certi contesti, mantenere l'esplorazione di questi
-	percorsi multipli è cruciale per garantire l'ottimalità. Infatti, se un nodo appena
-	espanso corrisponde al goal state e la ricerca viene interrotta
-	immediatamente, si rischia di accettare una soluzione non ottimale.
+	In generale si preferisce evitare l'espansione di stati ripetuti, ma con attenzione:
+	esplorare i percorsi multipli pu\`o essere necessario per garantire l'ottimalit\`a. Se la
+	ricerca si interrompe appena viene raggiunto il goal state, si rischia di accettare
+	una soluzione non ottimale. Nella figura, si supponga che B sia il goal state e che
+	lo step cost di $\mathcal{R}$ sia maggiore di quello di $\mathcal{L}$: fermandosi
+	subito dopo aver raggiunto B tramite $\mathcal{R}$, la soluzione a costo minimo
+	(tramite $\mathcal{L}$) non verrebbe mai individuata.
 
-	Facendo riferimento alla figura, supponiamo che B sia il goal state e che
-	lo step cost associato all'azione $\mathcal{R}$ sia maggiore rispetto
-	a quello di $\mathcal{L}$. Se l'algoritmo si fermasse all'istante subito dopo aver
-	raggiunto B tramite $\mathcal{R}$, la soluzione a costo minimo
-	(ovvero quella ottenibile tramite l'azione $\mathcal{L}$) verrebbe ignorata e
-	mai individuata.
-	La soluzione che si pu\`o adottare per evitare ridondanza corrisponde al tenere traccia
-	di tutti gli stati gi\`a visitati, come accade nel seguente esempio.
+	Per evitare la ridondanza si tiene traccia degli stati gi\`a visitati:
 
 
 \needspace{8\baselineskip}
@@ -1386,10 +1357,9 @@ function GRAPH-SEARCH(problema, frontiera) returns una soluzione, o failure
     return failure
 \end{codice}
 
-	Notiamo che se abbiamo un nodo con uno stato gi\`a esplorato, allora in questo caso non si
-	procede con l'espansione. Nonostante ci\`o vi \`e il rischio di perdere la soluzione ottimale.
-	Quindi il controllo del goal test e la natura di gestione della frontiera risultano essere
-	fondamentali.
+	Un nodo con uno stato gi\`a esplorato non viene espanso. Resta per\`o il rischio di
+	perdere la soluzione ottimale: per questo sono fondamentali il momento in cui si
+	effettua il goal test e il modo in cui si gestisce la frontiera.
 
 	\section{Ricerca Non Informata}
 	\subsection{Strategie Possibili}
@@ -1472,11 +1442,8 @@ function BFS(problema) returns una soluzione, o failure
 		portare a una soluzione pi\`u corta. Si risparmia per\`o la generazione di un intero
 		livello dell'albero (si veda la complessit\`a temporale).
 
-		Come visto nella sezione sugli stati ripetuti, lo stesso ragionamento \textbf{non}
-		vale se l'obiettivo \`e minimizzare il \emph{path cost} con step cost diversi: in
-		quel caso il primo nodo obiettivo generato non \`e necessariamente il pi\`u
-		economico, e il goal test va effettuato all'estrazione (si veda la
-		Uniform-Cost Search).
+		Il ragionamento \textbf{non} vale se si vuole minimizzare il \emph{path cost} con
+		step cost diversi (si veda la Uniform-Cost Search).
 	\end{nota}
 
 	\begin{nota}
@@ -1768,8 +1735,8 @@ function UNIFORM-COST-SEARCH(problema) returns una soluzione, o failure
 	\`e una DFS e ne mantiene le caratteristiche, in particolare la complessit\`a spaziale
 	lineare.
 
-	Di seguito lo pseudocodice, che per\`o assume il comportamento di \mbox{\texttt{TREE-SEARCH}},
-	consentendo l'esplorazione di nodi con stati ripetuti.
+	Di seguito lo pseudocodice, che per\`o assume il comportamento di 
+    \mbox{\texttt{TREE-SEARCH}}, consentendo l'esplorazione di nodi con stati ripetuti.
 
 \begin{codice}
 [Depth-Limited Search]
@@ -1824,7 +1791,7 @@ function IDS(problema) returns una soluzione, o failure
 		\item \textbf{Complessit\`a spaziale}: $\mathcal{O}(b \cdot d)$, ossia lineare. Ogni
 			iterazione \`e una DFS con profondit\`a massima pari al limite, quindi vale lo
 			stesso ragionamento della DFS con $d$ al posto di $m$: l'ultima iterazione, quella
-			con limite $d$, \`e la pi\`u costosa in memoria. Notiamo comunque che gli stessi nodi
+			con limite $d$, \`e la pi\`u costosa in memoria. Si noti comunque che gli stessi nodi
 			vengono ricreati pi\`u volte, ma poich\'e al termine di ogni esecuzione di DLS la
 			memoria viene liberata, lo spazio occupato resta sempre lineare.
 
@@ -1833,5 +1800,81 @@ function IDS(problema) returns una soluzione, o failure
 			Come la BFS, la IDS raggiunge i livelli in ordine e trova quindi per prima la
 			soluzione meno profonda.
 	\end{itemize}
+    \begin{nota}
+        {Approfondimento}{Ottimalit\`a di IDS}
+        Solo la IDS implementata con la \texttt{TREE-SEARCH} \`e ottimale. Se si 
+        dovesse introdurre IDS basata su \texttt{GRAPH-SEARCH}, allora si perde
+        l'ottimalit\`a.
+    \end{nota}
+
+
+    \chapter{Esercizi}
+    \esercizio
+    \begin{enunciato}
+         Un uomo ha un lupo, una pecora e un cavolo. L'uomo è sulla riva di un fiume 
+         con una barca che può trasportare solo lui e un altro oggetto.
+         Il lupo mangia la pecora e la  pecora mangia il cavolo, quindi non pu\`o
+         lasciarli insieme da soli.
+    \end{enunciato}
+
+    Prima di procedere alla risoluzione del problema, \`e necessario procedere ad una sua 
+    formalizzazione. In particolare si desidera procedere con la formalizzazione del
+    problema come un problema di ricerca e effettuarne la sua risoluzione.
+    La soluzione proposta prevede la formalizzazione degli stati con una tupla
+    usata mappare le posizioni dell'uomo, della capra, del cavolo e della barca:
+    \[
+        <W, S, C, M ,B>
+    \]
+    Ciascuna delle variabili ha come dominio l'insieme \[ \{0,1\} \], che corrispondo
+    a argine destro e sinistro del fiume.
+    In particolare :
+    \begin{itemize}
+        \item \( W \): posizione del lupo
+        \item \( S \): posizione della pecora
+        \item \( C \): posizione del cavolo
+        \item \( M \): posizione dell'uomo
+        \item \( B \): stato della barca
+    \end{itemize}
+
+    Lo stato iniziale del problema corrisponde alla tupla: \[ <0, 0, 0, 0, 0>\]
+    Il goal state invece \`e:\[ <1, 1, 1, 1, 1>\]
+
+    Adesso ci si occupi delle azioni, che possono essere definite nel seguente modo:
+    \begin{itemize}
+        \item Porta il lupo (CW)
+        \item Porta la pecora (CS)
+        \item Porta il cavolo (CC)
+        \item Porta niente (CN)
+    \end{itemize}
+
+    Non tutte le azioni possono essere eseguite in ogni stato. La seguente tabella esprime
+    le condizioni affinch\`e un azione possa essere eseguita e il risultato dell'applicazione
+    delle azioni.
+    \begin{center}
+        \begin{tabular} { |c|c|c| }
+            \hline
+            Operatore & Pre-Condzione & Risultato\\
+            \hline
+            CW &  \( M = B, M = W, S \neq C \) & 
+            \( \left<W,S,C,M,B\right> \mapsto 
+            \left<\bar{W},S,C,\bar{M},\bar{B}\right> \)\\
+            CS &  \( M = B, M = S \) &
+            \( \left<W,S,C,M,B\right> \mapsto 
+            \left<W,\bar{S},C,\bar{M},\bar{B}\right> \)\\
+            CC &  \( M = B, M = C, W \neq S \) & 
+            \( \left<W,S,C,M,B\right> \mapsto 
+            \left<W,S,\bar{C},\bar{M},\bar{B}\right> \)\\
+            CN &  \( M = B \) & 
+            \( \left<W,S,C,M,B\right> \mapsto 
+            \left<W,S,C,\bar{M},\bar{B}\right> \)\\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    Notare come $M \text{ Uomo e } B \text{Barca}$ godono sempre dello stesso valore
+    e, inolte, \`e presente sempre la condzione $M = B$. Pertanto, poich\`e 
+    descrivono lo stesso stato si potrebbe procedere nel fondere i due stati
+    in uno solo ($M$).
+    %TODO: fare grafo degli stati...
 \end{document}
 
