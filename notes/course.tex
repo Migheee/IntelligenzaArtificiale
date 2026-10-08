@@ -18,6 +18,7 @@
 \tcbuselibrary{skins, breakable, listings}
 \setcounter{tocdepth}{1}
 \setlength{\skip\footins}{25pt}
+\setlength{\emergencystretch}{1.5em} % evita righe che escono dal margine
 \usetikzlibrary{positioning, fit, arrows.meta, backgrounds}
 \defaultfontfeatures{} % XCharter imposta Extension=.otf: va resettato
 \setmonofont{JetBrainsMono Nerd Font}[
@@ -81,6 +82,7 @@
 
 \newtcblisting{codice}[1][Codice]{
     breakable,
+    enlargepage flexible=4\baselineskip, % evita che restino poche righe sulla pagina dopo
     enhanced,
     sharp corners,
     boxrule=0.6pt,
@@ -1367,6 +1369,7 @@ function ESPANDI(nodo, problema) returns un insieme di nodi
 	di tutti gli stati gi\`a visitati, come accade nel seguente esempio.
 
 
+\needspace{8\baselineskip}
 \begin{codice}
 [Graph-Search Algorithm]
 function GRAPH-SEARCH(problema, frontiera) returns una soluzione, o failure
@@ -1522,7 +1525,6 @@ function BFS(problema) returns una soluzione, o failure
 			decrescente della profondit\`a). Con step cost arbitrari non \`e ottima.
 	\end{itemize}
 	\subsection{Uniform-Cost Search}
-	\label{sec:ucs}
 	La BFS \`e ottima solo quando tutti gli step cost sono uguali, perch\'e espande i nodi
 	in ordine di \emph{profondit\`a}. La \textbf{Uniform-Cost Search} (UCS, ricerca a costo
 	uniforme) generalizza l'idea: espande sempre il nodo non ancora espanso con il
@@ -1620,6 +1622,216 @@ function UNIFORM-COST-SEARCH(problema) returns una soluzione, o failure
 		\item \textbf{Ottimalit\`a}: s\`i. I nodi vengono espansi in ordine crescente di
 			$g(n)$, quindi il primo nodo obiettivo estratto dalla frontiera \`e quello con il
 			cammino a costo minimo.
+	\end{itemize}
+
+	\emph{Esempio}: per capire perch\'e sono necessari questi due accorgimenti, si
+	consideri la seguente porzione del grafo della Romania.
+
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{images/frammento}
+	\end{center}
+
+	Si vuole arrivare a Bucarest partendo da Sibiu, lungo il percorso a costo minimo.
+	Accanto a ogni nodo in frontiera \`e indicato tra parentesi il suo path cost $g$.
+	\begin{enumerate}
+		\item \textbf{Inizializzazione.} La frontiera contiene solo il nodo con lo stato
+			iniziale:
+			\begin{itemize}
+				\item frontiera $= \{$Sibiu (0)$\}$
+				\item esplorati $= \emptyset$
+			\end{itemize}
+
+		\item \textbf{Si estrae Sibiu (0).} Non \`e un goal state, quindi viene aggiunto
+			agli esplorati e si espande. Si generano i nodi per i suoi successori,
+			inizializzandone stato, padre, azione e path cost (essendo figli della radice,
+			il path cost coincide con lo step cost):
+			\begin{itemize}
+				\item Rimnicu Vilcea: step cost 80, path cost $0 + 80 = 80$
+				\item Fagaras: step cost 99, path cost $0 + 99 = 99$
+			\end{itemize}
+			Stato dopo l'iterazione:
+			\begin{itemize}
+				\item frontiera $= \{$Rimnicu Vilcea (80), Fagaras (99)$\}$
+				\item esplorati $= \{$Sibiu$\}$
+			\end{itemize}
+
+		\item \textbf{Si estrae Rimnicu Vilcea (80).} Non \`e un goal state: viene
+			aggiunto agli esplorati e si espande.
+			\begin{itemize}
+				\item Pitesti: step cost 97, path cost $80 + 97 = 177$
+				\item Sibiu: step cost 80, path cost $80 + 80 = 160$, ma \`e gi\`a
+					esplorato, quindi il nodo viene scartato
+			\end{itemize}
+			Stato dopo l'iterazione:
+			\begin{itemize}
+				\item frontiera $= \{$Fagaras (99), Pitesti (177)$\}$
+				\item esplorati $= \{$Sibiu, Rimnicu Vilcea$\}$
+			\end{itemize}
+
+		\item \textbf{Si estrae Fagaras (99).} Non \`e un goal state: viene aggiunto agli
+			esplorati e si espande.
+			\begin{itemize}
+				\item Sibiu: step cost 99, path cost $99 + 99 = 198$, gi\`a esplorato,
+					quindi scartato
+				\item Bucarest: step cost 211, path cost $99 + 211 = 310$
+			\end{itemize}
+			Stato dopo l'iterazione:
+			\begin{itemize}
+				\item frontiera $= \{$Pitesti (177), Bucarest (310)$\}$
+				\item esplorati $= \{$Sibiu, Rimnicu Vilcea, Fagaras$\}$
+			\end{itemize}
+
+			\textbf{Primo accorgimento.} Bucarest \`e appena stato generato, ma il goal
+			test non viene fatto ora. Con l'\emph{early goal test} la ricerca si
+			fermerebbe qui restituendo il cammino da 310, senza considerare soluzioni
+			meno costose e perdendo l'ottimalit\`a.
+
+		\item \textbf{Si estrae Pitesti (177).} Non \`e un goal state: viene aggiunto
+			agli esplorati e si espande.
+			\begin{itemize}
+				\item Bucarest: step cost 101, path cost $177 + 101 = 278$
+				\item Rimnicu Vilcea: step cost 97, path cost $177 + 97 = 274$, gi\`a
+					esplorato, quindi scartato
+			\end{itemize}
+
+			\textbf{Secondo accorgimento.} Bucarest \`e gi\`a presente in frontiera, ma con
+			un path cost pi\`u alto ($310 > 278$): il vecchio nodo viene
+			\textbf{sostituito} da quello nuovo. Stato dopo l'iterazione:
+			\begin{itemize}
+				\item frontiera $= \{$Bucarest (278)$\}$
+				\item esplorati $= \{$Sibiu, Rimnicu Vilcea, Fagaras, Pitesti$\}$
+			\end{itemize}
+
+		\item \textbf{Si estrae Bucarest (278).} Il suo stato \`e il goal state: la
+			ricerca termina e restituisce questo nodo.
+	\end{enumerate}
+
+	La soluzione si ricostruisce risalendo l'attributo \texttt{padre} a partire dal nodo
+	obiettivo: Sibiu $\rightarrow$ Rimnicu Vilcea $\rightarrow$ Pitesti $\rightarrow$
+	Bucarest, con costo 278.
+
+	\subsection{Depth-First Search}
+	La DFS espande sempre il nodo \textbf{pi\`u profondo} della frontiera, che viene
+	implementata con una politica \textbf{LIFO} (stack): i successori vengono inseriti in
+	cima e il prossimo nodo da espandere \`e l'ultimo inserito.
+
+	Un aspetto importante \`e la \textbf{rimozione dei nodi}: quando il nodo raggiunto non
+	contiene un goal state e non possiede successori, pu\`o essere rimosso dalla memoria.
+	Allo stesso modo, anche un sottoalbero gi\`a visitato interamente in cui non \`e presente
+	un goal state pu\`o essere rimosso. Pertanto
+	\[
+		\#\text{ nodi in memoria} \leq \#\text{ nodi generati}
+	\]
+	e la complessit\`a spaziale risulta molto pi\`u bassa di quella temporale.
+
+	\subsubsection*{Propriet\`a}
+	\begin{itemize}
+		\item \textbf{Completezza}: no. Fallisce se lo spazio degli stati ha profondit\`a
+			infinita (pu\`o scendere all'infinito lungo un ramo senza soluzioni) e in presenza
+			di stati ripetuti (pu\`o rimanere bloccata in un ciclo).
+
+		\item \textbf{Complessit\`a temporale}: con fattore di diramazione $b$ e profondit\`a
+			massima $m$, nel caso pessimo vengono generati
+			\[
+				1 + b + b^2 + \dots + b^m
+			\]
+			nodi, ossia $\mathcal{O}(b^m)$. \`E potenzialmente terribile, soprattutto se
+			$m \gg d$. Se per\`o le soluzioni sono \emph{dense} (molti nodi contengono un goal
+			state), la DFS pu\`o trovarne una molto prima della BFS.
+
+		\item \textbf{Complessit\`a spaziale}: $\mathcal{O}(b \cdot m)$, ossia
+			\textbf{lineare} nella profondit\`a. Ogni nodo espanso genera $b$ figli, ma se ne
+			segue uno solo, lasciando in sospeso gli altri $b-1$. Questo accade per ciascuno
+			dei livelli da $1$ a $m-1$, mentre all'ultimo livello si trovano i $b$
+			figli dell'ultimo nodo espanso. La memoria occupata \`e quindi proporzionale a
+			\[
+				(m-1) \cdot (b-1) + b
+			\]
+			Inoltre, quando si termina l'esplorazione di un ramo senza aver trovato un goal
+			state, il ramo viene rimosso e si torna al nodo padre per esplorarne un altro
+			(\emph{backtracking}): la memoria liberata viene riutilizzata.
+
+		\item \textbf{Ottimalit\`a}: no. Restituisce la prima soluzione trovata lungo il ramo
+			che sta esplorando, che pu\`o essere pi\`u profonda e pi\`u costosa di un'altra
+			presente in un ramo diverso.
+	\end{itemize}
+
+	\subsection{Iterative Deepening Search}
+	\`E un metodo ibrido tra BFS e DFS: si eseguono ripetutamente delle DFS con un
+	\textbf{limite di profondit\`a} crescente. Prima si effettua una DFS con limite pari a 0
+	(visitando solo il nodo radice), poi con limite 1, poi 2 e cos\`i via, fino ad arrivare
+	alla profondit\`a in cui si trova il primo nodo con un goal state.
+
+	La tecnica \`e ibrida perch\'e a ogni iterazione si visitano tutti i nodi con
+	profondit\`a minore o uguale al limite fissato, ottenendo un comportamento molto simile
+	a quello della BFS (i livelli vengono raggiunti in ordine). Ogni singola ricerca, per\`o,
+	\`e una DFS e ne mantiene le caratteristiche, in particolare la complessit\`a spaziale
+	lineare.
+
+	Di seguito lo pseudocodice, che per\`o assume il comportamento di \mbox{\texttt{TREE-SEARCH}},
+	consentendo l'esplorazione di nodi con stati ripetuti.
+
+\begin{codice}
+[Depth-Limited Search]
+function DLS(problema, limite) returns una soluzione, o failure, o cutoff
+    return R-DLS(CREA-NODO(problema.stato_iniziale), problema, limite)
+
+function R-DLS(nodo, problema, limite) returns una soluzione, o failure, o cutoff
+    if problema.GOAL_TEST(nodo.stato) then return nodo
+    else if limite = 0 then return cutoff          // caso base
+    else                                           // caso ricorsivo
+        cutoff_avvenuto <- false
+        for each azione in problema.AZIONI(nodo.stato) do
+            figlio <- NODO-FIGLIO(problema, nodo, azione)
+            risultato <- R-DLS(figlio, problema, limite - 1)
+            if risultato = cutoff then cutoff_avvenuto <- true
+            else if risultato != failure then return risultato
+        end for
+        if cutoff_avvenuto then return cutoff
+        else return failure
+    end if
+\end{codice}
+
+\begin{codice}
+[Iterative Deepening Search]
+function IDS(problema) returns una soluzione, o failure
+    for profondità <- 0 to ∞ do
+        risultato <- DLS(problema, profondità)
+        if risultato != cutoff then return risultato
+    end for
+\end{codice}
+
+	\subsubsection*{Propriet\`a}
+	\begin{itemize}
+		\item \textbf{Completezza}: s\`i, se il fattore di diramazione $b$ \`e finito.
+			Poich\'e si effettuano DLS con limite di profondit\`a via via crescente (fino a
+			$\infty$), se esiste una soluzione a profondit\`a $d$ la si trova all'iterazione
+			con limite $d$.
+
+		\item \textbf{Complessit\`a temporale}: a ogni nuova DLS i nodi dei livelli
+			superiori vengono rigenerati da capo, e le iterazioni sono fino a $d+1$ se la
+			soluzione \`e presente (altrimenti fino a $m+1$). Il costo \`e quindi maggiore
+			rispetto alla BFS, ma comunque dello stesso ordine di grandezza:
+			\[
+				N_{\text{IDS}} = \mathord{\underbrace{(d+1) \cdot 1}_{\text{radice}}} + d\,b^1
+				+ (d-1)\,b^2 + (d-2)\,b^3 + \dots + 1 \cdot b^d = \mathcal{O}(b^d)
+			\]
+			I nodi a profondit\`a $i$ vengono generati $d + 1 - i$ volte, una per ogni
+			iterazione con limite $\geq i$. In particolare il nodo con lo stato iniziale viene
+			generato a ogni iterazione, cio\`e $d+1$ volte: una volta in pi\`u dei nodi a
+			profondit\`a 1.
+
+		\item \textbf{Complessit\`a spaziale}: $\mathcal{O}(b \cdot d)$, ossia lineare. Ogni
+			iterazione \`e una DFS con profondit\`a massima pari al limite, quindi vale lo
+			stesso ragionamento della DFS con $d$ al posto di $m$: l'ultima iterazione, quella
+			con limite $d$, \`e la pi\`u costosa in memoria. Notiamo comunque che gli stessi nodi
+			vengono ricreati pi\`u volte, ma poich\'e al termine di ogni esecuzione di DLS la
+			memoria viene liberata, lo spazio occupato resta sempre lineare.
+
+		\item \textbf{Ottimalit\`a}: s\`i, se tutti gli step cost sono uguali (pi\`u in
+			generale, se il path cost \`e una funzione non decrescente della profondit\`a).
+			Come la BFS, la IDS raggiunge i livelli in ordine e trova quindi per prima la
+			soluzione meno profonda.
 	\end{itemize}
 \end{document}
 
