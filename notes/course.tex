@@ -3,24 +3,40 @@
 \usepackage{fontspec}
 \usepackage[italian]{babel}
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{tikz}
 \usepackage{XCharter}
 \usepackage[xcharter]{newtxmath}
 \usepackage[hidelinks]{hyperref}
 \setlength{\headheight}{14pt}
 \usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{needspace}
 
+\theoremstyle{definition} 
+\newtheorem{theorem}{Teorema}[section] 
+\newtheorem{lemma}[theorem]{Lemma}      
+\newtheorem{corollary}[theorem]{Corollario} 
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter\quad#1}{}}
+\fancyhead[L]{\small\color{gray}\textsc{\nouppercase{\leftmark}}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{{\color{gray!40}\hrule height\headrulewidth width\headwidth}}
+
 \tcbuselibrary{skins, breakable, listings}
 \setcounter{tocdepth}{1}
 \setlength{\skip\footins}{25pt}
-\setlength{\emergencystretch}{1.5em} % evita righe che escono dal margine
-\usetikzlibrary{positioning, fit, arrows.meta, backgrounds}
-\defaultfontfeatures{} % XCharter imposta Extension=.otf: va resettato
+\setlength{\emergencystretch}{1.5em} 
+\usetikzlibrary{positioning, fit, arrows.meta, backgrounds, decorations.pathmorphing}
+\defaultfontfeatures{}
 \setmonofont{JetBrainsMono Nerd Font}[
     Scale=MatchLowercase
 ]
@@ -32,7 +48,6 @@
     \subsection*{Esercizio \arabic{escount}}% Genera il titolo non numerato nativamente
 }
 
-% Testo dell'esercizio, evidenziato rispetto alla soluzione
 \newtcolorbox{enunciato}{
     enhanced,
     breakable,
@@ -53,6 +68,9 @@
 \definecolor{notaborder}{HTML}{D97706}
 \definecolor{notaback}{HTML}{FFFBEB}
 
+\definecolor{teoborder}{HTML}{15803D}
+\definecolor{teoback}{HTML}{F0FDF4}
+
 \definecolor{codeborder}{HTML}{707070}
 \definecolor{codeback}{HTML}{F0F0F0}
 
@@ -71,6 +89,21 @@
     after skip=12pt,
     boxsep=6pt
 }
+
+\tcbset{teorema/.style={
+    breakable,
+    enhanced,
+    sharp corners,
+    boxrule=0.6pt,
+    colframe=teoborder,
+    colback=teoback,
+    before skip=12pt,
+    after skip=12pt,
+    boxsep=6pt
+}}
+\tcolorboxenvironment{theorem}{teorema}
+\tcolorboxenvironment{lemma}{teorema}
+\tcolorboxenvironment{corollary}{teorema}
 
 \newtcolorbox{nota}[2]{
     breakable,
@@ -1791,7 +1824,8 @@ function IDS(problema) returns una soluzione, o failure
 		\item \textbf{Complessit\`a spaziale}: $\mathcal{O}(b \cdot d)$, ossia lineare. Ogni
 			iterazione \`e una DFS con profondit\`a massima pari al limite, quindi vale lo
 			stesso ragionamento della DFS con $d$ al posto di $m$: l'ultima iterazione, quella
-			con limite $d$, \`e la pi\`u costosa in memoria. Si noti comunque che gli stessi nodi
+			con limite $d$, \`e la pi\`u costosa in memoria. Si noti comunque che gli stessi 
+            nodi
 			vengono ricreati pi\`u volte, ma poich\'e al termine di ogni esecuzione di DLS la
 			memoria viene liberata, lo spazio occupato resta sempre lineare.
 
@@ -1802,10 +1836,350 @@ function IDS(problema) returns una soluzione, o failure
 	\end{itemize}
     \begin{nota}
         {Approfondimento}{Ottimalit\`a di IDS}
-        Solo la IDS implementata con la \texttt{TREE-SEARCH} \`e ottimale. Se si 
-        dovesse introdurre IDS basata su \texttt{GRAPH-SEARCH}, allora si perde
-        l'ottimalit\`a.
+        Solo la IDS implementata con la \texttt{TREE-SEARCH} \`e ottimale: se si usasse
+        una IDS basata su \texttt{GRAPH-SEARCH}, si perderebbe l'ottimalit\`a.
     \end{nota}
+
+    \section{Ricerca Informata}
+    Mentre nella ricerca non informata si espande in maniera sistematica lo spazio degli
+    stati e ciascun nodo ha lo stesso valore, nella \textbf{Ricerca Informata} si utilizzano
+    informazioni esterne per capire se ci sono nodi che potrebbero essere migliori di altri.
+
+    Per affrontare gli algoritmi di Ricerca Informata \`e prima necessario introdurre
+    le \textbf{Euristiche}: indicazioni fornite all'algoritmo per indirizzare la ricerca
+    in determinate direzioni piuttosto che in altre.
+
+    L'idea alla base della Ricerca Informata consiste nell'utilizzare una \emph{funzione
+    di valutazione} che stima, per ogni nodo, la desiderabilit\`a del nodo stesso. La
+    funzione di valutazione utilizza le euristiche per espandere il nodo pi\`u desiderabile
+    non ancora esplorato. Questa tecnica si chiama \textbf{best first search}. \`E
+    importante notare che la frontiera \`e ordinata per desiderabilit\`a decrescente.
+    A seconda di come viene definita la desiderabilit\`a, si distinguono due tipologie di
+    ricerca informata:
+    \begin{itemize}
+        \item \textbf{Greedy Best-First Search}
+        \item \textbf{$\mathcal{A}^*$ Search}
+    \end{itemize}
+    
+	Per comprendere al meglio il funzionamento di questi algoritmi di ricerca, si consideri
+	nuovamente il grafo topologico della Romania, con un nuovo parametro: $h_{\text{DLA}}$,
+	la distanza in linea d'aria di ogni citt\`a da Bucarest.
+
+	\begin{figure}[H] % mappa e tabella affiancate, sulla stessa pagina
+		\centering
+		\begin{minipage}[c]{0.56\textwidth}
+			\centering
+			\includegraphics[width=\linewidth]{images/romania_mappa}
+		\end{minipage}%
+		\hfill
+		\begin{minipage}[c]{0.42\textwidth}
+			\centering
+			\footnotesize
+			\setlength{\tabcolsep}{3pt}
+			\renewcommand{\arraystretch}{1.05}
+			\begin{tabular}{@{}l r @{\hspace{1em}} l r@{}}
+				\toprule
+				\textbf{Citt\`a} & $h_{\text{DLA}}$ & \textbf{Citt\`a} & $h_{\text{DLA}}$ \\
+				\midrule
+				Arad     & 366 & Mehadia        & 241 \\
+				Bucarest &   0 & Neamt          & 234 \\
+				Craiova  & 160 & Oradea         & 380 \\
+				Drobeta  & 242 & Pitesti        & 100 \\
+				Eforie   & 161 & Rimnicu Vilcea & 193 \\
+				Fagaras  & 176 & Sibiu          & 253 \\
+				Giurgiu  &  77 & Timisoara      & 329 \\
+				Hirsova  & 151 & Urziceni       &  80 \\
+				Iasi     & 226 & Vaslui         & 199 \\
+				Lugoj    & 244 & Zerind         & 374 \\
+				\bottomrule
+			\end{tabular}
+		\end{minipage}
+	\end{figure}
+
+    \subsection{Greedy Search}
+    La funzione di valutazione $h(n)$ consente di stimare il costo del nodo $n$ dal
+    pi\`u vicino nodo con goal state.
+    \emph{Esempio}: $h_\text{SLD}(n):$ distanza in linea d'aria da $n$ a Bucarest.
+    L'algoritmo \`e greedy perch\'e a ogni iterazione si espande il nodo che sembra essere
+    \textbf{pi\`u vicino} al nodo con stato di goal, secondo le euristiche fornite.
+    
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			font=\sffamily\scriptsize,
+			nodo/.style={draw, rounded corners=5pt, inner xsep=4pt, inner ysep=1.5pt,
+				minimum width=1.25cm, text height=1.6ex, text depth=0.4ex},
+			espanso/.style={nodo, fill=white},
+			frontiera/.style={nodo, fill=gray!25},
+			hval/.style={font=\sffamily\tiny, inner sep=1pt},
+			arco/.style={draw, gray!70!black}
+		]
+			% prossimo nodo da espandere: triangolo a sinistra
+			\newcommand{\prossimo}[1]{\fill (#1.west) ++(-0.06,0) 
+            -- ++(-0.2,0.1) -- ++(0,-0.2) -- cycle;}
+			% nodo di frontiera con valore h sotto
+			\newcommand{\fr}[4]{\node[frontiera] (#1) at (#2) {#3};
+				\node[hval, below=0.5pt of #1] {#4};}
+
+
+			% stato iniziale
+			\fr{a0}{1.2,0}{Arad}{366}
+			\prossimo{a0}
+
+			% dopo l'espansione di Arad
+			\begin{scope}[yshift=-1.4cm]
+				\node[espanso] (b0) at (1.2, 0) {Arad};
+				\fr{b1}{-2.6,-0.85}{Sibiu}{253}
+				\fr{b2}{2.6,-0.85}{Timisoara}{329}
+				\fr{b3}{4.8,-0.85}{Zerind}{374}
+				\prossimo{b1}
+				\foreach \c in {b1,b2,b3} \draw[arco] (b0.south) -- (\c.north);
+			\end{scope}
+
+			% dopo l'espansione di Sibiu
+			\begin{scope}[yshift=-3.5cm]
+				\node[espanso] (c0) at (1.2, 0) {Arad};
+				\node[espanso] (c1) at (-2.6,-0.85) {Sibiu};
+				\fr{c2}{2.6,-0.85}{Timisoara}{329}
+				\fr{c3}{4.8,-0.85}{Zerind}{374}
+				\fr{c4}{-5.8,-1.7}{Arad}{366}
+				\fr{c5}{-4.0,-1.7}{Fagaras}{176}
+				\fr{c6}{-2.3,-1.7}{Oradea}{380}
+				\fr{c7}{-0.45,-1.7}{Rimnicu Vilcea}{193}
+				\prossimo{c5}
+				\foreach \c in {c1,c2,c3} \draw[arco] (c0.south) -- (\c.north);
+				\foreach \c in {c4,c5,c6,c7} \draw[arco] (c1.south) -- (\c.north);
+			\end{scope}
+
+			% dopo l'espansione di Fagaras
+			\begin{scope}[yshift=-6.45cm]
+				\node[espanso] (d0) at (1.2, 0) {Arad};
+				\node[espanso] (d1) at (-2.6,-0.85) {Sibiu};
+				\fr{d2}{2.6,-0.85}{Timisoara}{329}
+				\fr{d3}{4.8,-0.85}{Zerind}{374}
+				\fr{d4}{-5.8,-1.7}{Arad}{366}
+				\node[espanso] (d5) at (-4.0,-1.7) {Fagaras};
+				\fr{d6}{-2.3,-1.7}{Oradea}{380}
+				\fr{d7}{-0.45,-1.7}{Rimnicu Vilcea}{193}
+				\fr{d8}{-5.1,-2.55}{Sibiu}{253}
+				\fr{d9}{-2.9,-2.55}{Bucarest}{0}
+				\prossimo{d9}
+				\foreach \c in {d1,d2,d3} \draw[arco] (d0.south) -- (\c.north);
+				\foreach \c in {d4,d5,d6,d7} \draw[arco] (d1.south) -- (\c.north);
+				\foreach \c in {d8,d9} \draw[arco] (d5.south) -- (\c.north);
+			\end{scope}
+		\end{tikzpicture}
+
+		\vspace{1.5em}
+		{\footnotesize Dall'alto: stato iniziale e albero dopo l'espansione di Arad, Sibiu e
+		Fagaras. In grigio i nodi della frontiera, con sotto il valore di $h_\text{SLD}$;
+		il triangolo indica il prossimo nodo da espandere.}
+	\end{figure}
+
+
+	\subsubsection*{Propriet\`a}
+	\begin{itemize}
+		\item \textbf{Completezza}: No, pu\`o bloccarsi in Loop\\
+            \emph{Esempio}: Start: Iasi, Goal: Fagaras\\
+            Iasi \rightarrow\space  Neamt \rightarrow\space Iasi \rightarrow\space \dots
+
+        \item \textbf{Complessit\`a temporale}: $\mathcal{O}(b^m)$ se l'euristica non funziona
+            correttamente potrebbe essere necessario esplorare continuamente 
+            in profondit\`a per trovare il nodo con stato di goal, spingendo ogni volta 
+            sul ramo errato fino alla massima profondit\`a $m$.
+
+		\item \textbf{Complessit\`a spaziale}: $\mathcal{O}(b^m)$
+
+		\item \textbf{Ottimalit\`a}: No, basta guardare il caso descritto nell'esempio della 
+            Romania.
+	\end{itemize}
+
+    Sebbene l'utilizzo di un'euristica molto ottimizzata consenta di limitare le criticit\`a
+    di Best First Search, una soluzione migliore in alcuni contesti corrisponde all'utilizzo
+    di $\mathcal{A}^*$.
+    
+    L'idea di base consiste nell'evitare l'espansione di tutti quei nodi in percorsi costosi.
+    La funzione di valutazione prende la seguente forma:
+    \[
+        f(n) = g(n) + h(n)
+    \]
+    dove, dato un nodo $n$:
+    \begin{itemize}
+        \item $g(n)$: somma degli step cost per raggiungere $n$ (quindi il path cost per 
+            arrivare a $n$)
+        \item $h(n)$: euristica per raggiungere il nodo con goal state da $n$.
+        \item $f(n)$: costo stimato per raggiungere il nodo con goal state passando per $n$
+    \end{itemize}
+    I nodi vengono ordinati in frontiera in modo crescente rispetto al valore $f(n)$.
+
+    La precondizione per consentire l'uso di $\mathcal{A}^*$ prevede l'uso di euristiche
+    ammissibili:
+    \begin{displaymath}
+        h(n) \leq h^*(n) \text{ dove } h^*(n) \text{ \`e il costo reale da } n.
+    \end{displaymath}
+    Si richiede inoltre che $h(n) \geq 0$. Insieme all'ammissibilit\`a, questo implica che
+    $h(G) = 0$ per ogni nodo con stato di goal $G$: infatti $0 \leq h(G) \leq h^*(G) = 0$.
+
+	\begin{theorem}[Ottimalit\`a di $\mathcal{A}^*$]
+		Se l'euristica $h(n)$ \`e ammissibile e $\mathcal{A}^*$ \`e implementato con
+		\texttt{TREE-SEARCH}, allora $\mathcal{A}^*$ \`e ottimale.
+	\end{theorem}
+
+	\begin{proof}
+		Si supponga che nella frontiera si trovi un nodo obiettivo \emph{sub-ottimo} $G_2$.
+		Sia $G^*$ il nodo obiettivo ottimo e sia $n$ un nodo della frontiera non ancora
+		espanso che si trova sul cammino ottimo verso $G^*$.
+
+		\begin{center}
+			\begin{tikzpicture}[
+				font=\small,
+				stato/.style={draw, circle, minimum size=0.55cm, inner sep=0pt},
+				cammino/.style={decorate, decoration={snake, amplitude=0.6mm,
+					segment length=2.5mm, post length=1.5mm}, -{Stealth[length=2mm]}}
+			]
+				\node[stato] (r)  at (0, 0)        {};
+				\node[stato] (n)  at (-1.5, -1.1)  {};
+				\node[stato] (gs) at (-0.6, -2.2)  {};
+				\node[stato] (g2) at (2.2, -1.2)   {};
+				\node[left=2pt of n]   {$n$};
+				\node[below=1pt of gs] {$G^*$};
+				\node[below=1pt of g2] {$G_2$};
+				\draw[cammino] (r)  -- (n);
+				\draw[cammino] (n)  -- (gs);
+				\draw[cammino] (r)  -- (g2);
+			\end{tikzpicture}
+		\end{center}
+
+		Si vuole mostrare che $f(G_2) > f(n)$, cio\`e che $\mathcal{A}^*$ espande $n$ (e
+		quindi prosegue verso $G^*$) prima di selezionare $G_2$.
+		\begin{enumerate}
+			\item Poich\'e $G_2$ \`e un goal state, $h(G_2) = 0$, quindi
+				\[
+					f(G_2) = g(G_2) + h(G_2) = g(G_2)
+				\]
+
+			\item Poich\'e $G_2$ \`e sub-ottimo, il suo costo \`e maggiore di quello della
+				soluzione ottima:
+				\[
+					g(G_2) > g(G^*)
+				\]
+
+			\item Il costo di $G^*$ \`e il costo per arrivare a $n$ pi\`u il costo reale da
+				$n$ a $G^*$. Poich\'e l'euristica \`e ammissibile, $h(n) \leq h^*(n)$, quindi
+				\[
+					g(G^*) = g(n) + h^*(n) \geq g(n) + h(n) = f(n)
+				\]
+		\end{enumerate}
+		Mettendo insieme i tre passaggi:
+		\[
+			f(G_2) = g(G_2) > g(G^*) \geq f(n) \quad\Longrightarrow\quad f(G_2) > f(n)
+		\]
+		Quindi $n$ viene sempre espanso prima di $G_2$. Lo stesso ragionamento vale per ogni
+		nodo del cammino ottimo (formalmente si dimostra per \textbf{induzione} sui nodi del
+		cammino): $\mathcal{A}^*$ raggiunge $G^*$ prima di selezionare $G_2$.
+	\end{proof}
+
+	\emph{Esempio}: $\mathcal{A}^*$ sul problema della Romania, da Arad a Bucarest. Essendo
+	una \texttt{TREE-SEARCH}, alcuni stati compaiono in pi\`u nodi (ad esempio Arad e Sibiu).
+	Sotto ogni nodo \`e indicato $f(n) = g(n) + h(n)$.
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[
+			font=\sffamily\scriptsize,
+			nodo/.style={draw, rounded corners=5pt, inner xsep=4pt, inner ysep=1.5pt,
+				minimum width=1.25cm, text height=1.6ex, text depth=0.4ex},
+			espanso/.style={nodo, fill=white},
+			frontiera/.style={nodo, fill=gray!25},
+			fval/.style={font=\sffamily\tiny, inner sep=1pt},
+			arco/.style={draw, gray!70!black}
+		]
+			% prossimo nodo da espandere: triangolo a sinistra
+			\newcommand{\prossimo}[1]{\fill (#1.west) ++(-0.06,0) -- ++(-0.2,0.1) 
+            -- ++(0,-0.2) -- cycle;}
+			% nodo (#1 = stile, #2 = nome, #3 = posizione, #4 = citta, #5 = f = g + h)
+			\newcommand{\nd}[5]{\node[#1] (#2) at (#3) {#4};
+				\node[fval, below=0.5pt of #2] (#2-val) {#5};}
+
+			\nd{espanso}{r}{1.5,0}{Arad}{366=0+366}
+
+			\nd{espanso}{s}{-2.5,-1.15}{Sibiu}{393=140+253}
+			\nd{frontiera}{t}{2.6,-1.15}{Timisoara}{447=118+329}
+			\nd{frontiera}{z}{5.0,-1.15}{Zerind}{449=75+374}
+
+			\nd{frontiera}{sa}{-5.6,-2.3}{Arad}{646=280+366}
+			\nd{espanso}{sf}{-4.0,-2.3}{Fagaras}{415=239+176}
+			\nd{frontiera}{so}{-2.4,-2.3}{Oradea}{671=291+380}
+			\nd{espanso}{sr}{-0.4,-2.3}{Rimnicu Vilcea}{413=220+193}
+
+			\nd{frontiera}{fs}{-5.4,-3.45}{Sibiu}{591=338+253}
+			\nd{frontiera}{fb}{-3.8,-3.45}{Bucarest}{450=450+0}
+
+			\nd{frontiera}{rc}{-2.0,-3.45}{Craiova}{526=366+160}
+			\nd{espanso}{rp}{-0.4,-3.45}{Pitesti}{417=317+100}
+			\nd{frontiera}{rs}{1.3,-3.45}{Sibiu}{553=300+253}
+
+			\nd{frontiera}{pb}{-2.0,-4.6}{Bucarest}{418=418+0}
+			\nd{frontiera}{pc}{-0.4,-4.6}{Craiova}{615=455+160}
+			\nd{frontiera}{pr}{1.6,-4.6}{Rimnicu Vilcea}{607=414+193}
+			\prossimo{pb}
+
+			\foreach \c in {s,t,z} \draw[arco] (r-val.south) -- (\c.north);
+			\foreach \c in {sa,sf,so,sr} \draw[arco] (s-val.south) -- (\c.north);
+			\foreach \c in {fs,fb} \draw[arco] (sf-val.south) -- (\c.north);
+			\foreach \c in {rc,rp,rs} \draw[arco] (sr-val.south) -- (\c.north);
+			\foreach \c in {pb,pc,pr} \draw[arco] (rp-val.south) -- (\c.north);
+		\end{tikzpicture}
+
+		\vspace{1em}
+		{\footnotesize Albero di ricerca dopo l'espansione di Pitesti. In bianco i nodi espansi
+		(nell'ordine: Arad, Sibiu, Rimnicu Vilcea, Fagaras, Pitesti), in grigio quelli della
+		frontiera; il triangolo indica il prossimo nodo da espandere.}
+	\end{figure}
+
+	\begin{itemize}
+		\item \textbf{Il comportamento di $\mathcal{A}^*$ \`e diverso sia da quello della BFS
+			sia da quello della DFS}: lo si nota dopo l'espansione di Rimnicu Vilcea. 
+            Il nodo della frontiera con $f(n)$ pi\`u basso \`e Fagaras ($415 < 417$ di Pitesti)
+            , quindi la ricerca riprende da l\`i, su un altro ramo, invece di scendere sotto 
+            Rimnicu Vilcea come farebbe la DFS. Allo stesso tempo non procede 
+            per livelli come la BFS, che avrebbe espanso Timisoara e Zerind (profondit\`a 1) 
+            prima dei nodi a profondit\`a 2.
+
+		\item Espandendo Fagaras si genera Bucarest con $f = 450$: \`e un goal state
+			\emph{sub-ottimo}, il $G_2$ della dimostrazione. Poich\'e il goal test si effettua
+			all'estrazione, la ricerca non si ferma: in frontiera ci sono nodi con costo pi\`u
+			basso, come Pitesti ($417 < 450$), che vengono espansi prima.
+
+		\item Solo espandendo Pitesti si ottiene il Bucarest ottimo $G^*$, con $f = 418$.
+			Poich\'e $f(G^*) = 418 < f(G_2) = 450$, $G^*$ viene posizionato prima di $G_2$
+            nella frontiera ed estratto per primo. La soluzione \`e Arad $\rightarrow$ Sibiu
+			$\rightarrow$ Rimnicu Vilcea $\rightarrow$ Pitesti $\rightarrow$ Bucarest, 
+            con costo 418.
+	\end{itemize}
+
+	\subsubsection*{Propriet\`a}
+	\begin{itemize}
+		\item \textbf{Completezza}: Si, a patto che non vi sia un numero infinito
+            di nodi con $f < f(G)$. Ma questo implica che lo spazio degli stati \`e
+            infinito.
+
+        \item \textbf{Complessit\`a temporale}: Esponenziale in 
+            \begin{gather*}
+                [\text{errore relativo dell'euristica $h$ \times \space 
+                profondit\`a della soluzione $d$}]
+            \end{gather*}
+            La complessit\`a dipenda da quanto $h$ sbaglia rispetto al costo vero.
+            Pertanto, a differenza di Best First Search, si ha una garanzia che pi\`u
+            \`e precisa, minore saranno entrambe le complessit\`a.
+
+		\item \textbf{Complessit\`a spaziale}: Come la complessit\`a temporale.
+
+		\item \textbf{Ottimalit\`a}: Si, a patto che l'euristica sia ammissibile nel caso
+            di \texttt{TREE-SEARCH}, altrimenti se si propone un'implementazione 
+            \texttt{GRAPH-SEARCH}, allora serve una precondizione pi\`u potente: la 
+            \textbf{consistenza}.
+	\end{itemize}
 
 
     \chapter{Esercizi}
@@ -1813,21 +2187,21 @@ function IDS(problema) returns una soluzione, o failure
     \begin{enunciato}
          Un uomo ha un lupo, una pecora e un cavolo. L'uomo è sulla riva di un fiume 
          con una barca che può trasportare solo lui e un altro oggetto.
-         Il lupo mangia la pecora e la  pecora mangia il cavolo, quindi non pu\`o
+         Il lupo mangia la pecora e la pecora mangia il cavolo, quindi non pu\`o
          lasciarli insieme da soli.
     \end{enunciato}
 
-    Prima di procedere alla risoluzione del problema, \`e necessario procedere ad una sua 
-    formalizzazione. In particolare si desidera procedere con la formalizzazione del
-    problema come un problema di ricerca e effettuarne la sua risoluzione.
+    Prima di risolvere il problema \`e necessario formalizzarlo: in particolare, lo si
+    vuole formalizzare come un problema di ricerca e poi risolvere.
     La soluzione proposta prevede la formalizzazione degli stati con una tupla
-    usata mappare le posizioni dell'uomo, della capra, del cavolo e della barca:
+    usata per mappare le posizioni del lupo, della pecora, del cavolo, dell'uomo e della
+    barca:
     \[
-        <W, S, C, M ,B>
+        \langle W, S, C, M, B \rangle
     \]
-    Ciascuna delle variabili ha come dominio l'insieme \[ \{0,1\} \], che corrispondo
-    a argine destro e sinistro del fiume.
-    In particolare :
+    Ciascuna delle variabili ha come dominio l'insieme $\{0,1\}$, i cui valori
+    corrispondono all'argine destro e a quello sinistro del fiume.
+    In particolare:
     \begin{itemize}
         \item \( W \): posizione del lupo
         \item \( S \): posizione della pecora
@@ -1836,24 +2210,24 @@ function IDS(problema) returns una soluzione, o failure
         \item \( B \): stato della barca
     \end{itemize}
 
-    Lo stato iniziale del problema corrisponde alla tupla: \[ <0, 0, 0, 0, 0>\]
-    Il goal state invece \`e:\[ <1, 1, 1, 1, 1>\]
+    Lo stato iniziale del problema corrisponde alla tupla \[ \langle 0, 0, 0, 0, 0 \rangle \]
+    mentre il goal state \`e \[ \langle 1, 1, 1, 1, 1 \rangle \]
 
     Adesso ci si occupi delle azioni, che possono essere definite nel seguente modo:
     \begin{itemize}
         \item Porta il lupo (CW)
         \item Porta la pecora (CS)
         \item Porta il cavolo (CC)
-        \item Porta niente (CN)
+        \item Non porta niente (CN)
     \end{itemize}
 
     Non tutte le azioni possono essere eseguite in ogni stato. La seguente tabella esprime
-    le condizioni affinch\`e un azione possa essere eseguita e il risultato dell'applicazione
-    delle azioni.
+    le condizioni affinch\'e un'azione possa essere eseguita e il risultato della sua
+    applicazione.
     \begin{center}
         \begin{tabular} { |c|c|c| }
             \hline
-            Operatore & Pre-Condzione & Risultato\\
+            Operatore & Precondizione & Risultato\\
             \hline
             CW &  \( M = B, M = W, S \neq C \) & 
             \( \left<W,S,C,M,B\right> \mapsto 
@@ -1871,10 +2245,9 @@ function IDS(problema) returns una soluzione, o failure
         \end{tabular}
     \end{center}
 
-    Notare come $M \text{ Uomo e } B \text{Barca}$ godono sempre dello stesso valore
-    e, inolte, \`e presente sempre la condzione $M = B$. Pertanto, poich\`e 
-    descrivono lo stesso stato si potrebbe procedere nel fondere i due stati
-    in uno solo ($M$).
+    Si noti che $M$ (uomo) e $B$ (barca) assumono sempre lo stesso valore: la condizione
+    $M = B$ \`e infatti sempre presente. Poich\'e descrivono la stessa informazione, si
+    potrebbero fondere le due variabili in una sola ($M$).
     %TODO: fare grafo degli stati...
 \end{document}
 
