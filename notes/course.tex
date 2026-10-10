@@ -64,15 +64,18 @@
 
 \definecolor{defborder}{HTML}{1F3FA8}
 \definecolor{defback}{HTML}{F4F6FB}
+\definecolor{deftitle}{HTML}{172554} % blu molto scuro: leggibile anche stampato in grigio
 
 \definecolor{notaborder}{HTML}{D97706}
 \definecolor{notaback}{HTML}{FFFBEB}
+\definecolor{notatitle}{HTML}{7C2D12} % arancione molto scuro: leggibile anche stampato in grigio
 
 \definecolor{teoborder}{HTML}{15803D}
 \definecolor{teoback}{HTML}{F0FDF4}
 
-\definecolor{codeborder}{HTML}{707070}
+\definecolor{codeborder}{HTML}{505050}
 \definecolor{codeback}{HTML}{F0F0F0}
+\definecolor{codetitle}{HTML}{333333}
 
 \newtcolorbox{definizione}[1][Definizione]{
     breakable,
@@ -81,9 +84,10 @@
     boxrule=0.6pt,
     colframe=defborder,
     colback=defback,
+    leftrule=3pt, % barra spessa a sinistra: distingue le definizioni anche in bianco e nero
     title=#1,
     fonttitle=\bfseries,
-    coltitle=defborder,
+    coltitle=deftitle,
     attach title to upper={\par\smallskip},
     before skip=12pt,
     after skip=12pt,
@@ -94,7 +98,7 @@
     breakable,
     enhanced,
     sharp corners,
-    boxrule=0.6pt,
+    boxrule=1.2pt, % bordo spesso: distingue i teoremi anche in bianco e nero
     colframe=teoborder,
     colback=teoback,
     before skip=12pt,
@@ -115,7 +119,7 @@
     colback=notaback,
     title={#1 -- #2},
     fonttitle=\bfseries,
-    coltitle=notaborder,
+    coltitle=notatitle,
     attach title to upper={\par\smallskip},
     before skip=12pt,
     after skip=12pt,
@@ -146,7 +150,7 @@
     colback=codeback,
     title=#1,
     fonttitle=\bfseries,
-    coltitle=codeborder,
+    coltitle=codetitle,
     attach title to upper={\par\smallskip},
     before skip=12pt,
     after skip=12pt,
@@ -651,17 +655,17 @@ function AGENTE-REATTIVO-ASPIRAPOLVERE([posizione, stato]) returns azione
 			\hline
 											& Crossword & Robo-selector & Poker  & Taxi   \\
 			\hline
-			\textcolor{magenta}{Observable}    & Yes       & Partly        & Partly & Partly \\
+			\textbf{Observable}    & Yes       & Partly        & Partly & Partly \\
 			\hline
-			\textcolor{magenta}{Deterministic} & Yes       & No            & No     & No     \\
+			\textbf{Deterministic} & Yes       & No            & No     & No     \\
 			\hline
-			\textcolor{magenta}{Episodic}      & No        & Yes           & No     & No     \\
+			\textbf{Episodic}      & No        & Yes           & No     & No     \\
 			\hline
-			\textcolor{magenta}{Static}        & Yes       & No            & Yes    & No     \\
+			\textbf{Static}        & Yes       & No            & Yes    & No     \\
 			\hline
-			\textcolor{magenta}{Discrete}      & Yes       & No            & Yes    & No     \\
+			\textbf{Discrete}      & Yes       & No            & Yes    & No     \\
 			\hline
-			\textcolor{magenta}{Single-agent}  & Yes       & Yes           & No     & No     \\
+			\textbf{Single-agent}  & Yes       & Yes           & No     & No     \\
 			\hline
 		\end{tabular}
 	\end{table}
