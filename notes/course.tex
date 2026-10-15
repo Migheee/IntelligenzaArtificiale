@@ -2414,11 +2414,12 @@ function IDS(problema) returns una soluzione, o failure
 
     \subsubsection*{Esempio: euristiche per l'8-puzzle}
     Per l'8-puzzle si possono definire, ad esempio, le seguenti euristiche:
-    \begin{itemize}
-        \item $h_1(n)$ = numero di tessere fuori posto;
-        \item $h_2(n)$ = distanza di Manhattan totale, cio\`e la somma, per ogni tessera, del
-            numero di caselle che la separano dalla posizione desiderata.
-    \end{itemize}
+    \begin{align*}
+        h_1(n) &= \text{numero di tessere fuori posto} \\
+        h_2(n) &= \text{distanza di Manhattan totale}
+    \end{align*}
+    dove la distanza di Manhattan totale \`e la somma, per ogni tessera, del numero di caselle
+    che la separano dalla posizione desiderata.
 
     La \textbf{distanza di Manhattan} \`e una metrica che rappresenta la distanza tra due punti
     come somma dei valori assoluti delle differenze delle loro coordinate:
@@ -2430,12 +2431,12 @@ function IDS(problema) returns una soluzione, o failure
 		\includegraphics[width=0.8\textwidth]{images/8puzzle}
 	\end{center}
 
-    Per lo stato iniziale $S$ in figura:
-    \begin{itemize}
-        \item $h_1(S) = 8$: tutte le tessere sono fuori posto;
-        \item $h_2(S) = 3 + 1 + 2 + 2 + 2 + 3 + 3 + 2 = 18$, dove ogni termine \`e la distanza
-            di Manhattan di una tessera, dalla 1 alla 8.
-    \end{itemize}
+    Per lo stato iniziale $S$ in figura tutte le tessere sono fuori posto, mentre in $h_2$
+    ogni termine della somma \`e la distanza di Manhattan di una tessera, dalla 1 alla 8:
+    \begin{align*}
+        h_1(S) &= 8 \\
+        h_2(S) &= 3 + 1 + 2 + 2 + 2 + 3 + 3 + 2 = 18
+    \end{align*}
 
     \subsection{Dominanza}
     \begin{definizione}[Dominanza]
@@ -2601,10 +2602,10 @@ function IDS(problema) returns una soluzione, o failure
     \]
     \begin{itemize}
         \item \textbf{Allontanandosi dal goal}: $h^M(n) < h^M(m)$, quindi
-            $h^M(n) - h^M(m) < 0 \leq 1$. \checkmark
+            $h^M(n) - h^M(m) < 0 \leq 1$. \qed
         \item \textbf{Avvicinandosi al goal}: $h^M(n) > h^M(m) \geq 0$, ma a ogni passo
             $h^M$ diminuisce al massimo di 1 unit\`a, quindi $h^M(n) - h^M(m) \leq 1$.
-            \checkmark
+            \qed
     \end{itemize}
     Quindi $h^M$ \`e consistente.
 
