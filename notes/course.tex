@@ -2185,6 +2185,282 @@ function IDS(problema) returns una soluzione, o failure
             \textbf{consistenza}.
 	\end{itemize}
 
+    \subsection{Consistenza}
+    Con \texttt{GRAPH-SEARCH} l'ammissibilit\`a non basta pi\`u a garantire l'ottimalit\`a. Un
+    nodo il cui stato \`e gi\`a in \texttt{esplorati} viene scartato: se $\mathcal{A}^*$ espande
+    uno stato la prima volta lungo un cammino sub-ottimo, il cammino migliore trovato in seguito
+    viene perso. Serve quindi una condizione pi\`u forte, che garantisca che \textbf{la prima
+    volta che uno stato viene espanso, lo si \`e raggiunto con il cammino ottimo}.
+
+    \begin{definizione}[Euristica consistente]
+        Un'euristica $h$ \`e \textbf{consistente} (o \textbf{monotona}) se, per ogni nodo $n$ e
+        per ogni successore $n'$ generato da un'azione $a$,
+        \[
+            h(n) \leq c(n, a, n') + h(n')
+        \]
+        e $h(G) = 0$ per ogni nodo con stato di goal $G$.
+    \end{definizione}
+
+    La condizione \`e una forma di \textbf{disuguaglianza triangolare}: nel triangolo formato
+    da $n$, $n'$ e dal goal $G_{n'}$, il lato $h(n)$ non pu\`o superare la somma degli altri
+    due, $c(n, a, n')$ e $h(n')$.
+
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{images/consistenza}
+	\end{center}
+
+    Spostando $h(n')$ a sinistra si ottiene una lettura equivalente:
+    \[
+        h(n) - h(n') \leq c(n, a, n')
+    \]
+    cio\`e, passando da $n$ a $n'$, la stima del costo rimanente pu\`o diminuire al pi\`u di
+    quanto si \`e effettivamente pagato per quel passo. Se diminuisse di pi\`u, le due stime
+    sarebbero incoerenti tra loro: da $n$ si pu\`o raggiungere il goal passando per $n'$, con
+    un costo stimato di $c(n, a, n') + h(n')$, quindi non ha senso stimare $h(n)$ pi\`u alto.
+
+    \subsubsection*{Consistenza e ottimalit\`a di $\mathcal{A}^*$}
+    Si consideri un nodo $n$ e un suo successore $n'$.
+
+    \begin{center}
+        \begin{tikzpicture}[
+            font=\small,
+            stato/.style={draw, circle, minimum size=0.55cm, inner sep=0pt},
+            cammino/.style={decorate, decoration={snake, amplitude=0.6mm,
+                segment length=2.5mm, post length=1.5mm}, -{Stealth[length=2mm]}}
+        ]
+            \node[stato] (r)  at (0.9, 1.3)   {};
+            \node[stato] (n)  at (0, 0)       {};
+            \node[stato] (np) at (-1.2, -1.2) {};
+            \node        (d)  at (0.9, -1.2)  {$\dots$};
+            \node[left=2pt of n]   {$n$};
+            \node[below=1pt of np] {$n'$};
+            \draw[cammino] (r) -- (n);
+            \draw (n) -- (np);
+            \draw (n) -- (d);
+        \end{tikzpicture}
+    \end{center}
+
+    Si vuole che $f$ non diminuisca passando da $n$ a $n'$. Poich\'e $n'$ \`e un successore
+    di $n$ (tramite l'azione $a$), vale $g(n') = g(n) + c(n, a, n')$, quindi:
+    \begin{align*}
+        f(n)        &\leq f(n') \\
+        g(n) + h(n) &\leq g(n') + h(n') \\
+        g(n) + h(n) &\leq g(n) + c(n, a, n') + h(n')
+            && \text{sostituendo } g(n') \\
+        h(n)        &\leq c(n, a, n') + h(n')
+            && \text{semplificando } g(n)
+    \end{align*}
+    L'ultima riga \`e proprio la definizione di consistenza.
+
+    Ne segue che $\mathcal{A}^*$ espande i nodi in ordine di $f$ \textbf{non decrescente}:
+    quando si espande $n$, i nodi in frontiera hanno $f \geq f(n)$ ($n$ era il minimo) e, per
+    quanto visto sopra, anche i figli di $n$ hanno $f \geq f(n)$. Non pu\`o quindi mai capitare di 
+    estrarre un nodo con $f$ pi\`u basso di uno gi\`a espanso.
+
+    \begin{nota}{Differenza}{Ammissibilit\`a vs Consistenza}
+        In generale essere consistenti \`e una condizione sufficiente ma non necessaria per essere
+        ammissibili; viceversa, essere ammissibili non vuol dire essere consistenti:
+        \begin{align*}
+            \text{Consistenza}     &\implies    \text{Ammissibilit\`a} \\
+            \text{Ammissibilit\`a} &\not\implies \text{Consistenza}
+        \end{align*}
+    \end{nota}
+
+    \subsubsection*{Esempio: euristica ammissibile ma non consistente}
+    Si consideri una catena di stati da $r_0$ (stato iniziale) a $r_n$ (goal), in cui ogni
+    passo costa 1:
+
+    \begin{center}
+        \begin{tikzpicture}[font=\small, >=Stealth, node distance=1cm]
+            \node[draw, circle, inner sep=1pt]                 (n0)   {$r_0$};
+            \node[draw, circle, inner sep=1pt, right=of n0]   (n1)   {$r_1$};
+            \node[right=of n1]                                (dots) {$\cdots$};
+            \node[draw, circle, inner sep=1pt, right=of dots] (nn)   {$r_n$};
+            \draw[->] (n0) -- (n1);
+            \draw[->] (n1) -- (dots);
+            \draw[->] (dots) -- (nn);
+        \end{tikzpicture}
+    \end{center}
+
+    Indicando con $c(i)$ il costo reale da $r_i$ al goal e con $h(i)$ l'euristica in $r_i$:
+    \[
+        c(i) = n - i \qquad h(i) = n - 2\left\lceil \frac{i}{2} \right\rceil
+    \]
+
+    \paragraph{Ammissibilit\`a.} Bisogna verificare che $h(i) \leq h^*(i)$ per ogni $i$, dove
+    $h^*(i) = c(i)$:
+    \[
+        n - 2\left\lceil \frac{i}{2} \right\rceil \leq n - i
+        \quad\Longleftrightarrow\quad
+        2\left\lceil \frac{i}{2} \right\rceil \geq i
+    \]
+    che \`e sempre vera: per $i$ dispari vale $>$, per $i$ pari vale $=$. Quindi $h$ \`e
+    ammissibile.
+
+    \paragraph{Consistenza.} Per mostrare che $h$ non \`e consistente basta trovare un $i$ per
+    cui
+    \[
+        h(i) > c(i, i+1) + h(i+1)
+    \]
+    Con $i = 0$, poich\'e $c(0, 1) = 1$ e $\lceil 0.5 \rceil = 1$:
+    \begin{align*}
+        n - 2\left\lceil \frac{0}{2} \right\rceil &> 1 + n - 2\left\lceil \frac{1}{2} \right\rceil \\
+        n &> 1 + n - 2 = n - 1
+    \end{align*}
+    La disuguaglianza \`e vera, quindi $h$ non \`e consistente.
+
+    \subsubsection*{Esempio: euristica non consistente e \texttt{GRAPH-SEARCH}}
+    Con un'euristica non consistente, $\mathcal{A}^*$ con \texttt{GRAPH-SEARCH} pu\`o
+    restituire una soluzione sub-ottima. Costo ed euristica sono definiti come
+    nell'esempio precedente, con $n = 4$; in pi\`u si aggiunge un'azione che porta direttamente
+    da $r_0$ a $r_3$ con costo 4.
+
+    \begin{center}
+        \begin{tikzpicture}[font=\small, >=Stealth]
+            \node[draw, circle, inner sep=1pt] (r0) at (0, 0)   {$r_0$};
+            \node[draw, circle, inner sep=1pt] (r1) at (1.8, 0) {$r_1$};
+            \node[draw, circle, inner sep=1pt] (r2) at (3.6, 0) {$r_2$};
+            \node[draw, circle, inner sep=1pt] (r3) at (5.4, 0) {$r_3$};
+            \node[draw, circle, inner sep=1pt] (r4) at (7.2, 0) {$r_4$};
+            \foreach \a/\b in {r0/r1, r1/r2, r2/r3, r3/r4}
+                \draw[->] (\a) -- node[above] {1} (\b);
+            \draw[->] (r0) to[bend right=30] node[below] {4} (r3);
+
+            \node[anchor=east] at (-0.6, -1.6) {$h$};
+            \node[anchor=east] at (-0.6, -2.1) {$h^* = c$};
+            \foreach \x/\va/\vb in {0/4/4, 1.8/2/3, 3.6/2/2, 5.4/0/1, 7.2/0/0} {
+                \node at (\x, -1.6) {$\va$};
+                \node at (\x, -2.1) {$\vb$};
+            }
+        \end{tikzpicture}
+    \end{center}
+
+    L'euristica non \`e consistente, infatti:
+    \[
+        h(0) = 4 \;>\; c(0, 1) + h(1) = 1 + 2 = 3
+    \]
+    cio\`e passando da $r_0$ a $r_1$ l'euristica diminuisce di $h(0) - h(1) = 2$, pi\`u del
+    costo del passo.
+
+    Si esegua $\mathcal{A}^*$ con \texttt{GRAPH-SEARCH}; sotto ogni nodo \`e indicato
+    $g + h = f$.
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[
+            font=\small,
+            nodo/.style={draw, rounded corners=5pt, inner xsep=4pt, inner ysep=1.5pt,
+                minimum width=0.9cm, text height=1.6ex, text depth=0.4ex},
+            scartato/.style={nodo, dashed},
+            mai/.style={nodo, dotted, text=gray},
+            fval/.style={font=\scriptsize, inner sep=1pt},
+            arco/.style={draw, gray!70!black},
+            costo/.style={font=\scriptsize, midway}
+        ]
+            \node[nodo, very thick] (a) at (0, 0)        {$r_0$};
+            \node[nodo]             (b) at (-1.8, -1.3)  {$r_1$};
+            \node[nodo, very thick] (c) at (1.8, -1.3)   {$r_3$};
+            \node[nodo]             (d) at (-1.8, -2.6)  {$r_2$};
+            \node[nodo, very thick] (e) at (1.8, -2.6)   {$r_4$};
+            \node[scartato]         (f) at (-1.8, -3.9)  {$r_3$};
+            \node[mai]              (g) at (-1.8, -5.2)  {$r_4$};
+
+            \node[fval, below=0.5pt of a] (a-v) {$0 + 4 = 4$};
+            \node[fval, below=0.5pt of b] (b-v) {$1 + 2 = 3$};
+            \node[fval, below=0.5pt of c] (c-v) {$4 + 0 = 4$};
+            \node[fval, below=0.5pt of d] (d-v) {$2 + 2 = 4$};
+            \node[fval, below=0.5pt of e] (e-v) {$5 + 0 = 5$};
+            \node[fval, below=0.5pt of f] (f-v) {$3 + 0 = 3$};
+            \node[fval, below=0.5pt of g, text=gray] (g-v) {$4 + 0 = 4$};
+
+            \draw[arco] (a-v.south) -- node[costo, above left] {1} (b.north);
+            \draw[arco, very thick] (a-v.south) -- node[costo, above right] {4} (c.north);
+            \draw[arco] (b-v.south) -- node[costo, left] {1} (d.north);
+            \draw[arco, very thick] (c-v.south) -- node[costo, right] {1} (e.north);
+            \draw[arco] (d-v.south) -- node[costo, left] {1} (f.north);
+            \draw[arco, dotted] (f-v.south) -- node[costo, left] {1} (g.north);
+        \end{tikzpicture}
+
+        \vspace{1em}
+        {\footnotesize Nodi espansi nell'ordine: $r_0$, $r_1$, $r_3$, $r_2$. Tratteggiato il
+        nodo scartato perch\'e il suo stato \`e gi\`a in \texttt{esplorati}, punteggiato il nodo
+        mai generato, in grassetto il cammino restituito.}
+    \end{figure}
+
+    \begin{enumerate}
+        \item Si espandono $r_0$ e poi $r_1$ ($f = 3$). In frontiera restano $r_3$ e $r_2$,
+            entrambi con $f = 4$: a parit\`a di $f$ si estrae $r_3$, inserito per primo, che
+            genera $r_4$ con $f = 5$. Ora \texttt{esplorati} $= \{r_0, r_1, r_3\}$.
+
+        \item Si espande $r_2$, che genera $r_3$ con $f = 3$: \`e il nodo con $f$ pi\`u basso,
+            ma quando viene estratto il suo stato \`e gi\`a in \texttt{esplorati}, quindi viene
+            scartato. Il cammino ottimo $r_0 \rightarrow r_1 \rightarrow r_2 \rightarrow r_3
+            \rightarrow r_4$, di costo 4, non viene mai completato.
+
+        \item Si estrae $r_4$ con $f = 5$: la soluzione restituita \`e $r_0 \rightarrow r_3
+            \rightarrow r_4$, di costo 5, sub-ottima.
+    \end{enumerate}
+
+    \subsubsection*{Riepilogo}
+    \begin{align*}
+        \texttt{TREE-SEARCH}  + \text{euristica ammissibile} &\implies
+            \text{ottimalit\`a di } \mathcal{A}^* \\
+        \texttt{GRAPH-SEARCH} + \text{euristica ammissibile} &\not\implies
+            \text{ottimalit\`a di } \mathcal{A}^* \\
+        \texttt{GRAPH-SEARCH} + \text{euristica consistente} &\implies
+            \text{ottimalit\`a di } \mathcal{A}^*
+    \end{align*}
+
+    \subsubsection*{Esempio: euristiche per l'8-puzzle}
+    Per l'8-puzzle si possono definire, ad esempio, le seguenti euristiche:
+    \begin{itemize}
+        \item $h_1(n)$ = numero di tessere fuori posto;
+        \item $h_2(n)$ = distanza di Manhattan totale, cio\`e la somma, per ogni tessera, del
+            numero di caselle che la separano dalla posizione desiderata.
+    \end{itemize}
+
+    La \textbf{distanza di Manhattan} \`e una metrica che rappresenta la distanza tra due punti
+    come somma dei valori assoluti delle differenze delle loro coordinate:
+    \[
+        d\big((x_1, y_1), (x_2, y_2)\big) = |x_1 - x_2| + |y_1 - y_2|
+    \]
+
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{images/8puzzle}
+	\end{center}
+
+    Per lo stato iniziale $S$ in figura:
+    \begin{itemize}
+        \item $h_1(S) = 8$: tutte le tessere sono fuori posto;
+        \item $h_2(S) = 3 + 1 + 2 + 2 + 2 + 3 + 3 + 2 = 18$, dove ogni termine \`e la distanza
+            di Manhattan di una tessera, dalla 1 alla 8.
+    \end{itemize}
+
+    \subsection{Dominanza}
+    \begin{definizione}[Dominanza]
+        Siano $h_1$ e $h_2$ due euristiche ammissibili. Se $h_2(n) \geq h_1(n)$ per ogni nodo
+        $n$, allora $h_2$ \textbf{domina} $h_1$ ed \`e migliore per la ricerca.
+    \end{definizione}
+
+    Date due euristiche ammissibili qualsiasi $h_a$ e $h_b$, l'euristica
+    \[
+        h(n) = \max\big(h_a(n), h_b(n)\big)
+    \]
+    \`e anch'essa ammissibile e domina sia $h_a$ sia $h_b$.
+
+    \subsection{Problemi Rilassati}
+    Si possono ricavare euristiche ammissibili dal costo esatto della soluzione di una
+    \textbf{versione rilassata} del problema, ovvero un problema da cui sono stati eliminati
+    alcuni vincoli, rendendolo pi\`u semplice da risolvere. Ad esempio, per l'8-puzzle:
+    \begin{itemize}
+        \item se le regole vengono rilassate in modo che una tessera possa essere spostata
+            \textbf{ovunque}, allora $h_1(n)$ d\`a il costo della soluzione pi\`u breve;
+        \item se le regole vengono rilassate in modo che una tessera possa essere spostata in
+            una \textbf{qualsiasi casella adiacente}, allora $h_2(n)$ d\`a il costo della
+            soluzione pi\`u breve.
+    \end{itemize}
+
+    % FINE PARTE TEORICA
 
     \chapter{Esercizi}
     \esercizio
