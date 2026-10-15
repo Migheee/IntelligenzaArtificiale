@@ -17,6 +17,7 @@
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{needspace}
+\usepackage[normalem]{ulem} % \sout: testo barrato
 
 \theoremstyle{definition} 
 \newtheorem{theorem}{Teorema}[section] 
@@ -2529,5 +2530,135 @@ function IDS(problema) returns una soluzione, o failure
     $M = B$ \`e infatti sempre presente. Poich\'e descrivono la stessa informazione, si
     potrebbero fondere le due variabili in una sola ($M$).
     %TODO: fare grafo degli stati...
+
+    \esercizio
+    \begin{enunciato}
+        \begin{center}
+            \begin{tikzpicture}[scale=0.8, font=\small]
+                \draw (0, 0) grid (3, 3);
+                \foreach \k in {1, 2, 3} {
+                    \node[left]  at (0, \k - 0.5) {\k};
+                    \node[below] at (\k - 0.5, 0) {\k};
+                }
+                \node at (0.5, 2.5) {G};
+                \node[fill=black, text=white, rounded corners=2pt, minimum size=0.55cm]
+                    at (1.5, 1.5) {B};
+                \node at (1.5, 0.5) {A};
+            \end{tikzpicture}
+        \end{center}
+
+        La figura mostra un ambiente artificiale in cui un agente A si trova nella casella
+        $(1, 2)$, il goal G \`e in $(3, 1)$ e c'\`e un blocco B in $(2, 2)$; le posizioni sono
+        indicate come (riga, colonna). L'agente non pu\`o attraversare i blocchi e pu\`o
+        muoversi nelle quattro direzioni (Up, Down, Left, Right).
+
+        Formalizzare il problema di raggiungere G come problema di ricerca:
+        \begin{itemize}
+            \item descrivere lo spazio degli stati, lo stato iniziale e quello finale;
+            \item descrivere gli operatori;
+            \item trovare un'euristica ammissibile per $\mathcal{A}^*$;
+            \item assumendo che gli operatori abbiano costo 1, disegnare l'albero generato
+                da $\mathcal{A}^*$.
+        \end{itemize}
+    \end{enunciato}
+
+    \paragraph{Spazio degli stati.} Lo stato \`e la posizione dell'agente:
+    \[
+        (i, j)
+    \]
+    dove $i$ \`e la riga e $j$ la colonna, con $i, j \in \{1, 2, 3\}$. Lo stato iniziale \`e
+    la posizione dell'agente, $(1, 2)$, mentre il goal state \`e $(3, 1)$. Il blocco si trova
+    in $B = (2, 2)$.
+
+    \paragraph{Operatori.} Le precondizioni impediscono all'agente di uscire dalla griglia e
+    di entrare nella casella del blocco.
+    \begin{center}
+        \begin{tabular}{ |c|c|c| }
+            \hline
+            Operatore & Precondizione & Risultato \\
+            \hline
+            Up    & \( i \neq 3,\ (i, j) \neq (1, 2) \) & \( (i, j) \mapsto (i + 1, j) \) \\
+            Down  & \( i \neq 1,\ (i, j) \neq (3, 2) \) & \( (i, j) \mapsto (i - 1, j) \) \\
+            Left  & \( j \neq 1,\ (i, j) \neq (2, 3) \) & \( (i, j) \mapsto (i, j - 1) \) \\
+            Right & \( j \neq 3,\ (i, j) \neq (2, 1) \) & \( (i, j) \mapsto (i, j + 1) \) \\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    \paragraph{Euristica ammissibile.} Si usa la distanza di Manhattan tra l'agente e il goal:
+    \[
+        h^M(n) = |i_{\text{agente}} - i_{\text{goal}}| + |j_{\text{agente}} - j_{\text{goal}}|
+    \]
+    \`E ammissibile perch\'e $h^M(n) \leq h^*(n)$; in questo caso, anzi, i due valori sono
+    uguali.
+
+    \paragraph{Consistenza.} Si verifica se $h^M$ \`e anche consistente (con costo 1). Per ogni
+    nodo $n$ e ogni suo successore $m$ deve valere
+    \[
+        h^M(n) \leq h^M(m) + c(n, m)
+        \quad\Longleftrightarrow\quad
+        h^M(n) - h^M(m) \leq c(n, m) = 1
+    \]
+    \begin{itemize}
+        \item \textbf{Allontanandosi dal goal}: $h^M(n) < h^M(m)$, quindi
+            $h^M(n) - h^M(m) < 0 \leq 1$. \checkmark
+        \item \textbf{Avvicinandosi al goal}: $h^M(n) > h^M(m) \geq 0$, ma a ogni passo
+            $h^M$ diminuisce al massimo di 1 unit\`a, quindi $h^M(n) - h^M(m) \leq 1$.
+            \checkmark
+    \end{itemize}
+    Quindi $h^M$ \`e consistente.
+
+    \needspace{18\baselineskip} % titolo e albero sulla stessa pagina
+    \paragraph{Albero generato da $\mathcal{A}^*$ (\texttt{GRAPH-SEARCH}).} Sotto ogni nodo
+    \`e indicato $g + h = f$.
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[
+            font=\small,
+            nodo/.style={draw, rounded corners=5pt, inner xsep=4pt, inner ysep=1.5pt,
+                minimum width=1.1cm, text height=1.6ex, text depth=0.4ex},
+            visitato/.style={nodo, dashed},
+            fval/.style={font=\scriptsize, inner sep=1pt},
+            arco/.style={draw, gray!70!black},
+            azione/.style={font=\scriptsize, midway}
+        ]
+            \node[nodo]     (a) at (0, 0)        {$(1, 2)$};
+            \node[nodo]     (b) at (-2, -1.4)    {$(1, 1)$};
+            \node[nodo]     (c) at (2, -1.4)     {$(1, 3)$};
+            \node[nodo]     (d) at (-3.4, -2.8)  {$(2, 1)$};
+            \node[visitato] (e) at (-0.6, -2.8)  {$(1, 2)$};
+            \node[nodo]     (f) at (-4.6, -4.2)  {$(3, 1)$};
+            \node[visitato] (g) at (-2.2, -4.2)  {$(1, 1)$};
+
+            \node[fval, below=0.5pt of a] (a-v) {$0 + 3 = 3$};
+            \node[fval, below=0.5pt of b] (b-v) {$1 + 2 = 3$};
+            \node[fval, below=0.5pt of c] (c-v) {$1 + 4 = 5$};
+            \node[fval, below=0.5pt of d] (d-v) {$2 + 1 = 3$};
+            \node[fval, below=0.5pt of e] (e-v) {gi\`a visitato};
+            \node[fval, below=0.5pt of f] (f-v) {$3 + 0 = 3$};
+            \node[fval, below=0.5pt of g] (g-v) {gi\`a visitato};
+            \node[fval, below=1pt of f-v]       {estratto: goal state};
+
+            \draw[arco] (a-v.south) -- node[azione, above left]  {L} (b.north);
+            \draw[arco] (a-v.south) -- node[azione, above right] {R} (c.north);
+            \draw[arco] (b-v.south) -- node[azione, above left]  {U} (d.north);
+            \draw[arco] (b-v.south) -- node[azione, above right] {R} (e.north);
+            \draw[arco] (d-v.south) -- node[azione, above left]  {U} (f.north);
+            \draw[arco] (d-v.south) -- node[azione, above right] {D} (g.north);
+        \end{tikzpicture}
+
+        \vspace{1em}
+        {\footnotesize Tratteggiati i nodi il cui stato \`e gi\`a stato visitato.}
+    \end{figure}
+
+    Al termine della ricerca:
+    \begin{center}
+        \begin{tabular}{@{}ll@{}}
+            \textbf{Frontiera} & \sout{$(1, 2)$} \quad \sout{$(1, 1)$} \quad \sout{$(2, 1)$}
+                \quad $(3, 1)$ \quad $(1, 3)$ \\
+            \textbf{Esplorati} & $(1, 2)$ \quad $(1, 1)$ \quad $(2, 1)$
+        \end{tabular}
+    \end{center}
 \end{document}
 
