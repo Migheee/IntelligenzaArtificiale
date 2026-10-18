@@ -175,6 +175,7 @@
         tabsize=4,
         columns=fullflexible,
         keepspaces=true,
+        mathescape=true, % $...$ nel codice viene composto come formula
         literate={<-}{{←}}1 {->}{{→}}1 {<=}{{≤}}1 {>=}{{≥}}1 {!=}{{≠}}1
     }
 }
@@ -2462,6 +2463,276 @@ function IDS(problema) returns una soluzione, o failure
             soluzione pi\`u breve.
     \end{itemize}
 
+    \chapter{Ricerca Locale}
+    \section{Algoritmi di Ricerca Locale}
+    \subsection{Algoritmi a Miglioramento Iterativo}
+    In molti problemi di ottimizzazione il cammino \`e irrilevante: lo stato di goal \`e
+    esso stesso la soluzione. Lo spazio degli stati \`e allora l'insieme delle
+    configurazioni ``complete'' e l'obiettivo \`e:
+    \begin{itemize}
+        \item trovare la configurazione ottima, ad esempio nel problema del commesso
+            viaggiatore (TSP);
+        \item trovare una configurazione che soddisfi dei vincoli, ad esempio nel problema
+            delle $n$ regine.
+    \end{itemize}
+    In questi casi si possono usare gli \textbf{algoritmi a miglioramento iterativo}
+    (\emph{iterative improvement algorithms}): si mantiene un solo stato ``corrente'' e si
+    cerca di migliorarlo. Lo spazio occupato \`e costante, quindi sono adatti sia alla
+    ricerca online sia a quella offline.
+
+    \emph{Esempio}: problema del commesso viaggiatore (\emph{Travelling Salesperson
+    Problem}, TSP). Si parte da un qualsiasi giro completo e si effettuano scambi a coppie
+    (\emph{pairwise exchange}) degli archi.
+
+	\begin{center}
+		\includegraphics[width=0.5\textwidth]{images/tsp}
+	\end{center}
+
+    Varianti di questo approccio arrivano molto rapidamente entro l'1\% dall'ottimo, anche
+    con migliaia di citt\`a.
+
+    \emph{Esempio}: $n$ regine. Si devono posizionare $n$ regine su una scacchiera
+    $n \times n$ in modo che non ci siano due regine sulla stessa riga, colonna o
+    diagonale. A ogni passo si sposta una regina per ridurre il numero di conflitti $h$.
+
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{images/n_regine}
+	\end{center}
+
+    Questo approccio risolve quasi sempre il problema quasi istantaneamente, anche per $n$
+    molto grandi, ad esempio $n = 1$ milione.
+
+    \subsection{Hill-Climbing}
+    L'hill-climbing (o \emph{gradient ascent/descent}) viene descritto come ``scalare
+    l'Everest nella nebbia fitta, soffrendo di amnesia'': a ogni passo ci si sposta nel
+    successore con il valore pi\`u alto, finch\'e nessun successore \`e migliore dello stato
+    corrente.
+
+\begin{codice}
+[Hill-Climbing]
+function HILL-CLIMBING(problema) returns uno stato che è un massimo locale
+    corrente <- CREA-NODO(problema.stato_iniziale)
+    loop do
+        vicino <- il successore di corrente con il valore più alto
+        if vicino.VALORE <= corrente.VALORE then return corrente.stato
+        corrente <- vicino
+    end loop
+\end{codice}
+
+    \`E utile considerare il \textbf{paesaggio dello spazio degli stati} (\emph{state space
+    landscape}):
+
+	\begin{center}
+		\includegraphics[width=0.65\textwidth]{images/hill_climbing}
+	\end{center}
+
+    \begin{itemize}
+        \item Il \textbf{random-restart hill climbing} supera i massimi locali: \`e
+            banalmente completo.
+        \item Le \textbf{mosse laterali casuali} (\emph{random sideways moves}) permettono di
+            uscire dalle spalle (\emph{shoulder}), ma rischiano di andare in loop sui massimi
+            locali piatti.
+    \end{itemize}
+
+    \subsection{Simulated Annealing}
+    Il simulated annealing \`e ispirato alla meccanica statistica. L'idea \`e uscire dai
+    massimi locali permettendo alcune mosse ``cattive'', ma diminuendone gradualmente la
+    frequenza:
+    \begin{itemize}
+        \item all'inizio si permettono pi\`u mosse casuali, cos\`i da poter raggiungere zone
+            con soluzioni migliori;
+        \item verso la fine si diminuisce la probabilit\`a di fare una mossa casuale, cos\`i da
+            raffinare la ricerca intorno a una buona soluzione.
+    \end{itemize}
+
+    Nello pseudocodice, \texttt{schedule} associa a ogni istante di tempo una
+    ``temperatura'' $T$, che controlla la probabilit\`a di fare passi verso il basso.
+
+\begin{codice}
+[Simulated Annealing]
+function SIMULATED-ANNEALING(problema, schedule) returns uno stato soluzione
+    corrente <- CREA-NODO(problema.stato_iniziale)
+    for t <- 1 to ∞ do
+        T <- schedule(t)
+        if T = 0 then return corrente
+        prossimo <- un successore di corrente scelto a caso
+        ΔE <- prossimo.VALORE - corrente.VALORE
+        if ΔE > 0 then corrente <- prossimo
+        else corrente <- prossimo solo con probabilità $e^{\Delta E / T}$
+    end for
+\end{codice}
+
+    \subsubsection*{Propriet\`a}
+    A temperatura $T$ fissata, la probabilit\`a di occupazione degli stati raggiunge la
+    \textbf{distribuzione di Boltzmann}:
+    \[
+        p(x) = \alpha e^{\frac{E(x)}{kT}}
+    \]
+    Se $T$ viene diminuita abbastanza lentamente, si raggiunge sempre lo stato migliore
+    $x^*$, perch\'e
+    \[
+        \frac{e^{\frac{E(x^*)}{kT}}}{e^{\frac{E(x)}{kT}}} = e^{\frac{E(x^*) - E(x)}{kT}} \gg 1
+        \quad \text{per } T \text{ piccolo}
+    \]
+    Si tratta necessariamente di una garanzia interessante?
+
+    Il metodo \`e stato ideato da Metropolis et al.\ nel 1953 per modellare processi fisici
+    ed \`e ampiamente usato, ad esempio, nel layout VLSI e nella pianificazione dei voli
+    (\emph{airline scheduling}).
+
+    \subsection{Local Beam Search}
+    L'idea \`e mantenere $k$ stati invece di uno solo e scegliere, a ogni passo, i migliori
+    $k$ tra tutti i loro successori.
+
+    Non \`e la stessa cosa di $k$ ricerche eseguite in parallelo: le ricerche che trovano
+    stati buoni ``reclutano'' le altre, che si uniscono a loro. Il problema \`e che molto
+    spesso tutti i $k$ stati finiscono sulla stessa collina locale. Per evitarlo si scelgono
+    i $k$ successori in modo casuale, con una preferenza per quelli buoni. Si noti la stretta
+    analogia con la selezione naturale.
+
+    \subsection{Algoritmi Genetici}
+    Un algoritmo genetico (GA) \`e una \emph{stochastic local beam search} in cui i
+    successori vengono generati a partire da \textbf{coppie} di stati.
+
+	\begin{center}
+		\includegraphics[width=0.85\textwidth]{images/algoritmi_genetici}
+	\end{center}
+
+    Gli algoritmi genetici richiedono che gli stati siano codificati come stringhe (la
+    programmazione genetica, GP, usa invece dei programmi). Il crossover \`e utile se e solo
+    se le sottostringhe sono componenti significative della soluzione.
+
+	\begin{center}
+		\includegraphics[width=0.75\textwidth]{images/crossover_regine}
+	\end{center}
+
+    Gli algoritmi genetici non sono l'evoluzione: ad esempio, i geni reali codificano anche
+    il meccanismo di replicazione.
+
+    \section{Ricerca Locale in Spazi Continui}
+    \emph{Esempio}: posizionare tre aeroporti in Romania in modo da minimizzare la somma dei
+    quadrati delle distanze di ogni citt\`a dall'aeroporto pi\`u vicino.
+
+	\begin{center}
+		\includegraphics[width=0.6\textwidth]{images/aeroporti_romania}
+	\end{center}
+
+    Siano:
+    \begin{itemize}
+        \item $(x_1, y_1)$, $(x_2, y_2)$, $(x_3, y_3)$ le posizioni degli aeroporti;
+        \item $(x_c, y_c)$ le posizioni delle citt\`a;
+        \item $C_a$ l'insieme delle citt\`a pi\`u vicine all'aeroporto $a$, con
+            $a \in \{1, 2, 3\}$.
+    \end{itemize}
+    L'obiettivo \`e minimizzare
+    \[
+        f = \sum_{a} \sum_{c \in C_a} (x_a - x_c)^2 + (y_a - y_c)^2
+    \]
+
+    Il problema si pu\`o affrontare in diversi modi:
+    \begin{itemize}
+        \item \textbf{Discretizzazione}: si trasforma lo spazio continuo in uno discreto. Si
+            fissa $\delta$, si considerano variazioni di $\pm\delta$ in ogni coordinata e si
+            usa un qualsiasi algoritmo di ricerca discreto (ad esempio l'hill climbing).
+        \item \textbf{Perturbazioni casuali}: ad esempio il \emph{first-choice hill
+            climbing}, che continua a provare finch\'e una perturbazione non migliora lo
+            stato, oppure il simulated annealing (in cui lo stato successivo \`e scelto a
+            caso).
+        \item \textbf{Gradiente}: si calcola analiticamente il gradiente di $f(X)$, con
+            $X = \{x_1, \dots, x_n\}$.
+    \end{itemize}
+
+    \subsection{Metodo del Gradiente}
+    I metodi del gradiente calcolano
+    \[
+        \nabla f(X) = \left( \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2},
+        \dots, \frac{\partial f}{\partial x_n} \right)
+    \]
+    Nell'esempio degli aeroporti $X = \{x_1, y_1, x_2, y_2, x_3, y_3\}$, quindi $n = 6$, e
+    ad esempio
+    \[
+        \frac{\partial f}{\partial x_1} = \sum_{c \in C_1} 2 (x_1 - x_c)
+    \]
+    Per trovare un estremo si risolve $\nabla f(X) = 0$. Si pu\`o risolvere in forma chiusa?
+
+    \subsubsection*{Gradiente Locale}
+    Spesso non si pu\`o risolvere l'equazione $\nabla f(X) = 0$ globalmente, ma si pu\`o
+    migliorare localmente: si effettua un aggiornamento in salita (\emph{uphill}) per ogni
+    coordinata, e pi\`u la pendenza \`e ripida (pi\`u alta \`e la derivata), pi\`u grande \`e il
+    passo per quella coordinata.
+
+    Per una funzione generica $g(x_1, x_2)$ gli aggiornamenti sono:
+    \[
+        x_1 \leftarrow x_1 + \alpha \frac{\partial g(x_1, x_2)}{\partial x_1}
+        \qquad
+        x_2 \leftarrow x_2 + \alpha \frac{\partial g(x_1, x_2)}{\partial x_2}
+    \]
+    In notazione vettoriale, con $X = [x_1 \ x_2]^T$ e
+    $\nabla g(X) = \left[ \frac{\partial g}{\partial x_1} \
+    \frac{\partial g}{\partial x_2} \right]^T$:
+    \[
+        X \leftarrow X + \alpha \nabla g(X)
+    \]
+    $\alpha$ \`e il passo (\emph{step size}), una costante piccola. Trovare un valore adatto
+    per $\alpha$ \`e critico: se \`e troppo grande si possono saltare le soluzioni, se \`e
+    troppo piccolo servono troppi passi.
+
+    \subsection{Newton-Raphson}
+    Il metodo di Newton-Raphson \`e una soluzione efficace per molti problemi di ricerca
+    locale in spazi continui. \`E una tecnica generale per trovare le radici di una
+    funzione, cio\`e per risolvere equazioni della forma
+    \[
+        g(x) = 0
+    \]
+    Si fissa una stima iniziale della radice $\bar{x}_0$ e la si aggiorna iterativamente:
+    \[
+        \bar{x}_{n+1} = \bar{x}_n - \frac{g(\bar{x}_n)}{g'(\bar{x}_n)}
+    \]
+    dove $g'(x) = dg(x)/dx$ \`e la derivata prima di $g(x)$.
+
+    \subsubsection*{Interpretazione Geometrica}
+    Si supponga che $y = f(x)$ abbia una radice in $x = r$. La tangente nel punto
+    $(a, f(a))$ \`e
+    \[
+        y = f(a) + (x - a) f'(a)
+    \]
+    Sia $b$ l'intercetta della tangente con l'asse $x$, cio\`e il valore di $x$ per cui
+    $0 = f(a) + (x - a) f'(a)$. Allora
+    \[
+        b = a - \frac{f(a)}{f'(a)}
+    \]
+    che \`e proprio la stima successiva del metodo di Newton partendo da $a$.
+
+    Variazioni rapide (forti non linearit\`a) di $f(x)$ in $a$ possono portare a una stima
+    sbagliata del punto successivo: $f(x)$ deve essere regolare (\emph{smooth}), e di solito
+    si assume che $f''(x)$ sia continua vicino a $r$. Inoltre, la scelta di $x_0$ \`e
+    cruciale.
+
+    \subsubsection*{Newton-Raphson e Gradiente}
+    Per trovare un estremo di $f(X)$ si cerca $\bar{X}$ tale che $\nabla f(\bar{X}) = 0$: si
+    pu\`o quindi usare il metodo di Newton con $g(X) = \nabla f(X)$. In forma
+    matrice-vettore l'aggiornamento diventa
+    \[
+        x \leftarrow x - H_f^{-1}(x) \nabla f(x)
+        \qquad \text{dove } H_{ij} = \frac{\partial^2 f}{\partial x_i \partial x_j}
+    \]
+    Per problemi ad alta dimensionalit\`a, calcolare gli $n^2$ elementi dell'Hessiana e
+    invertire la matrice $n \times n$ pu\`o essere proibitivo: spesso si usano versioni
+    approssimate.
+
+    Si ricordi che si tratta di un metodo locale, quindi soffre di massimi locali, plateau,
+    ecc. Random restart e simulated annealing possono essere utili anche negli spazi
+    continui.
+
+    \subsection{Gradiente Empirico}
+    A volte si pu\`o calcolare $f(X)$ per un dato input, ma non si pu\`o calcolare
+    $\nabla f(X)$ nemmeno localmente: ad esempio, valutare la posizione di un insieme di
+    aeroporti pu\`o richiedere una simulazione su larga scala.
+
+    Il \textbf{gradiente empirico} \`e la risposta di $f(X)$ a piccoli incrementi o
+    decrementi di $X$. La ricerca con gradiente empirico \`e uguale all'hill climbing in una
+    versione discretizzata dello spazio di ricerca.
+
     % FINE PARTE TEORICA
 
     \chapter{Esercizi}
@@ -2661,5 +2932,72 @@ function IDS(problema) returns una soluzione, o failure
             \textbf{Esplorati} & $(1, 2)$ \quad $(1, 1)$ \quad $(2, 1)$
         \end{tabular}
     \end{center}
+
+    \esercizio
+    \begin{enunciato}
+        Si consideri il problema delle 4 regine. Si assuma che la funzione di valutazione sia
+        il numero di coppie di regine che si attaccano a vicenda e che lo stato iniziale sia
+        $(1234)$.
+        \begin{itemize}
+            \item Qual \`e il valore dello stato iniziale?
+            \item Scrivere i valori di tutti gli stati successori dello stato iniziale.
+            \item Implementare un semplice programma che calcoli il prossimo stato migliore
+                (o i prossimi stati migliori) per l'approccio hill-climbing.
+            \item Tracciare una possibile esecuzione di un approccio hill-climbing
+                (deterministico).
+            \item Commentare l'ottimalit\`a dello stato finale.
+        \end{itemize}
+    \end{enunciato}
+
+    \esercizio
+    \begin{enunciato}
+        Si consideri il problema delle 4 regine e l'approccio hill-climbing deterministico
+        descritto nell'esercizio precedente. Si assuma $k = 3$ e che gli stati iniziali siano
+        $(1234)$, $(2222)$, $(3333)$.
+        \begin{itemize}
+            \item Tracciare l'esecuzione di una ricerca parallela.
+            \item Tracciare l'esecuzione di una beam search.
+        \end{itemize}
+    \end{enunciato}
+
+    \esercizio
+    \begin{enunciato}
+        Ripasso su derivate e gradiente.
+        \begin{itemize}
+            \item Qual \`e la derivata di $g(x) = x^2 + 3$, $\frac{dg}{dx}$?
+            \item Qual \`e la derivata di $g(x)$ calcolata in $x = 5$,
+                $\left. \frac{dg}{dx} \right|_{x=5}$?
+            \item Qual \`e il gradiente di $g(x, y) = x^2 y$,
+                $\nabla g = \left[ \frac{\partial g}{\partial x} \
+                \frac{\partial g}{\partial y} \right]^T$?
+            \item Qual \`e il gradiente di $g(x, y) = x^2 y$ calcolato in $x = 0.5$,
+                $y = 0.5$, $\left. \nabla g \right|_{x=0.5, y=0.5}$?
+        \end{itemize}
+    \end{enunciato}
+
+    \esercizio
+    \begin{enunciato}
+        Si consideri la funzione $g(x) = x^2 - a$.
+        \begin{itemize}
+            \item Mostrare che il metodo di Newton porta alla ricorrenza
+                \[
+                    x_{n+1} = \frac{1}{2} \left( x_n + \frac{a}{x_n} \right)
+                \]
+            \item Fissati $a = 4$ e $x_0 = 1$, calcolare $x_i$ per $i \in \{1, 2, 3\}$.
+            \item Come variano gli $x_i$, con $i \in \{1, 2, \dots\}$, per
+                $x_0 \in \{0.5, 1, 3\}$?
+        \end{itemize}
+    \end{enunciato}
+
+    \esercizio
+    \begin{enunciato}
+        Si consideri la funzione $g(x) = x^2 - x$.
+        \begin{itemize}
+            \item Calcolare l'equazione di ricorrenza del metodo di Newton.
+            \item Fissato $x_0 = 0.3$, calcolare $x_i$ per $i \in \{1, 2, 3\}$.
+            \item Fissato $x_0 = 0.7$, calcolare $x_i$ per $i \in \{1, 2, 3\}$.
+            \item Fissato $x_0 = 0.5$, calcolare $x_i$ per $i \in \{1, 2, 3\}$.
+        \end{itemize}
+    \end{enunciato}
 \end{document}
 
